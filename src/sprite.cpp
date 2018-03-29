@@ -10,7 +10,7 @@
 #include "graphics.h"
 #include "globals.h"
 
-Sprite::Sprite(){
+Sprite::Sprite(){ // @suppress("Class members should be properly initialized")
 
 }
 

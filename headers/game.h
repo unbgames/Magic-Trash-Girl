@@ -25,6 +25,8 @@ private:
 
 	void draw(Graphics &graphics);
 
+	void update(float elapsedtime);
+
 };
 
 
