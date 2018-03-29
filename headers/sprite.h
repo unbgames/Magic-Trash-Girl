@@ -20,7 +20,7 @@ public:
 	Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int sourceY, int width, int height, float posX, float posY);
 	virtual ~Sprite();
 	virtual void update();
-	void draw(Graphics &graphics, int x, int y);
+	virtual void draw(Graphics &graphics, int x, int y);
 
 protected:
 

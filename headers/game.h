@@ -8,7 +8,8 @@
 #ifndef SOURCE_HEADERS_GAME_H_
 #define SOURCE_HEADERS_GAME_H_
 
-#include "sprite.h"
+#include "animatedsprite.h"
+#include <vector>
 
 class Graphics;
 
@@ -26,6 +27,8 @@ private:
 	void draw(Graphics &graphics);
 
 	void update(float elapsedtime);
+
+	std::vector<AnimatedSprite> spritesToDraw;
 
 };
 

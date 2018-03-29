@@ -29,13 +29,13 @@ public:
 
 	void draw(Graphics &graphics, int x, int y);
 
+	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
+
 protected:
 
 	double _timeToUpdate;
 	bool _currentAnimationOnce;
 	std::string _currentAnimation;
-
-	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
 
 	void resetAnimations();
 
@@ -43,9 +43,9 @@ protected:
 
 	void setVisible(bool visible);
 
-	virtual void animationDone(std::string currentAnimation) = 0;
+	virtual void animationDone(std::string currentAnimation);
 
-	virtual void setupAnimations() = 0;
+	//virtual void setupAnimations() = 0;
 
 private:
 

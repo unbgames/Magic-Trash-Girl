@@ -11,7 +11,7 @@
 #include "graphics.h"
 #include <iostream>
 
-#include "sprite.h"
+#include "animatedsprite.h"
 
 namespace {
 	const int FPS = 33;
@@ -34,6 +34,16 @@ void Game::gameLoop(){
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
+	AnimatedSprite test(graphics, "assets/test.png", 0, 0, 64, 32, 100, 100, 100);
+
+	std::string name = "idle";
+
+	test.addAnimation(2,0,0,name,32,32,Vector2 (0,0));
+
+	test.playAnimation("idle");
+
+	this->spritesToDraw.push_back(test);
+
 	while(true){
 
 		if(SDL_PollEvent(&event)){
@@ -54,9 +64,18 @@ void Game::gameLoop(){
 void Game::draw(Graphics &graphics){
 	graphics.clear();
 
+	  for (std::vector<AnimatedSprite>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
+		 it->draw(graphics, 100, 100);
+	  }
+
+
 	graphics.flip();
 }
 
 void Game::update(float elapsedtime){
+
+	  for (std::vector<AnimatedSprite>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
+		 it->update(elapsedtime);
+	  }
 
 }

@@ -22,6 +22,15 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, 
 	_visible(true)
 {}
 
+void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset){
+	std::vector<SDL_Rect> rectangles;
+	for (int i=0; i<frames; i++){
+		SDL_Rect newRect = { (i + x)* width, y, width, height};
+		rectangles.push_back(newRect);
+	}
+	this->_animations.insert(std::pair<std::string, std::vector<SDL_Rect> >(name, rectangles));
+	this->_offsets.insert(std::pair<std::string, Vector2>(name, offset));
+}
 
 void AnimatedSprite::resetAnimations(){
 	this->_animations.clear();
