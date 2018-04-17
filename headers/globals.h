@@ -8,10 +8,23 @@
 #ifndef SOURCE_HEADERS_GLOBALS_H_
 #define SOURCE_HEADERS_GLOBALS_H_
 
+#include <string>
+
+namespace player_constants {
+	const float WALK_SPEED = 0.2f;
+}
+
 namespace globals{
 	const int SCREEN_WIDTH = 1024;
 	const int SCREEN_HEIGTH = 600;
 }
+
+enum Direction{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+};
 
 struct Vector2 {
 	int x, y;

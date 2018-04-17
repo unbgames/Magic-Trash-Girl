@@ -45,7 +45,7 @@ protected:
 
 	virtual void animationDone(std::string currentAnimation);
 
-	//virtual void setupAnimations() = 0;
+	virtual void setupAnimations() = 0;
 
 private:
 

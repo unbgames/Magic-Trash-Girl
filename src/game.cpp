@@ -34,16 +34,6 @@ void Game::gameLoop(){
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
-	AnimatedSprite test(graphics, "assets/test.png", 0, 0, 64, 32, 100, 100, 100);
-
-	std::string name = "idle";
-
-	test.addAnimation(2,0,0,name,32,32,Vector2 (0,0));
-
-	test.playAnimation("idle");
-
-	this->spritesToDraw.push_back(test);
-
 	while(true){
 
 		if(SDL_PollEvent(&event)){
