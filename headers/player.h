@@ -35,8 +35,6 @@ public:
 
 	void setupAnimations();
 
-
-
 	void setTimeForFrames(double newTime);
 	double getTimeForFrames();
 
@@ -45,9 +43,9 @@ private:
 	float _dx, _dy;
 
 	Direction _facing;
-
 	bool _isAirborne;
 
+	bool _startJump;
 };
 
 

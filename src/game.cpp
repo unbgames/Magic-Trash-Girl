@@ -43,7 +43,7 @@ void Game::gameLoop(){
 
 		this->_input.beginNewFrame();
 
-		if(SDL_PollEvent(&event)){
+		while(SDL_PollEvent(&event)){
 			if(event.type == SDL_KEYDOWN){
 				if(event.key.repeat == 0){
 					this->_input.keyDownEvent(event);

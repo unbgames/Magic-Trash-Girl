@@ -18,7 +18,8 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_dx(0),
 		_dy(0),
 		_facing(RIGHT),
-		_isAirborne(false)
+		_isAirborne(false),
+		_startJump(false)
 		{
 			this->setupAnimations();
 			this->playAnimation("IdleRight");
@@ -41,30 +42,41 @@ void Player::setupAnimations(){
 }
 
 void Player::moveLeft(){
-	this->_facing = LEFT;
-	this->_dx = -player_constants::WALK_SPEED;
-	this->playAnimation("MoveLeft");
+	if(!this->_isAirborne){
+		this->_facing = LEFT;
+		this->_dx = -player_constants::WALK_SPEED;
+		this->playAnimation("MoveLeft");
+	}
 }
 
 void Player::moveRight(){
-	this->_facing = RIGHT;
-	this->_dx = player_constants::WALK_SPEED;
-	this->playAnimation("MoveRight");
+	if(!this->_isAirborne){
+		this->_facing = RIGHT;
+		this->_dx = player_constants::WALK_SPEED;
+		this->playAnimation("MoveRight");
+	}
 }
 
 void Player::jump(){
 	if(!this->_isAirborne){
-		this->_isAirborne = true;
-		this->_dy = -1.5;
+		this->_startJump = true;
+		this->_dy = -1.2;
 	}
 }
 
 void Player::stopMoving(){
-	this->_dx = 0.0f;
-	this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+	if(!this->_isAirborne){
+		this->_dx = 0.0f;
+		this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+	}
 }
 
 void Player::update(float elapsedTime){
+
+	if(this->_startJump){
+		this->_isAirborne = true;
+		this->_startJump = false;
+	}
 
 	/*
 	 * A parte de teste sobre airborne está aqui para setar o chão enquanto não ha teste de colisao, retirar depois
