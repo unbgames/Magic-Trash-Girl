@@ -25,8 +25,8 @@ public:
 	void moveRight();
 	void stopMoving();
 	void jump();
-//	void lookUP();
-//	void lookDown();
+	void lookUp();
+	void lookDown();
 //	void vacuum();
 //	void bubble();
 

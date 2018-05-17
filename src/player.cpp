@@ -39,6 +39,9 @@ void Player::setupAnimations(){
 	this->addAnimation(2, 0, 64, "IdleLeft", 64,64, Vector2 (0,0));
 	this->addAnimation(2, 0, 128, "MoveRight", 64,64, Vector2 (0,0));
 	this->addAnimation(2, 0, 192, "MoveLeft", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 0, 256, "LookUp", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 64, 256, "LookDown", 64,64, Vector2 (0,0));
+
 }
 
 void Player::moveLeft(){
@@ -57,6 +60,13 @@ void Player::moveRight(){
 	}
 }
 
+void Player::stopMoving(){
+	if(!this->_isAirborne){
+		this->_dx = 0.0f;
+		this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+	}
+}
+
 void Player::jump(){
 	if(!this->_isAirborne){
 		this->_startJump = true;
@@ -64,12 +74,18 @@ void Player::jump(){
 	}
 }
 
-void Player::stopMoving(){
+void Player::lookUp(){
 	if(!this->_isAirborne){
-		this->_dx = 0.0f;
-		this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
+		this->playAnimation("LookUp");
 	}
 }
+
+void Player::lookDown(){
+	if(!this->_isAirborne){
+		this->playAnimation("LookDown");
+	}
+}
+
 
 void Player::update(float elapsedTime){
 

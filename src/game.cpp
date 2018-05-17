@@ -66,10 +66,19 @@ void Game::gameLoop(){
 		}
 		else if(this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
 			this->_player.moveRight();
-		}
-		if(!this->_input.isKeyHeld(SDL_SCANCODE_LEFT) && !this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
+		}else if(!this->_input.isKeyHeld(SDL_SCANCODE_LEFT) && !this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
+
 			this->_player.stopMoving();
+
+			if(this->_input.isKeyHeld(SDL_SCANCODE_UP) && !this->_input.isKeyHeld(SDL_SCANCODE_DOWN)){
+				this->_player.lookUp();
+			}
+			if(this->_input.isKeyHeld(SDL_SCANCODE_DOWN) && !this->_input.isKeyHeld(SDL_SCANCODE_UP)){
+				this->_player.lookDown();
+			}
 		}
+
+
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_SPACE)){
 			this->_player.jump();
