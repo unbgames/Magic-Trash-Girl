@@ -46,6 +46,7 @@ private:
 
 	Direction _facing;
 
+	bool _isAirborne;
 
 };
 

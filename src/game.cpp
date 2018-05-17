@@ -37,7 +37,7 @@ void Game::gameLoop(){
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
-	this->_player = Player(graphics, 100, 100);
+	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
 	while(true){
 
@@ -69,6 +69,10 @@ void Game::gameLoop(){
 		}
 		if(!this->_input.isKeyHeld(SDL_SCANCODE_LEFT) && !this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
 			this->_player.stopMoving();
+		}
+
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_SPACE)){
+			this->_player.jump();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();

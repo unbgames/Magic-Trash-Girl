@@ -12,6 +12,11 @@
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
+	const float JUMP_SPEED = 0.2f;
+	const float FALL_SPEED = 0.2f;
+
+	const float PLAYER_START_X = 100;
+	const float PLAYER_START_Y = 500;
 }
 
 namespace globals{
