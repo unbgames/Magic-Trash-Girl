@@ -10,6 +10,8 @@
 
 #include "animatedsprite.h"
 #include <vector>
+#include "player.h"
+#include "input.h"
 
 class Graphics;
 
@@ -29,6 +31,10 @@ private:
 	void update(float elapsedtime);
 
 	std::vector<AnimatedSprite> spritesToDraw;
+
+	Player _player;
+
+	Input _input;
 
 };
 

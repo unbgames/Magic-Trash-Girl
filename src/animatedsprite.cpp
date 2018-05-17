@@ -73,6 +73,8 @@ void AnimatedSprite::update(int elapsedTime) {
 }
 
 void AnimatedSprite::draw(Graphics &graphics, int x, int y){
+
+
 	if( this->_visible){
 		SDL_Rect destinationRectangle;
 		destinationRectangle.x = x + this->_offsets[this->_currentAnimation].x;
@@ -80,7 +82,8 @@ void AnimatedSprite::draw(Graphics &graphics, int x, int y){
 		destinationRectangle.w = this->_sourceRect.w;
 		destinationRectangle.h = this->_sourceRect.h;
 
-		SDL_Rect sourceRect = this->_animations[this->_currentAnimation][this->_frameIndex];
+		SDL_Rect sourceRect = (this->_animations[this->_currentAnimation])[this->_frameIndex];
+
 		graphics.blitSurface(this->_spriteSheet, &sourceRect, &destinationRectangle);
 	}
 }

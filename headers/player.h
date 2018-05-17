@@ -18,7 +18,7 @@ public:
 
 	~Player();
 
-	void moveLeft();
+/*	void moveLeft();
 	void moveRight();
 	void stopMoving();
 	void jump();
@@ -26,16 +26,29 @@ public:
 	void lookDown();
 	void vacuum();
 	void bubble();
+*/
+	void draw(Graphics &graphics);
+	void update(float elapsedTime);
+
+	void moveLeft();
+	void moveRight();
+	void stopMoving();
 
 	void animationDone(std::string currentAnimation);
 
 	void setupAnimations();
+
+
+
+	void setTimeForFrames(double newTime);
+	double getTimeForFrames();
 
 private:
 
 	float _dx, _dy;
 
 	Direction _facing;
+
 
 };
 
