@@ -39,9 +39,6 @@ void Game::gameLoop(){
 
 	this->_player = Player(graphics, 100, 100);
 
-	int lastUpdateOnPlayer = SDL_GetTicks();
-	bool playerUpdatedThisFrame = false;
-
 	while(true){
 
 		this->_input.beginNewFrame();
@@ -64,28 +61,6 @@ void Game::gameLoop(){
 			return;
 		}
 
-		const int CURRENT_TIME_MS = SDL_GetTicks();
-		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
-		LAST_UPDATE_TIME = CURRENT_TIME_MS;
-
-
-		if(this->_input.isKeyHeld(SDL_SCANCODE_W)){
-			if(lastUpdateOnPlayer < (CURRENT_TIME_MS - 300)){
-				this->_player.setTimeForFrames(this->_player.getTimeForFrames() + 10);
-				playerUpdatedThisFrame = true;
-			}
-		}
-		if(this->_input.isKeyHeld(SDL_SCANCODE_S)){
-			if(lastUpdateOnPlayer < (CURRENT_TIME_MS - 300)){
-				this->_player.setTimeForFrames(this->_player.getTimeForFrames() - 10);
-				if(this->_player.getTimeForFrames() < 0){
-					this->_player.setTimeForFrames(0);
-				}
-				playerUpdatedThisFrame = true;
-			}
-		}
-
 		if(this->_input.isKeyHeld(SDL_SCANCODE_LEFT)){
 			this->_player.moveLeft();
 		}
@@ -96,10 +71,11 @@ void Game::gameLoop(){
 			this->_player.stopMoving();
 		}
 
-		if(playerUpdatedThisFrame){
-			lastUpdateOnPlayer = CURRENT_TIME_MS;
-			playerUpdatedThisFrame = false;
-		}
+		const int CURRENT_TIME_MS = SDL_GetTicks();
+		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
+		LAST_UPDATE_TIME = CURRENT_TIME_MS;
+
 		this->draw(graphics);
 	}
 }

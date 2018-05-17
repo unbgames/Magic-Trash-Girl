@@ -34,14 +34,21 @@ void Player::animationDone(std::string currentAnimation){
 
 void Player::setupAnimations(){
 	this->addAnimation(2, 0, 0, "IdleRight", 64,64, Vector2 (0,0));
+	this->addAnimation(2, 0, 64, "IdleLeft", 64,64, Vector2 (0,0));
+	this->addAnimation(2, 0, 128, "MoveRight", 64,64, Vector2 (0,0));
+	this->addAnimation(2, 0, 192, "MoveLeft", 64,64, Vector2 (0,0));
 }
 
 void Player::moveLeft(){
+	this->_facing = LEFT;
 	this->_dx = -player_constants::WALK_SPEED;
+	this->playAnimation("MoveLeft");
 }
 
 void Player::moveRight(){
+	this->_facing = RIGHT;
 	this->_dx = player_constants::WALK_SPEED;
+	this->playAnimation("MoveRight");
 }
 
 

@@ -18,21 +18,18 @@ public:
 
 	~Player();
 
-/*	void moveLeft();
-	void moveRight();
-	void stopMoving();
-	void jump();
-	void lookUP();
-	void lookDown();
-	void vacuum();
-	void bubble();
-*/
 	void draw(Graphics &graphics);
 	void update(float elapsedTime);
 
 	void moveLeft();
 	void moveRight();
 	void stopMoving();
+	void jump();
+//	void lookUP();
+//	void lookDown();
+//	void vacuum();
+//	void bubble();
+
 
 	void animationDone(std::string currentAnimation);
 
