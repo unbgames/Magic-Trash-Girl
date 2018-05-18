@@ -116,12 +116,13 @@ void Game::draw(Graphics &graphics){
 
 void Game::update(float elapsedtime){
 
-	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
-		(*it)->update(elapsedtime);
+	for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
 
-		//arrumar aqui
-		if((*it)->getToBeDeleted()){
-			this->_spritesToDraw.erase(it);
+		this->_spritesToDraw[i]->update(elapsedtime);
+
+		if(this->_spritesToDraw[i]->getToBeDeleted()){
+			std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin();
+			this->_spritesToDraw.erase(it + i);
 		}
 	}
 
