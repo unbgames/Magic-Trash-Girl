@@ -54,7 +54,7 @@ void AnimatedSprite::stopAnimation(){
 	this->animationDone(this->_currentAnimation);
 }
 
-void AnimatedSprite::update(int elapsedTime) {
+void AnimatedSprite::update(float elapsedTime) {
 	Sprite::update();
 
 	this->_timeElapsed += elapsedTime;

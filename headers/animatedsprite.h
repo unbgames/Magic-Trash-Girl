@@ -25,7 +25,7 @@ public:
 
 	void playAnimation(std::string animation, bool once = false);
 
-	virtual void update(int elapsedTime);
+	virtual void update(float elapsedTime);
 
 	virtual void draw(Graphics &graphics);
 

@@ -17,8 +17,6 @@ PlayerProjectile::PlayerProjectile(Graphics &graphics, float posX, float posY, D
 
 void PlayerProjectile::update(float elapsedTime){
 
-	std::cout << "passou";
-
 	switch(this->_facing){
 		case UP:
 			this->_y -= player_constants::PROJECTILE_SPEED * elapsedTime;
