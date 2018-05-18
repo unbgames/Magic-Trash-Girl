@@ -114,6 +114,18 @@ void Player::bubble(){
 
 }
 
+void Player::startVacuum(){
+
+	std::cout << "startvacuum" << std::endl;
+
+}
+
+void Player::stopVacuum(){
+
+	std::cout << "stopVacuum" << std::endl;
+
+}
+
 
 void Player::update(float elapsedTime){
 

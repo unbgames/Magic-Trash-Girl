@@ -74,8 +74,7 @@ void Game::gameLoop(){
 
 		if(this->_input.isKeyHeld(SDL_SCANCODE_LEFT)){
 			this->_player.moveLeft();
-		}
-		else if(this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
+		}else if(this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
 			this->_player.moveRight();
 		}else if(this->_input.isKeyHeld(SDL_SCANCODE_UP) && !this->_input.isKeyHeld(SDL_SCANCODE_DOWN)){
 			this->_player.lookUp();
@@ -91,6 +90,14 @@ void Game::gameLoop(){
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_Z)){
 			this->_player.bubble();
+		}
+
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_X)){
+			this->_player.startVacuum();
+		}
+
+		if(this->_input.wasKeyReleased(SDL_SCANCODE_X)){
+			this->_player.stopVacuum();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();

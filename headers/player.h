@@ -26,7 +26,8 @@ public:
 	void jump();
 	void lookUp();
 	void lookDown();
-//	void vacuum();
+	void startVacuum();
+	void stopVacuum();
 	void bubble();
 
 
