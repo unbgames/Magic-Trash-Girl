@@ -78,8 +78,6 @@ void Game::gameLoop(){
 			}
 		}
 
-
-
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_SPACE)){
 			this->_player.jump();
 		}
@@ -96,19 +94,19 @@ void Game::gameLoop(){
 void Game::draw(Graphics &graphics){
 	graphics.clear();
 
-	  for (std::vector<AnimatedSprite>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
-//		 it->draw(graphics, 100, 100);
-	  }
+	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
+		 (*it)->draw(graphics);
+	}
 
-		this->_player.draw(graphics);
+	this->_player.draw(graphics);
 
 	graphics.flip();
 }
 
 void Game::update(float elapsedtime){
 
-	  for (std::vector<AnimatedSprite>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
-//		 it->update(elapsedtime);
+	  for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
+		  (*it)->update(elapsedtime);
 	  }
 
 	  this->_player.update(elapsedtime);

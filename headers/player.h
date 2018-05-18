@@ -18,7 +18,6 @@ public:
 
 	~Player();
 
-	void draw(Graphics &graphics);
 	void update(float elapsedTime);
 
 	void moveLeft();
@@ -28,7 +27,7 @@ public:
 	void lookUp();
 	void lookDown();
 //	void vacuum();
-//	void bubble();
+	void bubble();
 
 
 	void animationDone(std::string currentAnimation);

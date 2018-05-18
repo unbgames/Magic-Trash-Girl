@@ -27,7 +27,7 @@ public:
 
 	void update(int elapsedTime);
 
-	void draw(Graphics &graphics, int x, int y);
+	void draw(Graphics &graphics);
 
 	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
 

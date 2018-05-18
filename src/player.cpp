@@ -86,6 +86,10 @@ void Player::lookDown(){
 	}
 }
 
+void Player::bubble(){
+
+}
+
 
 void Player::update(float elapsedTime){
 
@@ -109,10 +113,6 @@ void Player::update(float elapsedTime){
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 	AnimatedSprite::update(elapsedTime);
-}
-
-void Player::draw(Graphics &graphics){
-	AnimatedSprite::draw(graphics, this->_x, this->_y);
 }
 
 void Player::setTimeForFrames(double newTime){

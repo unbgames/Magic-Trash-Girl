@@ -72,13 +72,13 @@ void AnimatedSprite::update(int elapsedTime) {
 	}
 }
 
-void AnimatedSprite::draw(Graphics &graphics, int x, int y){
+void AnimatedSprite::draw(Graphics &graphics){
 
 
 	if( this->_visible){
 		SDL_Rect destinationRectangle;
-		destinationRectangle.x = x + this->_offsets[this->_currentAnimation].x;
-		destinationRectangle.y = y + this->_offsets[this->_currentAnimation].y;
+		destinationRectangle.x = this->_x + this->_offsets[this->_currentAnimation].x;
+		destinationRectangle.y = this->_y + this->_offsets[this->_currentAnimation].y;
 		destinationRectangle.w = this->_sourceRect.w;
 		destinationRectangle.h = this->_sourceRect.h;
 

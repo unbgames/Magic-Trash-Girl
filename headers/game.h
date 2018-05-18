@@ -12,6 +12,7 @@
 #include <vector>
 #include "player.h"
 #include "input.h"
+#include <memory>
 
 class Graphics;
 
@@ -30,7 +31,7 @@ private:
 
 	void update(float elapsedtime);
 
-	std::vector<AnimatedSprite> spritesToDraw;
+	std::vector<std::unique_ptr<AnimatedSprite>> spritesToDraw;
 
 	Player _player;
 

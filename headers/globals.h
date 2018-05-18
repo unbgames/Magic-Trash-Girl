@@ -17,6 +17,8 @@ namespace player_constants {
 
 	const float PLAYER_START_X = 100;
 	const float PLAYER_START_Y = 500;
+
+	const float PROJECTILE_SPEED = 0.3f;
 }
 
 namespace globals{
