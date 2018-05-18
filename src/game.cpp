@@ -77,16 +77,12 @@ void Game::gameLoop(){
 		}
 		else if(this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
 			this->_player.moveRight();
-		}else if(!this->_input.isKeyHeld(SDL_SCANCODE_LEFT) && !this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
-
+		}else if(this->_input.isKeyHeld(SDL_SCANCODE_UP) && !this->_input.isKeyHeld(SDL_SCANCODE_DOWN)){
+			this->_player.lookUp();
+		}else if(this->_input.isKeyHeld(SDL_SCANCODE_DOWN) && !this->_input.isKeyHeld(SDL_SCANCODE_UP)){
+			this->_player.lookDown();
+		}else{
 			this->_player.stopMoving();
-
-			if(this->_input.isKeyHeld(SDL_SCANCODE_UP) && !this->_input.isKeyHeld(SDL_SCANCODE_DOWN)){
-				this->_player.lookUp();
-			}
-			if(this->_input.isKeyHeld(SDL_SCANCODE_DOWN) && !this->_input.isKeyHeld(SDL_SCANCODE_UP)){
-				this->_player.lookDown();
-			}
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_SPACE)){
@@ -122,6 +118,11 @@ void Game::update(float elapsedtime){
 
 	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		(*it)->update(elapsedtime);
+
+		//arrumar aqui
+		if((*it)->getToBeDeleted()){
+			this->_spritesToDraw.erase(it);
+		}
 	}
 
 	this->_player.update(elapsedtime);

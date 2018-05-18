@@ -19,7 +19,8 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, 
 	_currentAnimationOnce(false),
 	_currentAnimation(""),
 	_frameIndex(0),
-	_visible(true)
+	_visible(true),
+	_toBeDeleted(false)
 {}
 
 void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset){
@@ -47,6 +48,14 @@ void AnimatedSprite::playAnimation(std::string animation, bool once){
 
 void AnimatedSprite::setVisible(bool visible){
 	this->_visible = visible;
+}
+
+void AnimatedSprite::setToBeDeleted(bool toBeDeleted){
+	this->_toBeDeleted = toBeDeleted;
+}
+
+bool AnimatedSprite::getToBeDeleted(){
+	return this->_toBeDeleted;
 }
 
 void AnimatedSprite::stopAnimation(){

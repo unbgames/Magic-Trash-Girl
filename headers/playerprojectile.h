@@ -24,6 +24,8 @@ private:
 
 	Direction _facing;
 
+	float _lifeTime;
+
 };
 
 

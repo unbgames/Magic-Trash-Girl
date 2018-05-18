@@ -20,6 +20,7 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_dx(0),
 		_dy(0),
 		_facing(RIGHT),
+		_idleFacing(RIGHT),
 		_isAirborne(false),
 		_startJump(false)
 		{
@@ -49,6 +50,7 @@ void Player::setupAnimations(){
 void Player::moveLeft(){
 	if(!this->_isAirborne){
 		this->_facing = LEFT;
+		this->_idleFacing = LEFT;
 		this->_dx = -player_constants::WALK_SPEED;
 		this->playAnimation("MoveLeft");
 	}
@@ -57,6 +59,7 @@ void Player::moveLeft(){
 void Player::moveRight(){
 	if(!this->_isAirborne){
 		this->_facing = RIGHT;
+		this->_idleFacing = RIGHT;
 		this->_dx = player_constants::WALK_SPEED;
 		this->playAnimation("MoveRight");
 	}
@@ -65,6 +68,9 @@ void Player::moveRight(){
 void Player::stopMoving(){
 	if(!this->_isAirborne){
 		this->_dx = 0.0f;
+		if((this->_facing == UP) || (this->_facing == DOWN)){
+			this->_facing = this->_idleFacing;
+		}
 		this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
 	}
 }
@@ -78,18 +84,34 @@ void Player::jump(){
 
 void Player::lookUp(){
 	if(!this->_isAirborne){
+
+		this->stopMoving();
+
+		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
+			this->_idleFacing = this->_facing;
+		}
+		this->_facing = UP;
 		this->playAnimation("LookUp");
 	}
 }
 
 void Player::lookDown(){
 	if(!this->_isAirborne){
+
+		this->stopMoving();
+
+		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
+			this->_idleFacing = this->_facing;
+		}
+		this->_facing = DOWN;
 		this->playAnimation("LookDown");
 	}
 }
 
 void Player::bubble(){
-	Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, UP));
+
+	Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, this->_facing));
+
 }
 
 

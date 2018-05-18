@@ -31,6 +31,8 @@ public:
 
 	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
 
+	bool getToBeDeleted();
+
 protected:
 
 	double _timeToUpdate;
@@ -42,6 +44,8 @@ protected:
 	void stopAnimation();
 
 	void setVisible(bool visible);
+
+	void setToBeDeleted(bool toBeDeleted);
 
 	virtual void animationDone(std::string currentAnimation);
 
@@ -55,6 +59,7 @@ private:
 	unsigned int _frameIndex;
 	double _timeElapsed = 0;
 	bool _visible;
+	bool _toBeDeleted;
 
 };
 

@@ -9,13 +9,20 @@
 #include <iostream>
 
 PlayerProjectile::PlayerProjectile(Graphics &graphics, float posX, float posY, Direction facing):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, posX, posY, 200),
-		_facing(facing){
+		AnimatedSprite(graphics, "assets/player.png", 0, 0, 24, 24, posX, posY, 200),
+		_facing(facing),
+		_lifeTime(0){
 	this->setupAnimations();
 	this->playAnimation("basic");
 }
 
 void PlayerProjectile::update(float elapsedTime){
+
+	this->_lifeTime += elapsedTime;
+
+	if(this->_lifeTime > 1000){
+		this->setToBeDeleted(true);
+	}
 
 	switch(this->_facing){
 		case UP:
@@ -39,5 +46,5 @@ void PlayerProjectile::animationDone(std::string currentAnimation){
 }
 
 void PlayerProjectile::setupAnimations(){
-	this->addAnimation(2, 0, 0, "basic", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 0, 320, "basic", 24,24, Vector2 (0,0));
 }
