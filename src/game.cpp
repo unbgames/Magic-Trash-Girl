@@ -112,7 +112,9 @@ void Game::draw(Graphics &graphics){
 	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		 (*it)->draw(graphics);
 	}
-
+	if(this->spriteToDraw){
+		this->spriteToDraw->draw(graphics);
+	}
 	this->_player.draw(graphics);
 
 	graphics.flip();
@@ -123,15 +125,18 @@ void Game::update(float elapsedtime){
 	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		(*it)->update(elapsedtime);
 	}
+	if(this->spriteToDraw){
+		this->spriteToDraw->update(elapsedtime);
+	}
 
 	this->_player.update(elapsedtime);
 
 }
 
-void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
+void Game::addNewSpriteToDraw(std::unique_ptr<AnimatedSprite> sprite){
 
-	std::unique_ptr<AnimatedSprite> auxPtr(sprite);
+	//this->spriteToDraw = (sprite);
 
-	this->_spritesToDraw.push_back(std::move(auxPtr));
+	this->_spritesToDraw.push_back(std::move(sprite));
 
 }

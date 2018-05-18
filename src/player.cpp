@@ -89,7 +89,15 @@ void Player::lookDown(){
 }
 
 void Player::bubble(){
-	Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, UP));
+
+	//slicing acontecendo aqui
+
+	std::unique_ptr<PlayerProjectile> sprite = std::unique_ptr<PlayerProjectile>(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, UP));
+
+	sprite->update(0);
+
+	//Game::getInstance().addNewSpriteToDraw(std::unique_ptr<PlayerProjectile>(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, UP)));
+
 }
 
 
