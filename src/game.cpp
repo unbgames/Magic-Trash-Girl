@@ -19,15 +19,26 @@ namespace {
 	const int MAX_FRAME_TIME = 1000/FPS;
 }
 
+Game* Game::_instance = nullptr;
+
 Game::Game():
 	_input(){
+	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	this->gameLoop();
 }
 
 Game::~Game(){
-
+	this->_spritesToDraw.clear();
 }
+
+Game& Game::getInstance(){
+	if(_instance == nullptr){
+		_instance = new Game();
+	}
+	return *_instance;
+}
+
 
 void Game::gameLoop(){
 
@@ -82,6 +93,10 @@ void Game::gameLoop(){
 			this->_player.jump();
 		}
 
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_Z)){
+			this->_player.bubble();
+		}
+
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
@@ -94,7 +109,7 @@ void Game::gameLoop(){
 void Game::draw(Graphics &graphics){
 	graphics.clear();
 
-	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
+	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		 (*it)->draw(graphics);
 	}
 
@@ -105,10 +120,18 @@ void Game::draw(Graphics &graphics){
 
 void Game::update(float elapsedtime){
 
-	  for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->spritesToDraw.begin() ; it != this->spritesToDraw.end(); ++it){
-		  (*it)->update(elapsedtime);
-	  }
+	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
+		(*it)->update(elapsedtime);
+	}
 
-	  this->_player.update(elapsedtime);
+	this->_player.update(elapsedtime);
+
+}
+
+void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
+
+	std::unique_ptr<AnimatedSprite> auxPtr(sprite);
+
+	this->_spritesToDraw.push_back(std::move(auxPtr));
 
 }

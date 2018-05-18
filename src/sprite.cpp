@@ -16,7 +16,10 @@ Sprite::Sprite(){ // @suppress("Class members should be properly initialized")
 
 Sprite::Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int sourceY, int widht, int height, float posX, float posY):
 		_x(posX),
-		_y(posY)
+		_y(posY),
+		_w(widht),
+		_h(height),
+		_graphicsAssociated(&graphics)
 {
 	this->_sourceRect.x = sourceX;
 	this->_sourceRect.y = sourceY;

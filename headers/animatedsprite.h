@@ -25,9 +25,9 @@ public:
 
 	void playAnimation(std::string animation, bool once = false);
 
-	void update(int elapsedTime);
+	virtual void update(int elapsedTime);
 
-	void draw(Graphics &graphics);
+	virtual void draw(Graphics &graphics);
 
 	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
 

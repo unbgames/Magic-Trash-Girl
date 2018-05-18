@@ -8,6 +8,8 @@
 #include "player.h"
 #include "graphics.h"
 #include <iostream>
+#include "Game.h"
+#include "playerprojectile.h"
 
 Player::Player(){ // @suppress("Class members should be properly initialized")
 
@@ -87,7 +89,7 @@ void Player::lookDown(){
 }
 
 void Player::bubble(){
-
+	Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, UP));
 }
 
 

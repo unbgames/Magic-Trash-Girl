@@ -26,7 +26,9 @@ protected:
 
 	SDL_Rect _sourceRect;
 	SDL_Texture* _spriteSheet;
-	float _x, _y;
+	float _x, _y, _w, _h;
+
+	Graphics* _graphicsAssociated;
 
 private:
 

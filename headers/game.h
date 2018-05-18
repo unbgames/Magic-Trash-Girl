@@ -23,7 +23,13 @@ public:
 
 	~Game();
 
+	static Game& getInstance();
+
+	void addNewSpriteToDraw(AnimatedSprite* sprite);
+
 private:
+
+	static Game* _instance;
 
 	void gameLoop();
 
@@ -31,7 +37,7 @@ private:
 
 	void update(float elapsedtime);
 
-	std::vector<std::unique_ptr<AnimatedSprite>> spritesToDraw;
+	std::vector<std::unique_ptr<AnimatedSprite>> _spritesToDraw;
 
 	Player _player;
 
