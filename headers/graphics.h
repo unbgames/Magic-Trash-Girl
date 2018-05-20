@@ -45,8 +45,6 @@ private:
 
 	Graphics();
 
-	static Graphics* _instance;
-
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
 

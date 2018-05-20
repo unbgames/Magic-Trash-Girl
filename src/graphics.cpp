@@ -11,23 +11,17 @@
 #include "graphics.h"
 #include "globals.h"
 
-Graphics* Graphics::_instance = nullptr;
-
 Graphics::Graphics(){
-	_instance = this;
 	SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGTH, 0, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
 }
 
 Graphics& Graphics::getInstance(){
-	if(_instance == nullptr){
-		_instance = new Graphics();
-	}
-	return *_instance;
+    static Graphics graphics;
+    return graphics;
 }
 
 Graphics::~Graphics(){
-	_instance = nullptr;
 	SDL_DestroyWindow(this->_window);
 }
 
