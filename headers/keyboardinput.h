@@ -1,17 +1,24 @@
 /*
- * input.h
+ * KeyboardInput.h
  *
  *  Created on: Apr 16, 2018
  *      Author: TMK
  */
 
-#ifndef SOURCE_HEADERS_INPUT_H_
-#define SOURCE_HEADERS_INPUT_H_
+#ifndef SOURCE_HEADERS_KEYBOARDINPUT_H_
+#define SOURCE_HEADERS_KEYBOARDINPUT_H_
 
 #include <SDL2/SDL.h>
 #include <map>
 
-class Input {
+/*
+ *  CLass KeyboardInput
+ *
+ *	Como em gameplay o unico jogador somente tem controle do objeto player somente haverá 1 classe input, sua unica instancia encontra em game e somente poderá ser acessada no game loop
+ *
+ */
+
+class KeyboardInput {
 public:
 	void beginNewFrame();
 	void keyUpEvent(const SDL_Event& event);
@@ -29,4 +36,4 @@ private:
 
 
 
-#endif /* SOURCE_HEADERS_INPUT_H_ */
+#endif /* SOURCE_HEADERS_KEYBOARDINPUT_H_ */

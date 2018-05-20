@@ -8,10 +8,10 @@
 #ifndef SOURCE_HEADERS_GAME_H_
 #define SOURCE_HEADERS_GAME_H_
 
+#include <keyboardinput.h>
 #include "animatedsprite.h"
 #include <vector>
 #include "player.h"
-#include "input.h"
 #include <memory>
 
 class Graphics;
@@ -41,7 +41,7 @@ private:
 
 	Player _player;
 
-	Input _input;
+	KeyboardInput _input;
 
 };
 
