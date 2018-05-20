@@ -12,13 +12,11 @@
 #include "globals.h"
 
 Graphics::Graphics(){
+
+	std::cout << "passoua qui";
+
 	SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGTH, 0, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
-}
-
-Graphics& Graphics::getInstance(){
-    static Graphics graphics;
-    return graphics;
 }
 
 Graphics::~Graphics(){

@@ -9,6 +9,7 @@
 #define SOURCE_HEADERS_GLOBALS_H_
 
 #include <string>
+#include <iostream>
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
