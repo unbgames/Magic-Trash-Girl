@@ -42,13 +42,13 @@ Game& Game::getInstance(){
 
 void Game::gameLoop(){
 
-	Graphics graphics;
+	Graphics* graphics = &Graphics::getInstance();
 
 	SDL_Event event;
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
-	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
+	this->_player = Player(*graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
 	while(true){
 
@@ -105,7 +105,7 @@ void Game::gameLoop(){
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
-		this->draw(graphics);
+		this->draw(*graphics);
 	}
 }
 

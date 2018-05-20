@@ -14,17 +14,26 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
-
+/*
+ *	Classe Graphics:
+ *
+ * 	Utilizada para a criação da janela e renderer, no projeto Trash Girl somente haverá 1 janela e somente 1 renderer,
+ * 	assim esta classe será singleton por conveniencia.
+ *
+ *	\ _spriteSheets é o map que guarda os spritesheets já carregados
+ *
+ */
 class Graphics{
 
 public:
 
-	Graphics();
 	~Graphics();
+
+	static Graphics& getInstance();
 
 	SDL_Surface* loadImage(const std::string &filepath);
 
-	void blitSurface(SDL_Texture* source, SDL_Rect* sourceRectangle, SDL_Rect* destinationRectangle);
+	void blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_Rect* destinationRectangle, double angle = 0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void flip();
 
@@ -33,6 +42,10 @@ public:
 	SDL_Renderer* getRenderer() const;
 
 private:
+
+	Graphics();
+
+	static Graphics* _instance;
 
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;

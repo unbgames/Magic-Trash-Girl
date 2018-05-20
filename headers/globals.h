@@ -24,6 +24,8 @@ namespace player_constants {
 namespace globals{
 	const int SCREEN_WIDTH = 1024;
 	const int SCREEN_HEIGTH = 600;
+
+	const std::string WINDOW_NAME = "Trash Girl";
 }
 
 enum Direction{

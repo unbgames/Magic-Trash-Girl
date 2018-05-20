@@ -83,7 +83,6 @@ void AnimatedSprite::update(float elapsedTime) {
 
 void AnimatedSprite::draw(Graphics &graphics){
 
-
 	if( this->_visible){
 		SDL_Rect destinationRectangle;
 		destinationRectangle.x = this->_x + this->_offsets[this->_currentAnimation].x;
