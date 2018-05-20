@@ -11,6 +11,8 @@
 class VacuumCone: public AnimatedSprite{
 public:
 
+	VacuumCone();
+
 	VacuumCone(Graphics &graphics);
 
 	void update(float elapsedTime);

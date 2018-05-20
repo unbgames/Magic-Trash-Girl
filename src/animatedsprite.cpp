@@ -100,3 +100,10 @@ void AnimatedSprite::draw(Graphics &graphics){
 void AnimatedSprite::animationDone(std::string currentAnimation){
 
 }
+
+void AnimatedSprite::setPosition(float x, float y){
+
+	this->_x = x;
+	this->_y = y;
+
+}

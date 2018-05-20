@@ -22,7 +22,8 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_facing(RIGHT),
 		_idleFacing(RIGHT),
 		_isAirborne(false),
-		_startJump(false)
+		_startJump(false),
+		_vCone(graphics)
 		{
 			this->setupAnimations();
 			this->playAnimation("IdleRight");
@@ -118,12 +119,19 @@ void Player::startVacuum(){
 
 	std::cout << "startvacuum" << std::endl;
 
+	this->_vCone.setPosition(this->_x + 64, this->_y);
+
+	this->_vCone.playAnimation("facingUp");
+
+	this->_vCone.setVisible(true);
+
 }
 
 void Player::stopVacuum(){
 
 	std::cout << "stopVacuum" << std::endl;
 
+	this->_vCone.setVisible(false);
 }
 
 
@@ -148,7 +156,16 @@ void Player::update(float elapsedTime){
 
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
+
+
+	this->_vCone.setPosition(this->_x+64, this->_y);
+	this->_vCone.update(elapsedTime);
 	AnimatedSprite::update(elapsedTime);
+}
+
+void Player::draw(Graphics &graphics){
+	this->_vCone.draw(graphics);
+	AnimatedSprite::draw(graphics);
 }
 
 void Player::setTimeForFrames(double newTime){

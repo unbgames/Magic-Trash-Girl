@@ -33,6 +33,10 @@ public:
 
 	bool getToBeDeleted();
 
+	void setPosition(float x, float y);
+
+	void setVisible(bool visible);
+
 protected:
 
 	double _timeToUpdate;
@@ -42,8 +46,6 @@ protected:
 	void resetAnimations();
 
 	void stopAnimation();
-
-	void setVisible(bool visible);
 
 	void setToBeDeleted(bool toBeDeleted);
 

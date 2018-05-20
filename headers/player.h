@@ -9,6 +9,7 @@
 #define SOURCE_HEADERS_PLAYER_H_
 
 #include "animatedsprite.h"
+#include "vacuumcone.h"
 
 class Player : public AnimatedSprite{
 public:
@@ -19,6 +20,7 @@ public:
 	~Player();
 
 	void update(float elapsedTime);
+	void draw(Graphics &graphics);
 
 	void moveLeft();
 	void moveRight();
@@ -47,6 +49,9 @@ private:
 	bool _isAirborne;
 
 	bool _startJump;
+
+	VacuumCone _vCone;
+
 };
 
 
