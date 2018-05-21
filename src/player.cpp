@@ -16,7 +16,7 @@ Player::Player(){ // @suppress("Class members should be properly initialized")
 }
 
 Player::Player(Graphics &graphics, float posX, float posY):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, posX, posY, 200),
+		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, posX, posY, 300),
 		_dx(0),
 		_dy(0),
 		_facing(RIGHT),

@@ -9,7 +9,7 @@
 #include <iostream>
 
 PlayerProjectile::PlayerProjectile(Graphics &graphics, float posX, float posY, Direction facing):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 24, 24, posX, posY, 200),
+		AnimatedSprite(graphics, "assets/player.png", 0, 0, 24, 24, posX, posY, 1000),
 		_facing(facing),
 		_lifeTime(0){
 	this->setupAnimations();

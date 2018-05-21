@@ -12,7 +12,7 @@ VacuumCone::VacuumCone(){
 }
 
 VacuumCone::VacuumCone(Graphics &graphics):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, -1000, -1000, 200),
+		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, -1000, -1000, 1000),
 		_facing(LEFT){
 	this->setVisible(false);
 	this->setupAnimations();

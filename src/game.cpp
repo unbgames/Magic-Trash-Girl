@@ -15,8 +15,10 @@
 #include "animatedsprite.h"
 
 namespace {
-	const int FPS = 33;
-	const int MAX_FRAME_TIME = 1000/FPS;
+	const int MINFPS = 33;
+	const int MAX_FRAME_TIME = 1000/MINFPS;
+	const int MAXFPS = 60;
+	const int MIN_FRAME_TIME = 1000/MAXFPS;
 }
 
 Game* Game::_instance = nullptr;
@@ -102,9 +104,10 @@ void Game::gameLoop(){
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-		if(ELAPSED_TIME_MS < 16){
-			SDL_Delay(20 - ELAPSED_TIME_MS);
-			ELAPSED_TIME_MS = 16;
+		if(ELAPSED_TIME_MS < MIN_FRAME_TIME){
+			SDL_Delay(MIN_FRAME_TIME - ELAPSED_TIME_MS);
+			const int CURRENT_TIME_MS = SDL_GetTicks();
+			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
@@ -126,8 +129,6 @@ void Game::draw(Graphics &graphics){
 }
 
 void Game::update(float elapsedtime){
-
-	std::cout << elapsedtime << std::endl;
 
 	for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
 
