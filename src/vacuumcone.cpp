@@ -43,7 +43,6 @@ void VacuumCone::update(float elapsedTime){
 		Game::getInstance().damageBlock(index3X,index3Y,this->_dps*elapsedTime/1000);
 		Game::getInstance().damageBlock(index4X,index4Y,this->_dps*elapsedTime/1000);
 
-
 	}
 
 	AnimatedSprite::update(elapsedTime);
