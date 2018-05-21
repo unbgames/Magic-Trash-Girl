@@ -141,7 +141,7 @@ void Player::update(float elapsedTime){
 	 * A parte de teste sobre airborne está aqui para setar o chão enquanto não ha teste de colisao, retirar depois
 	 */
 	if(this->_isAirborne){
-		this->_dy += 0.002;
+		this->_dy += 0.002 * elapsedTime;
 		if(this->_y > player_constants::PLAYER_START_Y){
 			this->_y = 500;
 			this->_dy = 0;

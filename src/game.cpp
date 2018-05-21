@@ -102,6 +102,10 @@ void Game::gameLoop(){
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+		if(ELAPSED_TIME_MS < 16){
+			SDL_Delay(20 - ELAPSED_TIME_MS);
+			ELAPSED_TIME_MS = 16;
+		}
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -122,6 +126,8 @@ void Game::draw(Graphics &graphics){
 }
 
 void Game::update(float elapsedtime){
+
+	std::cout << elapsedtime << std::endl;
 
 	for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
 
