@@ -36,6 +36,7 @@ public:
 	void setPosition(float x, float y);
 
 	void setVisible(bool visible);
+	bool getVisible();
 
 protected:
 

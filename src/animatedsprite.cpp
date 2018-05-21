@@ -51,6 +51,10 @@ void AnimatedSprite::setVisible(bool visible){
 	this->_visible = visible;
 }
 
+bool AnimatedSprite::getVisible(){
+	return this->_visible;
+}
+
 void AnimatedSprite::setToBeDeleted(bool toBeDeleted){
 	this->_toBeDeleted = toBeDeleted;
 }

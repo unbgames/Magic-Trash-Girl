@@ -117,15 +117,13 @@ void Player::bubble(){
 
 void Player::startVacuum(){
 
-	this->_vCone.setPosition(this->_x + 64, this->_y);
-
-	this->_vCone.playAnimation("facingUp");
-
 	this->_vCone.setVisible(true);
 
 }
 
 void Player::stopVacuum(){
+
+	this->_vCone.setPosition(-1000, -1000);
 
 	this->_vCone.setVisible(false);
 
@@ -154,9 +152,28 @@ void Player::update(float elapsedTime){
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
+	if(this->_vCone.getVisible()){
+		switch(this->_facing){
+			case UP:
+				this->_vCone.setPosition(this->_x , this->_y - 32);
+				this->_vCone.playAnimation("facingUp");
+			break;
+			case DOWN:
+				this->_vCone.setPosition(this->_x , this->_y + 32);
+				this->_vCone.playAnimation("facingDown");
+			break;
+			case LEFT:
+				this->_vCone.setPosition(this->_x - 32, this->_y);
+				this->_vCone.playAnimation("facingLeft");
+			break;
+			case RIGHT:
+				this->_vCone.setPosition(this->_x + 32, this->_y);
+				this->_vCone.playAnimation("facingRight");
+			break;
+		}
+		this->_vCone.update(elapsedTime);
+	}
 
-	this->_vCone.setPosition(this->_x+64, this->_y);
-	this->_vCone.update(elapsedTime);
 	AnimatedSprite::update(elapsedTime);
 }
 
