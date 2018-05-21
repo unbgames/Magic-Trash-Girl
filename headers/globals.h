@@ -11,6 +11,9 @@
 #include <string>
 #include <iostream>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
 	const float JUMP_SPEED = 0.2f;
@@ -47,6 +50,25 @@ struct Vector2 {
 	Vector2 zero(){
 		return Vector2(0, 0);
 	}
+};
+
+struct ExVariables{
+	double angle;
+	SDL_Point* centerOfRotation;
+	SDL_RendererFlip flipFlag;
+
+	ExVariables() :
+		angle(0),
+		centerOfRotation(nullptr),
+		flipFlag(SDL_FLIP_NONE)
+	{}
+
+	ExVariables(double angleIn, SDL_Point* centerIn, SDL_RendererFlip flipIn) :
+		angle(angleIn),
+		centerOfRotation(centerIn),
+		flipFlag(flipIn)
+	{}
+
 };
 
 #endif /* SOURCE_HEADERS_GLOBALS_H_ */

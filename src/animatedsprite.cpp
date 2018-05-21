@@ -23,7 +23,7 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, 
 	_toBeDeleted(false)
 {}
 
-void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset){
+void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset, ExVariables exVariables){
 	std::vector<SDL_Rect> rectangles;
 	for (int i=0; i<frames; i++){
 		SDL_Rect newRect = { (i* width + x), y, width, height};
@@ -31,6 +31,7 @@ void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, in
 	}
 	this->_animations.insert(std::pair<std::string, std::vector<SDL_Rect> >(name, rectangles));
 	this->_offsets.insert(std::pair<std::string, Vector2>(name, offset));
+	this->_exVariables.insert(std::pair<std::string, ExVariables>(name, exVariables));
 }
 
 void AnimatedSprite::resetAnimations(){
@@ -92,7 +93,9 @@ void AnimatedSprite::draw(Graphics &graphics){
 
 		SDL_Rect sourceRect = (this->_animations[this->_currentAnimation])[this->_frameIndex];
 
-		graphics.blitSurface(this->_spriteSheet, &sourceRect, &destinationRectangle);
+		ExVariables exVarAux = this->_exVariables[this->_currentAnimation];
+
+		graphics.blitSurface(this->_spriteSheet, &sourceRect, &destinationRectangle, exVarAux.angle, exVarAux.centerOfRotation, exVarAux.flipFlag);
 	}
 }
 

@@ -29,7 +29,7 @@ public:
 
 	virtual void draw(Graphics &graphics);
 
-	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset);
+	void addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset, ExVariables exVariables = ExVariables());
 
 	bool getToBeDeleted();
 
@@ -57,6 +57,7 @@ private:
 
 	std::map<std::string, std::vector<SDL_Rect>> _animations;
 	std::map<std::string, Vector2> _offsets;
+	std::map<std::string, ExVariables> _exVariables;
 
 	unsigned int _frameIndex;
 	double _timeElapsed = 0;

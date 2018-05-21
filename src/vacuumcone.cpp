@@ -29,6 +29,6 @@ void VacuumCone::animationDone(std::string currentAnimation){
 void VacuumCone::setupAnimations(){
 	this->addAnimation(1, 128, 0, "facingRight", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 192, 0, "facingLeft", 64,64, Vector2 (0,0));
-	this->addAnimation(1, 128, 64, "facingUp", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 128, 64, "facingUp", 64,64, Vector2 (0,0), ExVariables(30, nullptr, SDL_FLIP_NONE));
 	this->addAnimation(1, 192, 64, "facingDown", 64,64, Vector2 (0,0));
 }

@@ -40,9 +40,9 @@ void Player::animationDone(std::string currentAnimation){
 
 void Player::setupAnimations(){
 	this->addAnimation(2, 0, 0, "IdleRight", 64,64, Vector2 (0,0));
-	this->addAnimation(2, 0, 64, "IdleLeft", 64,64, Vector2 (0,0));
+	this->addAnimation(2, 0, 0, "IdleLeft", 64,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 	this->addAnimation(2, 0, 128, "MoveRight", 64,64, Vector2 (0,0));
-	this->addAnimation(2, 0, 192, "MoveLeft", 64,64, Vector2 (0,0));
+	this->addAnimation(2, 0, 128, "MoveLeft", 64,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 	this->addAnimation(1, 0, 256, "LookUp", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 64, 256, "LookDown", 64,64, Vector2 (0,0));
 
@@ -117,8 +117,6 @@ void Player::bubble(){
 
 void Player::startVacuum(){
 
-	std::cout << "startvacuum" << std::endl;
-
 	this->_vCone.setPosition(this->_x + 64, this->_y);
 
 	this->_vCone.playAnimation("facingUp");
@@ -129,9 +127,8 @@ void Player::startVacuum(){
 
 void Player::stopVacuum(){
 
-	std::cout << "stopVacuum" << std::endl;
-
 	this->_vCone.setVisible(false);
+
 }
 
 

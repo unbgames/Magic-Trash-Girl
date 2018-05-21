@@ -19,6 +19,9 @@ Sprite::Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int
 		_y(posY),
 		_w(widht),
 		_h(height),
+		_angle(0),
+		_centerOfRotation(nullptr),
+		_flipFlag(SDL_FLIP_NONE),
 		_graphicsAssociated(&graphics)
 {
 	this->_sourceRect.x = sourceX;
@@ -38,7 +41,7 @@ Sprite::~Sprite(){
 
 void Sprite::draw(Graphics &graphics, int x, int y){
 	SDL_Rect destinationRectangle = {x, y, this->_sourceRect.w, this->_sourceRect.h};
-	graphics.blitSurface(this->_spriteSheet, &this->_sourceRect, &destinationRectangle);
+	graphics.blitSurface(this->_spriteSheet, &this->_sourceRect, &destinationRectangle, this->_angle, this->_centerOfRotation, this->_flipFlag);
 }
 
 void Sprite::update(){
