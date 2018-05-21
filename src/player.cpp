@@ -178,8 +178,8 @@ void Player::update(float elapsedTime){
 }
 
 void Player::draw(Graphics &graphics){
-	this->_vCone.draw(graphics);
 	AnimatedSprite::draw(graphics);
+	this->_vCone.draw(graphics);
 }
 
 void Player::setTimeForFrames(double newTime){

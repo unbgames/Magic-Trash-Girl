@@ -7,7 +7,7 @@
 
 #include "vacuumcone.h"
 
-VacuumCone::VacuumCone(){
+VacuumCone::VacuumCone(){ // @suppress("Class members should be properly initialized")
 
 }
 
