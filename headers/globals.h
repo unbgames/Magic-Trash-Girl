@@ -15,19 +15,19 @@
 #include <SDL2/SDL_image.h>
 
 namespace player_constants {
-	const float WALK_SPEED = 0.2f;
-	const float JUMP_SPEED = 0.2f;
-	const float FALL_SPEED = 0.2f;
+	const float WALK_SPEED = 0.1f;
+	const float JUMP_SPEED = 0.1f;
+	const float FALL_SPEED = 0.1f;
 
 	const float PLAYER_START_X = 100;
-	const float PLAYER_START_Y = 500;
+	const float PLAYER_START_Y = 300;
 
 	const float PROJECTILE_SPEED = 0.3f;
 }
 
 namespace globals{
 	const int SCREEN_WIDTH = 1024;
-	const int SCREEN_HEIGTH = 600;
+	const int SCREEN_HEIGTH = 576;
 
 	const std::string WINDOW_NAME = "Trash Girl";
 }
@@ -38,6 +38,14 @@ enum Direction{
 	UP,
 	DOWN,
 };
+
+enum BlockType{
+	NONE,
+	BREAKABLE,
+	UNBREAKABLE,
+//	BUBLE,
+};
+
 
 struct Vector2 {
 	int x, y;

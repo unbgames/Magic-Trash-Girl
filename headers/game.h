@@ -13,6 +13,7 @@
 #include <vector>
 #include "player.h"
 #include <memory>
+#include "backgroundblock.h"
 
 class Graphics;
 
@@ -26,6 +27,8 @@ public:
 	static Game& getInstance();
 
 	void addNewSpriteToDraw(AnimatedSprite* sprite);
+
+	void setupBackgroundBlocks(Graphics &graphics);
 
 private:
 
@@ -42,6 +45,8 @@ private:
 	Player _player;
 
 	KeyboardInput _input;
+
+	std::vector<BackgroundBlock> _backgroundBlocks;
 
 };
 

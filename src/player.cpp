@@ -79,7 +79,7 @@ void Player::stopMoving(){
 void Player::jump(){
 	if(!this->_isAirborne){
 		this->_startJump = true;
-		this->_dy = -1.2;
+		this->_dy = -0.7;
 	}
 }
 
@@ -143,7 +143,7 @@ void Player::update(float elapsedTime){
 	if(this->_isAirborne){
 		this->_dy += 0.002 * elapsedTime;
 		if(this->_y > player_constants::PLAYER_START_Y){
-			this->_y = 500;
+			this->_y = player_constants::PLAYER_START_Y;
 			this->_dy = 0;
 			this->_isAirborne = false;
 		}

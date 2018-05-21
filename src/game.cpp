@@ -10,8 +10,6 @@
 #include "game.h"
 #include "graphics.h"
 #include <iostream>
-
-
 #include "animatedsprite.h"
 
 namespace {
@@ -51,6 +49,8 @@ void Game::gameLoop(){
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
+
+	this->setupBackgroundBlocks(graphics);
 
 	while(true){
 
@@ -119,6 +119,10 @@ void Game::gameLoop(){
 void Game::draw(Graphics &graphics){
 	graphics.clear();
 
+	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
+		 it->draw(graphics);
+	}
+
 	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		 (*it)->draw(graphics);
 	}
@@ -129,6 +133,10 @@ void Game::draw(Graphics &graphics){
 }
 
 void Game::update(float elapsedtime){
+
+	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
+		 it->update(elapsedtime);
+	}
 
 	for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
 
@@ -149,5 +157,21 @@ void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
 	std::unique_ptr<AnimatedSprite> auxPtr(sprite);
 
 	this->_spritesToDraw.push_back(std::move(auxPtr));
+
+}
+
+void Game::setupBackgroundBlocks(Graphics &graphics){
+
+	for(int j = 0; j < 9; j++){
+		for(int i = 0; i < 16; i++){
+			if((i == 0) || (j==0) || (i == 15) || (j == 8)){
+				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, UNBREAKABLE));
+			}else if((i+j)%2 == 0){
+				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, BREAKABLE));
+			}else{
+				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, NONE));
+			}
+		}
+	}
 
 }
