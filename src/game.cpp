@@ -173,5 +173,12 @@ void Game::setupBackgroundBlocks(Graphics &graphics){
 			}
 		}
 	}
+}
+
+void Game::damageBlock(int indexX, int indexY, float damage){
+
+	if(this->_backgroundBlocks[indexX + (indexY*16)].getType() == BREAKABLE){
+		this->_backgroundBlocks[indexX + (indexY*16)].takeDamage(damage);
+	}
 
 }

@@ -20,9 +20,13 @@ public:
 
 	void setupAnimations();
 
+	void takeDamage(float damage);
+
+	BlockType getType();
+
 private:
 
-	int _hp;
+	float _hp;
 
 	BlockType _type;
 

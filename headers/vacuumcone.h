@@ -5,6 +5,8 @@
  *      Author: TMK
  */
 
+#ifndef SOURCE_HEADERS_VACUUMCONE_H_
+#define SOURCE_HEADERS_VACUUMCONE_H_
 
 #include "animatedsprite.h"
 
@@ -25,5 +27,9 @@ private:
 
 	Direction _facing;
 
+	float _dps;
+
 };
 
+
+#endif /* SOURCE_HEADERS_VACUUMCONE_H_ */

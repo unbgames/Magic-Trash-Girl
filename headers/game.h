@@ -30,6 +30,8 @@ public:
 
 	void setupBackgroundBlocks(Graphics &graphics);
 
+	void damageBlock(int indexX, int indexY, float damage);
+
 private:
 
 	static Game* _instance;
