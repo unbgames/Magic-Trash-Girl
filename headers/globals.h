@@ -59,7 +59,7 @@ enum BlockType{
 	NONE,
 	BREAKABLE,
 	UNBREAKABLE,
-//	BUBLE,
+	BUBLE,
 //	OUTOFBONDS
 };
 

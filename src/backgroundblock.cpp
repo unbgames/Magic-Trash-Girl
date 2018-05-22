@@ -29,6 +29,10 @@ BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, Blo
 					this->setVisible(true);
 					this->playAnimation("UNBREAKABLE");
 				break;
+				case BUBLE:
+					this->setVisible(true);
+					this->playAnimation("BUBLE");
+				break;
 			}
 }
 
@@ -56,6 +60,10 @@ void BackgroundBlock::update(float elapsedTime){
 			this->setVisible(true);
 			this->playAnimation("UNBREAKABLE");
 		break;
+		case BUBLE:
+			this->setVisible(true);
+			this->playAnimation("BUBLE");
+		break;
 	}
 
 	AnimatedSprite::update(elapsedTime);
@@ -66,6 +74,7 @@ void BackgroundBlock::setupAnimations(){
 	this->addAnimation(1, 192, 0, "NONE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 192, 64, "BREAKABLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 128, 64, "UNBREAKABLE", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 192, 0, "BUBLE", 64,64, Vector2 (0,0));
 }
 
 void BackgroundBlock::takeDamage(float damage){
