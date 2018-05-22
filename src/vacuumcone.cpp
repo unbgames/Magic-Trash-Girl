@@ -24,24 +24,29 @@ void VacuumCone::update(float elapsedTime){
 
 	if(this->getVisible()){
 
-		//arrumar test de colision com os blocks aqui, fiz um fudido soh pra test mesmo, ta errado pacas
+		Vector2 auxColision[4];
 
-		int index1X = (int)(this->_x/64);
-		int index1Y = (int)(this->_y/64);
+		auxColision[0] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[2] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[3] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
 
-		int index2X = (int)((this->_x + this->_w)/64);
-		int index2Y = (int)(this->_y/64);
+		// o for a seguir é para o teste caso o cone for menor que o block, no caso ambos atualmente são 64 pixels, mas isso pode mudar
 
-		int index3X = (int)(this->_x/64);
-		int index3Y = (int)((this->_y+ this->_h)/64);
+		for(int i = 0; i < 4; i++){
+			bool multipleHits = false;
+			for(int j = i+1; j < 4; j++){
+				if((auxColision[i].x == auxColision[j].x) && (auxColision[i].y == auxColision[j].y)){
+					multipleHits = true;
 
-		int index4X = (int)((this->_x+ this->_w)/64);
-		int index4Y = (int)((this->_y+ this->_h)/64);
+					std::cout << i << "  = cone eh menor q o bloco, chegar no código o tratamento de multiplos hits =  " << j << std::endl;
+				}
+			}
+			if(!multipleHits){
+				Game::getInstance().damageBlock(auxColision[i].x,auxColision[i].y,this->_dps*elapsedTime/1000);
+			}
+		}
 
-		Game::getInstance().damageBlock(index1X,index1Y,this->_dps*elapsedTime/1000);
-		Game::getInstance().damageBlock(index2X,index2Y,this->_dps*elapsedTime/1000);
-		Game::getInstance().damageBlock(index3X,index3Y,this->_dps*elapsedTime/1000);
-		Game::getInstance().damageBlock(index4X,index4Y,this->_dps*elapsedTime/1000);
 
 	}
 

@@ -29,7 +29,17 @@ namespace globals{
 	const int SCREEN_WIDTH = 1024;
 	const int SCREEN_HEIGTH = 576;
 
+
+
 	const std::string WINDOW_NAME = "Trash Girl";
+}
+
+namespace background_blocks_constants {
+	const int BLOCK_WIDTH = 64;
+	const int BLOCK_HEIGTH = 64;
+
+	const int NUMBER_BLOCKS_LINE = globals::SCREEN_WIDTH / BLOCK_WIDTH;
+	const int NUMBER_BLOCKS_COLUMN = globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
 }
 
 enum Direction{
