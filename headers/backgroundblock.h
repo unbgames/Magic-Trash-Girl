@@ -24,6 +24,8 @@ public:
 
 	BlockType getType();
 
+	void setType(BlockType type);
+
 private:
 
 	float _hp;

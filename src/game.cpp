@@ -183,7 +183,7 @@ void Game::setupBackgroundBlocks(Graphics &graphics){
 void Game::damageBlock(int indexX, int indexY, float damage){
 
 	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		if(this->_backgroundBlocks[indexX + (indexY*16)].getType() == BREAKABLE){
+		if((this->_backgroundBlocks[indexX + (indexY*16)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*16)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*16)].takeDamage(damage);
 		}
 	}
@@ -194,6 +194,12 @@ BlockType Game::getBlockType(int indexX, int indexY){
 		return this->_backgroundBlocks[indexX + (indexY*16)].getType();
 	}else{
 		return NONE;
+	}
+}
+
+void Game::setBlockType(int indexX, int indexY, BlockType type){
+	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
+		this->_backgroundBlocks[indexX + (indexY*16)].setType(type);
 	}
 }
 

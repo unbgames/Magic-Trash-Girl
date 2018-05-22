@@ -34,6 +34,8 @@ public:
 
 	BlockType getBlockType(int indexX, int indexY);
 
+	void setBlockType(int indexX, int indexY, BlockType type);
+
 	void requestQuit();
 
 private:

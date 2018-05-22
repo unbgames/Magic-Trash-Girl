@@ -83,6 +83,36 @@ void PlayerProjectile::update(float elapsedTime){
 
 	if(!noColision){
 		this->setToBeDeleted(true);
+		switch(this->_facing){
+			case UP:
+				if(colisionArray[0]){
+					Game::getInstance().setBlockType(auxColision[0].x, auxColision[0].y + 1, BUBLE);
+				}else if(colisionArray[1]){
+					Game::getInstance().setBlockType(auxColision[1].x, auxColision[1].y + 1, BUBLE);
+				}
+			break;
+			case DOWN:
+				if(colisionArray[2]){
+					Game::getInstance().setBlockType(auxColision[2].x, auxColision[2].y - 1, BUBLE);
+				}else if(colisionArray[3]){
+					Game::getInstance().setBlockType(auxColision[3].x, auxColision[3].y - 1, BUBLE);
+				}
+			break;
+			case LEFT:
+				if(colisionArray[2]){
+					Game::getInstance().setBlockType(auxColision[2].x + 1, auxColision[2].y, BUBLE);
+				}else if(colisionArray[0]){
+					Game::getInstance().setBlockType(auxColision[0].x + 1, auxColision[0].y, BUBLE);
+				}
+			break;
+			case RIGHT:
+				if(colisionArray[1]){
+					Game::getInstance().setBlockType(auxColision[1].x - 1, auxColision[1].y, BUBLE);
+				}else if(colisionArray[3]){
+					Game::getInstance().setBlockType(auxColision[3].x - 1, auxColision[3].y - 1, BUBLE);
+				}
+			break;
+		}
 	}
 
 	AnimatedSprite::update(elapsedTime);

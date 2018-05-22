@@ -84,3 +84,8 @@ void BackgroundBlock::takeDamage(float damage){
 BlockType BackgroundBlock::getType(){
 	return this->_type;
 }
+
+void  BackgroundBlock::setType(BlockType type){
+	this->_type = type;
+	this->_hp = 100;
+}

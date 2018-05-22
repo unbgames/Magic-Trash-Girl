@@ -73,7 +73,20 @@ void Player::stopMoving(){
 void Player::jump(){
 	if(!this->_isAirborne){
 		this->_startJump = true;
-		this->_dy = -0.7;
+
+		Vector2 auxCheckBuble[2];
+
+		auxCheckBuble[0] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+		auxCheckBuble[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+
+		if(((Game::getInstance().getBlockType(auxCheckBuble[0].x, auxCheckBuble[0].y)) == BUBLE) || ((Game::getInstance().getBlockType(auxCheckBuble[1].x, auxCheckBuble[1].y)) == BUBLE)){
+			this->_dy = player_constants::BUBLE_JUMP_SPEED;
+		//	std::cout << "BUBLE JUMP" << std::endl;
+		}else{
+			this->_dy = player_constants::NORMAL_JUMP_SPEED;
+		}
+
+
 	}
 }
 
@@ -280,26 +293,26 @@ void Player::update(float elapsedTime){
 			}
 
 			if(correctTop){ //top
-				std::cout << "top correction" << std::endl;
+				//std::cout << "top correction" << std::endl;
 				noColision = false;
 				this->_dy = 0;
 				this->_y ++;
 			}
 			if(correctBot){ //bot
-				std::cout << "bot correction" << std::endl;
+				//std::cout << "bot correction" << std::endl;
 				checkAirborne = true;
 				noColision = false;
 				this->_dy = 0;
 				this->_y --;
 			}
 			if(correctLeft){ //left
-				std::cout << "left correction" << std::endl;
+				//std::cout << "left correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x ++;
 			}
 			if(correctRight){ //right
-				std::cout << "right correction" << std::endl;
+				//std::cout << "right correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x --;
