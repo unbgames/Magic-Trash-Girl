@@ -132,6 +132,8 @@ void Player::stopVacuum(){
 
 void Player::update(float elapsedTime){
 
+	std::cout << "novo frame ---------" << std::endl;
+
 	if(this->_startJump){
 		this->_isAirborne = true;
 		this->_startJump = false;
@@ -152,26 +154,50 @@ void Player::update(float elapsedTime){
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
-	Vector2 auxColision[4];
+	bool noColision = true;
+	int framesInColision = 0;
 
-	/*
-	 * 0 = top left
-	 * 1 = top right
-	 * 2 = bot left
-	 * 3 = bot right
-	 */
+	do{
+		noColision = true;
+		Vector2 auxColision[4];
 
-	auxColision[0] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
-	auxColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
-	auxColision[2] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
-	auxColision[3] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+		/*
+		 * 0 = top left
+		 * 1 = top right
+		 * 2 = bot left
+		 * 3 = bot right
+		 */
 
-	std::cout << "novo frame ---------" << std::endl;
+		auxColision[0] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[1] = Vector2((int)(((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[2] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[3] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 
-	for(int i = 0; i < 4; i++){
-		if((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE){
-			std::cout << "ocorreu colision no canto " << i << std::endl;
+
+		for(int i = 0; i < 4; i++){
+			if((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE){
+				std::cout << "ocorreu colision no canto " << i << std::endl;
+
+				if(i == 2 || i == 3){
+					this->_isAirborne = false;
+					noColision = false;
+					this->_dy = 0;
+					this->_y --;
+				}
+			}
 		}
+
+		if(!noColision){
+			framesInColision++;
+		}else{
+			framesInColision = 0;
+		}
+	}while(!noColision && framesInColision < 1000);
+
+	if(framesInColision >= 1000){
+		std::cout << "game deu crash, player nao conseguiu achar local sem colisao em 1000 tentativas";
+		Game::getInstance().requestQuit();
+		return;
 	}
 
 	if(this->_vCone.getVisible()){

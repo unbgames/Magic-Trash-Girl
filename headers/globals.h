@@ -19,8 +19,8 @@ namespace player_constants {
 	const float JUMP_SPEED = 0.1f;
 	const float FALL_SPEED = 0.1f;
 
-	const float PLAYER_START_X = 100;
-	const float PLAYER_START_Y = 300;
+	const float PLAYER_START_X = 130;
+	const float PLAYER_START_Y = 320;
 
 	const float PROJECTILE_SPEED = 0.3f;
 

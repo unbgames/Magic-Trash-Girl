@@ -34,6 +34,8 @@ public:
 
 	BlockType getBlockType(int indexX, int indexY);
 
+	void requestQuit();
+
 private:
 
 	static Game* _instance;
@@ -51,6 +53,8 @@ private:
 	KeyboardInput _input;
 
 	std::vector<BackgroundBlock> _backgroundBlocks;
+
+	bool _quitFlag;
 
 };
 

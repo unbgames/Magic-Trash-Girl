@@ -33,10 +33,10 @@ void VacuumCone::update(float elapsedTime){
 		 * 3 = bot right
 		 */
 
-		auxColision[0] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
-		auxColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
-		auxColision[2] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
-		auxColision[3] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[0] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[1] = Vector2((int)(((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[2] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
+		auxColision[3] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 
 		for(int i = 0; i < 4; i++){
 			bool multipleHits = false;

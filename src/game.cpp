@@ -22,7 +22,8 @@ namespace {
 Game* Game::_instance = nullptr;
 
 Game::Game():
-	_input(){
+	_input(),
+	_quitFlag(false){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	this->gameLoop();
@@ -53,6 +54,10 @@ void Game::gameLoop(){
 	this->setupBackgroundBlocks(graphics);
 
 	while(true){
+
+		if(this->_quitFlag){
+			return;
+		}
 
 		this->_input.beginNewFrame();
 
@@ -190,4 +195,8 @@ BlockType Game::getBlockType(int indexX, int indexY){
 	}else{
 		return NONE;
 	}
+}
+
+void Game::requestQuit(){
+	this->_quitFlag = true;
 }
