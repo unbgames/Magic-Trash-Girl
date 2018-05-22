@@ -32,6 +32,8 @@ public:
 
 	void damageBlock(int indexX, int indexY, float damage);
 
+	BlockType getBlockType(int indexX, int indexY);
+
 private:
 
 	static Game* _instance;

@@ -152,6 +152,28 @@ void Player::update(float elapsedTime){
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
+	Vector2 auxColision[4];
+
+	/*
+	 * 0 = top left
+	 * 1 = top right
+	 * 2 = bot left
+	 * 3 = bot right
+	 */
+
+	auxColision[0] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)(this->_y/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[2] = Vector2((int)(this->_x/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[3] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+
+	std::cout << "novo frame ---------" << std::endl;
+
+	for(int i = 0; i < 4; i++){
+		if((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE){
+			std::cout << "ocorreu colision no canto " << i << std::endl;
+		}
+	}
+
 	if(this->_vCone.getVisible()){
 		switch(this->_facing){
 			case UP:
