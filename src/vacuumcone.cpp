@@ -13,7 +13,7 @@ VacuumCone::VacuumCone(){ // @suppress("Class members should be properly initial
 }
 
 VacuumCone::VacuumCone(Graphics &graphics):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, -1000, -1000, 1000),
+		AnimatedSprite(graphics, "assets/player.png", 0, 0, player_constants::CONE_WIDTH, player_constants::CONE_HEIGTH, -1000, -1000, 1000),
 		_facing(LEFT),
 		_dps(100){
 	this->setVisible(false);
@@ -38,8 +38,6 @@ void VacuumCone::update(float elapsedTime){
 			for(int j = i+1; j < 4; j++){
 				if((auxColision[i].x == auxColision[j].x) && (auxColision[i].y == auxColision[j].y)){
 					multipleHits = true;
-
-					std::cout << i << "  = cone eh menor q o bloco, chegar no código o tratamento de multiplos hits =  " << j << std::endl;
 				}
 			}
 			if(!multipleHits){

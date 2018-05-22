@@ -23,6 +23,12 @@ namespace player_constants {
 	const float PLAYER_START_Y = 300;
 
 	const float PROJECTILE_SPEED = 0.3f;
+
+	const int PLAYER_WIDTH = 42;
+	const int PLAYER_HEIGTH = 42;
+
+	const int CONE_WIDTH = 42;
+	const int CONE_HEIGTH = 42;
 }
 
 namespace globals{
