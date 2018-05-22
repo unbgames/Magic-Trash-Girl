@@ -120,7 +120,14 @@ void Player::stopVacuum(){
 
 void Player::update(float elapsedTime){
 
-	std::cout << "novo frame ---------" << std::endl;
+	if(this->_startJump){
+		this->_isAirborne = true;
+		this->_startJump = false;
+	}
+
+	if(this->_isAirborne){
+		this->_dy += 0.002 * elapsedTime;
+	}
 
 	/*
 	 * check de estado de airborne
@@ -143,7 +150,7 @@ void Player::update(float elapsedTime){
 	auxCheckRightColision[0] = Vector2((int)(((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 	auxCheckRightColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
 
-	if(this->_dx > 0 && ((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) && ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE)){
+	if((this->_dx > 0) && (((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE))){
 		this->_dx = 0;
 	}
 
@@ -155,29 +162,58 @@ void Player::update(float elapsedTime){
 	auxCheckLeftColision[0] = Vector2((int)(((this->_x - 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 	auxCheckLeftColision[1] = Vector2((int)((this->_x - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
 
-	if(this->_dx < 0 && ((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) && ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE)){
+	if((this->_dx < 0) && (((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE))){
 		this->_dx = 0;
 	}
 
 	/*
+	 * check de colision na vertical
+	 */
+
+	int pixelsToCheckVertical = (int)(this->_y + (this->_dy * elapsedTime)) - (int)this->_y ;
+
+	/*
 	 * check de colision para cima
 	 */
-	Vector2 auxCheckUpColision[2];
 
-	auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y - 1)/background_blocks_constants::BLOCK_HEIGTH));
-	auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y - 1)/background_blocks_constants::BLOCK_HEIGTH));
+	if(pixelsToCheckVertical < 0){
+		for(int i = -1; i >= pixelsToCheckVertical ; i--){
 
-	if(this->_dy < 0 && ((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) && ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
-		this->_dy = 0;
+			Vector2 auxCheckUpColision[2];
+
+			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
+			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
+
+			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+
+				this->_y += i + 1;
+				this->_dy = 0;
+				break;
+			}
+		}
 	}
 
-	if(this->_startJump){
-		this->_isAirborne = true;
-		this->_startJump = false;
-	}
+	/*
+	 * check de colision para baixo
+	 */
 
-	if(this->_isAirborne){
-		this->_dy += 0.002 * elapsedTime;
+	if(pixelsToCheckVertical > 0){
+		for(int i = 1; i <= pixelsToCheckVertical ; i++){
+
+			Vector2 auxCheckUpColision[2];
+
+			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
+			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
+
+			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+
+				this->_isAirborne = false;
+				this->_y += i;
+				this->_dy = 0;
+				break;
+
+			}
+		}
 	}
 
 	this->_x += this->_dx * elapsedTime;
@@ -244,22 +280,26 @@ void Player::update(float elapsedTime){
 			}
 
 			if(correctTop){ //top
+				std::cout << "top correction" << std::endl;
 				noColision = false;
 				this->_dy = 0;
 				this->_y ++;
 			}
 			if(correctBot){ //bot
+				std::cout << "bot correction" << std::endl;
 				checkAirborne = true;
 				noColision = false;
 				this->_dy = 0;
 				this->_y --;
 			}
 			if(correctLeft){ //left
+				std::cout << "left correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x ++;
 			}
 			if(correctRight){ //right
+				std::cout << "right correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x --;
