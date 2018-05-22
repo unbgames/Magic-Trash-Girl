@@ -49,31 +49,25 @@ void Player::setupAnimations(){
 }
 
 void Player::moveLeft(){
-	if(!this->_isAirborne){
 		this->_facing = LEFT;
 		this->_idleFacing = LEFT;
 		this->_dx = -player_constants::WALK_SPEED;
 		this->playAnimation("MoveLeft");
-	}
 }
 
 void Player::moveRight(){
-	if(!this->_isAirborne){
 		this->_facing = RIGHT;
 		this->_idleFacing = RIGHT;
 		this->_dx = player_constants::WALK_SPEED;
 		this->playAnimation("MoveRight");
-	}
 }
 
 void Player::stopMoving(){
-	if(!this->_isAirborne){
 		this->_dx = 0.0f;
 		if((this->_facing == UP) || (this->_facing == DOWN)){
 			this->_facing = this->_idleFacing;
 		}
 		this->playAnimation(this->_facing == RIGHT ? "IdleRight" : "IdleLeft");
-	}
 }
 
 void Player::jump(){
@@ -84,8 +78,6 @@ void Player::jump(){
 }
 
 void Player::lookUp(){
-	if(!this->_isAirborne){
-
 		this->stopMoving();
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
@@ -93,12 +85,9 @@ void Player::lookUp(){
 		}
 		this->_facing = UP;
 		this->playAnimation("LookUp");
-	}
 }
 
 void Player::lookDown(){
-	if(!this->_isAirborne){
-
 		this->stopMoving();
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
@@ -106,7 +95,6 @@ void Player::lookDown(){
 		}
 		this->_facing = DOWN;
 		this->playAnimation("LookDown");
-	}
 }
 
 void Player::bubble(){
@@ -134,6 +122,16 @@ void Player::update(float elapsedTime){
 
 	std::cout << "novo frame ---------" << std::endl;
 
+	Vector2 auxCheckAirborne[2];
+
+	auxCheckAirborne[0] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+	auxCheckAirborne[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+
+	if(((Game::getInstance().getBlockType(auxCheckAirborne[0].x, auxCheckAirborne[0].y)) == NONE) && ((Game::getInstance().getBlockType(auxCheckAirborne[1].x, auxCheckAirborne[1].y)) == NONE)){
+		this->_isAirborne = true;
+
+	}
+
 	if(this->_startJump){
 		this->_isAirborne = true;
 		this->_startJump = false;
@@ -144,11 +142,6 @@ void Player::update(float elapsedTime){
 	 */
 	if(this->_isAirborne){
 		this->_dy += 0.002 * elapsedTime;
-		if(this->_y > player_constants::PLAYER_START_Y){
-			this->_y = player_constants::PLAYER_START_Y;
-			this->_dy = 0;
-			this->_isAirborne = false;
-		}
 	}
 
 	this->_x += this->_dx * elapsedTime;
@@ -156,6 +149,7 @@ void Player::update(float elapsedTime){
 
 	bool noColision = true;
 	int framesInColision = 0;
+	bool checkAirborne = false;
 
 	do{
 		noColision = true;
@@ -173,17 +167,49 @@ void Player::update(float elapsedTime){
 		auxColision[2] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 		auxColision[3] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 
+		bool colisionArray[4] = {false,false,false,false};
 
 		for(int i = 0; i < 4; i++){
 			if((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE){
-				std::cout << "ocorreu colision no canto " << i << std::endl;
 
-				if(i == 2 || i == 3){
-					this->_isAirborne = false;
+				colisionArray[i] = true;
+
+
+				//arrumar essa detecao de colisao, fiz rapido, utilizar colisionArray
+				if(i == 0 || i == 1){ //top
+					noColision = false;
+					this->_dy = 0;
+					this->_y ++;
+				}else if(i == 2 || i == 3){ //bot
+					checkAirborne = true;
 					noColision = false;
 					this->_dy = 0;
 					this->_y --;
 				}
+				if(i == 0 || i == 2){ //left
+					noColision = false;
+					this->_dx = 0;
+					this->_x ++;
+				}else if(i == 1 || i == 3){ //right
+					noColision = false;
+					this->_dx = 0;
+					this->_x --;
+				}
+
+				//termina aqui
+			}
+
+			if(colisionArray[0]){ //top left colision
+				noColision = false;
+			}
+			if(colisionArray[1]){ //top right colision
+				noColision = false;
+			}
+			if(colisionArray[2]){ //bot left colision
+				noColision = false;
+			}
+			if(colisionArray[3]){ //bot right colision
+				noColision = false;
 			}
 		}
 
@@ -191,6 +217,9 @@ void Player::update(float elapsedTime){
 			framesInColision++;
 		}else{
 			framesInColision = 0;
+			if(checkAirborne){
+				this->_isAirborne = false;
+			}
 		}
 	}while(!noColision && framesInColision < 1000);
 

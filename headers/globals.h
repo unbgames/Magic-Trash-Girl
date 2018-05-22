@@ -27,8 +27,8 @@ namespace player_constants {
 	const int PLAYER_WIDTH = 42;
 	const int PLAYER_HEIGTH = 42;
 
-	const int CONE_WIDTH = 42;
-	const int CONE_HEIGTH = 42;
+	const int CONE_WIDTH = PLAYER_WIDTH;
+	const int CONE_HEIGTH = PLAYER_HEIGTH;
 }
 
 namespace globals{
