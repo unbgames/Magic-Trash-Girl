@@ -74,7 +74,7 @@ void BackgroundBlock::setupAnimations(){
 	this->addAnimation(1, 192, 0, "NONE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 192, 64, "BREAKABLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 128, 64, "UNBREAKABLE", 64,64, Vector2 (0,0));
-	this->addAnimation(1, 192, 0, "BUBLE", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 64, 64, "BUBLE", 64,64, Vector2 (0,0));
 }
 
 void BackgroundBlock::takeDamage(float damage){
