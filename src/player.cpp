@@ -216,7 +216,6 @@ void Player::update(float elapsedTime){
 			if((this->_dy > 0) && (((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE))){
 				foundVerticalColision = true;
 
-				this->_isAirborne = false;
 				this->_y += auxY - 1;
 			}
 			if((this->_dy < 0) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE))){
