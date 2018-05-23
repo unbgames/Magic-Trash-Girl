@@ -16,7 +16,7 @@ Player::Player(){ // @suppress("Class members should be properly initialized")
 }
 
 Player::Player(Graphics &graphics, float posX, float posY):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, player_constants::PLAYER_WIDTH, player_constants::PLAYER_HEIGTH, posX, posY, 300),
+		AnimatedSprite(graphics, "assets/Sprites_Karen.png", 0, 0, player_constants::PLAYER_WIDTH, player_constants::PLAYER_HEIGTH, posX, posY, 300),
 		_dx(0),
 		_dy(0),
 		_facing(RIGHT),
@@ -39,12 +39,12 @@ void Player::animationDone(std::string currentAnimation){
 }
 
 void Player::setupAnimations(){
-	this->addAnimation(2, 0, 0, "IdleRight", 64,64, Vector2 (0,0));
-	this->addAnimation(2, 0, 0, "IdleLeft", 64,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(2, 0, 128, "MoveRight", 64,64, Vector2 (0,0));
-	this->addAnimation(2, 0, 128, "MoveLeft", 64,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(1, 0, 256, "LookUp", 64,64, Vector2 (0,0));
-	this->addAnimation(1, 64, 256, "LookDown", 64,64, Vector2 (0,0));
+	this->addAnimation(5, 0, 0, "IdleRight", 40,64, Vector2 (0,0));
+	this->addAnimation(5, 0, 0, "IdleLeft", 40,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(5, 0, 0, "MoveRight", 40,64, Vector2 (0,0));
+	this->addAnimation(5, 0, 0, "MoveLeft", 40,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(5, 0, 0, "LookUp", 40,64, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(5, 0, 0, "LookDown", 40,64, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 
 }
 
@@ -91,7 +91,7 @@ void Player::jump(){
 }
 
 void Player::lookUp(){
-		this->stopMoving();
+		this->_dx = 0.0f;
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
 			this->_idleFacing = this->_facing;
@@ -101,7 +101,7 @@ void Player::lookUp(){
 }
 
 void Player::lookDown(){
-		this->stopMoving();
+		this->_dx = 0.0f;
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
 			this->_idleFacing = this->_facing;

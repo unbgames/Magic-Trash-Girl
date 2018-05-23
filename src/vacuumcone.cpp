@@ -13,7 +13,7 @@ VacuumCone::VacuumCone(){ // @suppress("Class members should be properly initial
 }
 
 VacuumCone::VacuumCone(Graphics &graphics):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, player_constants::CONE_WIDTH, player_constants::CONE_HEIGTH, -1000, -1000, 1000),
+		AnimatedSprite(graphics, "assets/vaccum.png", 0, 0, player_constants::CONE_WIDTH, player_constants::CONE_HEIGTH, -1000, -1000, 100),
 		_facing(LEFT),
 		_dps(100){
 	this->setVisible(false);
@@ -60,8 +60,8 @@ void VacuumCone::animationDone(std::string currentAnimation){
 }
 
 void VacuumCone::setupAnimations(){
-	this->addAnimation(1, 128, 0, "facingRight", 64,64, Vector2 (0,0));
-	this->addAnimation(1, 128, 0, "facingLeft", 64,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(1, 128, 0, "facingUp", 64,64, Vector2 (0,0), ExVariables(270, nullptr, SDL_FLIP_NONE));
-	this->addAnimation(1, 128, 0, "facingDown", 64,64, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(6, 0, 0, "facingRight", 24,24, Vector2 (0,0));
+	this->addAnimation(6, 0, 0, "facingLeft", 24,24, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(6, 0, 0, "facingUp", 24,24, Vector2 (0,0), ExVariables(270, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(6, 0, 0, "facingDown", 24,24, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 }

@@ -40,6 +40,7 @@ void AnimatedSprite::resetAnimations(){
 }
 
 void AnimatedSprite::playAnimation(std::string animation, bool once){
+
 	this->_currentAnimationOnce = once;
 	if(this->_currentAnimation != animation){
 		this->_currentAnimation = animation;
