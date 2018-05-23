@@ -55,6 +55,8 @@ void Game::gameLoop(){
 
 	while(true){
 
+		std::cout << " ======= new frame on game loop ======== " << std::endl;
+
 		if(this->_quitFlag){
 			return;
 		}

@@ -156,79 +156,192 @@ void Player::update(float elapsedTime){
 	}
 
 	/*
-	 * check de colision para a direita
-	 */
-	Vector2 auxCheckRightColision[2];
-
-	auxCheckRightColision[0] = Vector2((int)(((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
-	auxCheckRightColision[1] = Vector2((int)((this->_x + this->_w)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
-
-	if((this->_dx > 0) && (((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE))){
-		this->_dx = 0;
-	}
-
-	/*
-	 * check de colision para a esquerda
-	 */
-	Vector2 auxCheckLeftColision[2];
-
-	auxCheckLeftColision[0] = Vector2((int)(((this->_x - 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
-	auxCheckLeftColision[1] = Vector2((int)((this->_x - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
-
-	if((this->_dx < 0) && (((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE))){
-		this->_dx = 0;
-	}
-
-	/*
-	 * check de colision na vertical
+	 * check de colision
 	 */
 
 	int pixelsToCheckVertical = (int)(this->_y + (this->_dy * elapsedTime)) - (int)this->_y ;
+	int pixelsToCheckHorizontal = (int)(this->_x + (this->_dx * elapsedTime)) - (int)this->_x ;
 
-	/*
-	 * check de colision para cima
-	 */
+	Vector2 auxCheckColision[4];
 
-	if(pixelsToCheckVertical < 0){
-		for(int i = -1; i >= pixelsToCheckVertical ; i--){
-
-			Vector2 auxCheckUpColision[2];
-
-			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
-			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
-
-			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
-
-				this->_y += i + 1;
-				this->_dy = 0;
-				break;
-			}
-		}
+	float fauxX = 0;
+	int auxY = 0;
+	int auxX = 0;
+	float auxXncI = 0;
+	bool foundVerticalColision = false;
+	bool foundHorizontalColision = false;
+	if(!(pixelsToCheckHorizontal == 0)){
+		auxXncI = (float)pixelsToCheckHorizontal/(float)std::abs(pixelsToCheckVertical);
 	}
 
-	/*
-	 * check de colision para baixo
-	 */
+	if(pixelsToCheckVertical != 0 && pixelsToCheckHorizontal != 0){
+		for(int j = 1; j <= std::abs(pixelsToCheckVertical) ;j++){
 
-	if(pixelsToCheckVertical > 0){
-		for(int i = 1; i <= pixelsToCheckVertical ; i++){
+			fauxX += auxXncI;
+			auxY = (pixelsToCheckVertical > 0) ? j : j*-1;
+			auxX = (int)fauxX;
 
-			Vector2 auxCheckUpColision[2];
+			auxCheckColision[0] = Vector2((int)(((this->_x-1 + auxX)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y -1 + auxY)/background_blocks_constants::BLOCK_HEIGTH));
+			auxCheckColision[1] = Vector2((int)(((this->_x + this->_w + auxX)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y - 1 + auxY)/background_blocks_constants::BLOCK_HEIGTH));
+			auxCheckColision[2] = Vector2((int)(((this->_x-1 + auxX)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h + auxY)/background_blocks_constants::BLOCK_HEIGTH));
+			auxCheckColision[3] = Vector2((int)((this->_x + this->_w + auxX)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h + auxY)/background_blocks_constants::BLOCK_HEIGTH));
 
-			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
-			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
+			/*
+			 * 0 = top left
+			 * 1 = top right
+			 * 2 = bot left
+			 * 3 = bot right
+			 */
 
-			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+			/*
+			 * check de colision para a direita com movimento vertical;
+			 */
+
+			if((this->_dx > 0) && (((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE))){
+				foundHorizontalColision = true;
+
+
+				std::cout << "passou  check colision right com vertical" << std::endl;
+
+
+				this->_x += auxX;
+				this->_dx = 0;
+			}
+			if((this->_dx < 0) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE))){
+				foundHorizontalColision = true;
+
+				std::cout << "passou  check colision left com vertical" << std::endl;
+
+				this->_x += auxX;
+				this->_dx = 0;
+			}
+			if((this->_dy > 0) && (((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE))){
+				foundVerticalColision = true;
+
+				std::cout << "passou check colision bot  auxx = " << auxX << std::endl;
 
 				this->_isAirborne = false;
-				this->_y += i;
+				this->_y += auxY;
 				this->_dy = 0;
-				break;
+			}
+			if((this->_dy < 0) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE))){
+				foundVerticalColision = true;
 
+				std::cout << "passou check colision top auxx = " << auxX << std::endl;
+
+				this->_y += auxY;
+				this->_dy = 0;
+			}
+			if(foundHorizontalColision || foundVerticalColision){
+
+				std::cout << "position x: " << this->_x << std::endl;
+				std::cout << "position y: " << this->_y << std::endl;
+
+				std::cout << "position x int: " << (int) this->_x << std::endl;
+				std::cout << "position y int: " << (int) this->_y << std::endl;
+
+				std::cout << "velocidade x: " << this->_dx << std::endl;
+				std::cout << "velocidade y: " << this->_dy << std::endl;
+
+				break;
+			}
+		}
+
+	}else{
+		/*
+		 * check de colision para a direita
+		 */
+
+		if(pixelsToCheckHorizontal > 0){
+				for(int i = 1; i <= pixelsToCheckHorizontal ; i++){
+
+					Vector2 auxCheckRightColision[2];
+
+					auxCheckRightColision[0] = Vector2((int)(((this->_x + this->_w - 1 + i)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
+					auxCheckRightColision[1] = Vector2((int)((this->_x + this->_w - 1 + i)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
+
+					if(((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE)){
+						std::cout << "passou colision check right sem vertical" << std::endl;
+
+						this->_x += i - 1;
+						this->_dx = 0;
+						break;
+
+					}
+				}
+			}
+
+		/*
+		 * check de colision para a esquerda
+		 */
+
+		if(pixelsToCheckHorizontal < 0){
+			for(int i = -1; i >= pixelsToCheckHorizontal ; i--){
+
+				Vector2 auxCheckLeftColision[2];
+
+				auxCheckLeftColision[0] = Vector2((int)(((this->_x + i)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
+				auxCheckLeftColision[1] = Vector2((int)((this->_x + i)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
+
+				if(((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE)){
+
+					std::cout << "passou colision check left sem vertical" << std::endl;
+
+					this->_x += i + 1;
+					this->_dx = 0;
+					break;
+				}
+			}
+		}
+
+		/*
+		 * check de colision para cima
+		 */
+
+		if(pixelsToCheckVertical < 0){
+			for(int i = -1; i >= pixelsToCheckVertical ; i--){
+
+				Vector2 auxCheckUpColision[2];
+
+				auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
+				auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
+
+				if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+
+					std::cout << "passou colision check UP sem horizontal" << std::endl;
+
+					this->_y += i + 1;
+					this->_dy = 0;
+					break;
+				}
+			}
+		}
+
+		/*
+		 * check de colision para baixo
+		 */
+
+		if(pixelsToCheckVertical > 0){
+			for(int i = 1; i <= pixelsToCheckVertical ; i++){
+
+				Vector2 auxCheckUpColision[2];
+
+				auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
+				auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
+
+				if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+
+					std::cout << "passou colision check DOWN sem horizontal" << std::endl;
+
+					this->_isAirborne = false;
+					this->_y += i;
+					this->_dy = 0;
+					break;
+
+				}
 			}
 		}
 	}
-
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
@@ -272,47 +385,51 @@ void Player::update(float elapsedTime){
 			//essas correçoes não sao perfeitas, arrumar depois
 
 			if(colisionArray[0]){ //top left colision
+				//std::cout << "0 correction" << std::endl;
 				noColision = false;
 				correctTop = true;
 				correctLeft = true;
 			}
 			if(colisionArray[1]){ //top right colision
+				//std::cout << "1 correction" << std::endl;
 				noColision = false;
 				correctTop = true;
 				correctRight = true;
 			}
 			if(colisionArray[2]){ //bot left colision
+				//std::cout << "2 correction" << std::endl;
 				noColision = false;
 				correctBot = true;
 				correctLeft = true;
 			}
 			if(colisionArray[3]){ //bot right colision
+				//std::cout << "3 correction" << std::endl;
 				noColision = false;
 				correctBot = true;
 				correctRight = true;
 			}
 
 			if(correctTop){ //top
-				//std::cout << "top correction" << std::endl;
+				std::cout << "top correction" << std::endl;
 				noColision = false;
 				this->_dy = 0;
 				this->_y ++;
 			}
 			if(correctBot){ //bot
-				//std::cout << "bot correction" << std::endl;
+				std::cout << "bot correction" << std::endl;
 				checkAirborne = true;
 				noColision = false;
 				this->_dy = 0;
 				this->_y --;
 			}
 			if(correctLeft){ //left
-				//std::cout << "left correction" << std::endl;
+				std::cout << "left correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x ++;
 			}
 			if(correctRight){ //right
-				//std::cout << "right correction" << std::endl;
+				std::cout << "right correction" << std::endl;
 				noColision = false;
 				this->_dx = 0;
 				this->_x --;
