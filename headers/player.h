@@ -32,6 +32,8 @@ public:
 	void stopVacuum();
 	void bubble();
 
+	void getPosSize(float* x, float* y, float* w, float* h);
+
 
 	void animationDone(std::string currentAnimation);
 

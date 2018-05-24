@@ -18,12 +18,12 @@ namespace player_constants {
 	const float WALK_SPEED = 0.2f;
 	const float NORMAL_JUMP_SPEED = -0.7f;
 	const float BUBLE_JUMP_SPEED = -1.1f;
-	const float FALL_SPEED = 0.1f;
+	const float FALL_ACELERATION = 0.002f;
 
 	const float PLAYER_START_X = 130;
 	const float PLAYER_START_Y = 72;
 
-	const float PROJECTILE_SPEED = 0.3f;
+	const float PROJECTILE_SPEED = 0.5f;
 
 	const int PLAYER_WIDTH = 26;
 	const int PLAYER_HEIGTH = 42;
@@ -46,7 +46,7 @@ namespace background_blocks_constants {
 	const int BLOCK_HEIGTH = 64;
 
 	const int NUMBER_BLOCKS_LINE = 20; //globals::SCREEN_WIDTH / BLOCK_WIDTH;
-	const int NUMBER_BLOCKS_COLUMN = 8 ;//globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
+	const int NUMBER_BLOCKS_COLUMN = 20 ;//globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
 }
 
 enum Direction{

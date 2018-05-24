@@ -200,6 +200,32 @@ BlockType Game::getBlockType(int indexX, int indexY){
 }
 
 void Game::setBlockType(int indexX, int indexY, BlockType type){
+
+	Vector2 auxColision[4];
+
+	float auxX, auxY, auxW, auxH;
+
+	this->_player.getPosSize(&auxX, &auxY, &auxW, &auxH);
+
+	/*
+	 * 0 = top left
+	 * 1 = top right
+	 * 2 = bot left
+	 * 3 = bot right
+	 */
+
+	auxColision[0] = Vector2((int)(((auxX + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((auxY + 1)/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[1] = Vector2((int)(((auxX + auxW - 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((auxY + 1)/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[2] = Vector2((int)(((auxX + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((auxY + auxH - 1)/background_blocks_constants::BLOCK_HEIGTH));
+	auxColision[3] = Vector2((int)((auxX + auxW - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((auxY + auxH - 1)/background_blocks_constants::BLOCK_HEIGTH));
+
+	for(int i = 0; i < 4; i++){
+		if(auxColision[i].x == indexX && auxColision[i].y == indexY){
+			std::cout << "tentativa de modificar o bloco onde o player esta" << std::endl;
+			return;
+		}
+	}
+
 	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
 		this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].setType(type);
 	}

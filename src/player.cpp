@@ -139,7 +139,7 @@ void Player::update(float elapsedTime){
 	}
 
 	if(this->_isAirborne){
-		this->_dy += 0.002 * elapsedTime;
+		this->_dy += player_constants::FALL_ACELERATION * elapsedTime;
 	}
 
 	/*
@@ -468,4 +468,11 @@ void Player::setTimeForFrames(double newTime){
 }
 double Player::getTimeForFrames(){
 	return this->_timeToUpdate;
+}
+
+void Player::getPosSize(float* x, float* y, float* w, float* h){
+	*x = this->_x;
+	*y = this->_y;
+	*w = this->_w;
+	*h = this->_h;
 }
