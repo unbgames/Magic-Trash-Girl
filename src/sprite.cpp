@@ -29,9 +29,10 @@ Sprite::Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int
 	this->_sourceRect.w = widht;
 	this->_sourceRect.h = height;
 
-	this->_spriteSheet = SDL_CreateTextureFromSurface(graphics.getRenderer(), graphics.loadImage(filePath));
+	this->_spriteSheet = this->_graphicsAssociated->loadTexture(filePath);
+
 	if(this->_spriteSheet == NULL){
-		std::cout<<"\nError: Nao conseguiu carregar imagem";
+		std::cout<<"\nError: Nao conseguiu carregar imagem :: " <<  SDL_GetError();
 	}
 }
 

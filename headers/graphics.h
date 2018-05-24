@@ -33,6 +33,8 @@ public:
 
 	SDL_Surface* loadImage(const std::string &filepath);
 
+	SDL_Texture* loadTexture(const std::string &filePath);
+
 	void blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_Rect* destinationRectangle, double angle = 0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void flip();
@@ -48,7 +50,9 @@ private:
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
 
-	std::map<std::string, SDL_Surface*> _spriteSheets;
+	std::map<std::string, SDL_Surface*> _spriteSheetsSurfaces;
+	std::map<std::string, SDL_Texture*> _spriteSheetsTextures;
+
 };
 
 

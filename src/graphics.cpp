@@ -28,10 +28,17 @@ Graphics::~Graphics(){
  *  	somente a surface é guardada, fica a cargo da classe sprite criar as textures
  */
 SDL_Surface* Graphics::loadImage(const std::string &filePath){
-	if(this->_spriteSheets.count(filePath) == 0){
-		this->_spriteSheets[filePath] = IMG_Load(filePath.c_str());
+	if(this->_spriteSheetsSurfaces.count(filePath) == 0){
+		this->_spriteSheetsSurfaces[filePath] = IMG_Load(filePath.c_str());
 	}
-	return this->_spriteSheets[filePath];
+	return this->_spriteSheetsSurfaces[filePath];
+}
+
+SDL_Texture* Graphics::loadTexture(const std::string &filePath){
+	if(this->_spriteSheetsTextures.count(filePath) == 0){
+		this->_spriteSheetsTextures[filePath] = SDL_CreateTextureFromSurface(this->getRenderer(), this->loadImage(filePath));
+	}
+	return this->_spriteSheetsTextures[filePath];
 }
 
 /*

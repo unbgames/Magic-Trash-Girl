@@ -57,7 +57,7 @@ void Game::gameLoop(){
 
 	while(true){
 
-		std::cout << " ======= new frame on game loop ======== " << std::endl;
+		//std::cout << " ======= new frame on game loop ======== " << std::endl;
 
 		if(this->_quitFlag){
 			return;
@@ -177,7 +177,7 @@ void Game::setupBackgroundBlocks(Graphics &graphics){
 
 	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
 		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
-			std::cout << i << " <- i ::" << j << " <- j " << std::endl;
+			//std::cout << i << " <- i ::" << j << " <- j " << std::endl;
 
 			SDL_Event PingStop;
 			while (SDL_PollEvent(&PingStop)) {}
