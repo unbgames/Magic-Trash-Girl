@@ -57,19 +57,9 @@ void Game::gameLoop(){
 
 	while(true){
 
-		std::cout << " ======= new frame on game loop ======== " << std::endl;
+	//	std::cout << " ======= new frame on game loop ======== " << std::endl;
 
 		graphics.updateDisplayInfo();
-
-		std::cout << graphics.displayInfo.refresh_rate << std::endl;
-
-		std::cout << graphics.displayInfo.h << std::endl;
-
-		std::cout << graphics.displayInfo.w << std::endl;
-
-		std::cout << graphics.windowWidth << std::endl;
-
-		std::cout << graphics.windowHeight << std::endl;
 
 		if(this->_quitFlag){
 			return;
@@ -125,6 +115,10 @@ void Game::gameLoop(){
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_R)){
 			this->redoBackgroundBlocksVector();
+		}
+
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_F)){
+			graphics.toggleFullscreen();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();

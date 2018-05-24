@@ -14,7 +14,8 @@
 Graphics::Graphics():
 	camera(*this),
 	windowWidth(0),
-	windowHeight(0){
+	windowHeight(0),
+	_fullscreenState(false){
 
 	SDL_CreateWindowAndRenderer(globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, SDL_WINDOW_RESIZABLE, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
@@ -85,3 +86,15 @@ void Graphics::updateDisplayInfo(){
 
 	SDL_GetWindowSize(this->_window, &this->windowWidth, &this->windowHeight);
 }
+
+void Graphics::toggleFullscreen(){
+	if(this->_fullscreenState){
+		SDL_SetWindowFullscreen(this->_window, 0);
+		this->_fullscreenState = false;
+	}else{
+		SDL_SetWindowFullscreen(this->_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		this->_fullscreenState = true;
+	}
+
+}
+

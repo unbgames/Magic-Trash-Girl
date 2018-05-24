@@ -43,6 +43,8 @@ public:
 
 	void updateDisplayInfo();
 
+	void toggleFullscreen();
+
 	SDL_Renderer* getRenderer() const;
 
 	Camera camera;
@@ -58,6 +60,8 @@ private:
 
 	std::map<std::string, SDL_Surface*> _spriteSheetsSurfaces;
 	std::map<std::string, SDL_Texture*> _spriteSheetsTextures;
+
+	bool _fullscreenState;
 
 };
 
