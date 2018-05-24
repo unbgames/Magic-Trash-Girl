@@ -93,7 +93,7 @@ void Game::gameLoop(){
 			this->_player.stopMoving();
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_SPACE)){
+		if(this->_input.isKeyHeld(SDL_SCANCODE_SPACE)){
 			this->_player.jump();
 		}
 
