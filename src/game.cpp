@@ -23,7 +23,9 @@ Game* Game::_instance = nullptr;
 
 Game::Game():
 	_input(),
-	_quitFlag(false){
+	_quitFlag(false),
+	_backgroundSectorHandler(),
+	_graphicsAssociated(nullptr){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	this->gameLoop();
@@ -45,7 +47,9 @@ void Game::gameLoop(){
 
 	Graphics graphics = Graphics();
 
-	this->setupBackgroundBlocks(graphics);
+	this->_graphicsAssociated = &graphics;
+
+	this->setupBackgroundBlocks(graphics, background_blocks_constants::NUMBER_BLOCKS_COLUMN, background_blocks_constants::NUMBER_BLOCKS_LINE);
 
 	SDL_Event event;
 
@@ -53,7 +57,7 @@ void Game::gameLoop(){
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
-	this->redoBackgroundBlocksVector();
+	this->createNewPseudoRandomBlocksVector();
 
 	while(true){
 
@@ -114,7 +118,7 @@ void Game::gameLoop(){
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_R)){
-			this->redoBackgroundBlocksVector();
+			this->createNewPseudoRandomBlocksVector();
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_F)){
@@ -179,16 +183,18 @@ void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
 
 }
 
-void Game::setupBackgroundBlocks(Graphics &graphics){
+void Game::setupBackgroundBlocks(Graphics &graphics, int columns, int lines){
 
-	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
-		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
+	this->_backgroundBlocks.clear();
+
+	for(int j = 0; j < columns; j++){
+		for(int i = 0; i < lines; i++){
 			//std::cout << i << " <- i ::" << j << " <- j " << std::endl;
 
 			SDL_Event PingStop;
 			while (SDL_PollEvent(&PingStop)) {}
 
-			this->_backgroundBlocks.reserve(background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::NUMBER_BLOCKS_LINE);
+			this->_backgroundBlocks.reserve(columns * lines);
 
 			this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, NONE));
 		}
@@ -209,7 +215,32 @@ void Game::redoBackgroundBlocksVector(){
 			}
 		}
 	}
+}
 
+void Game::createNewPseudoRandomBlocksVector(){
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, 34, 34);
+
+	for(int j = 0; j < 34; j++){
+		for(int i = 0; i < 34; i++){
+			if((i == 0) || (j==0) || (i == 34-1) || (j == 34-1)){
+				this->setBlockType(i,j,UNBREAKABLE);
+			}
+		}
+	}
+
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 4; j++){
+
+			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomSector();
+
+			for(int ix = 0; ix < 8; ix++){
+				for(int jx = 0; jx < 8; jx++){
+					this->setBlockType(1 + (i*8) + ix, 1 + (j*8) + jx,auxsector[(jx*8) + ix]);
+				}
+			}
+		}
+	}
 }
 
 void Game::damageBlock(int indexX, int indexY, float damage){

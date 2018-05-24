@@ -14,6 +14,7 @@
 #include "player.h"
 #include <memory>
 #include "backgroundblock.h"
+#include "BackgroundSectorHandler.h"
 
 class Graphics;
 
@@ -28,7 +29,7 @@ public:
 
 	void addNewSpriteToDraw(AnimatedSprite* sprite);
 
-	void setupBackgroundBlocks(Graphics &graphics);
+	void setupBackgroundBlocks(Graphics &graphics, int columns, int lines);
 
 	void damageBlock(int indexX, int indexY, float damage);
 
@@ -39,6 +40,8 @@ public:
 	void requestQuit();
 
 	void redoBackgroundBlocksVector();
+
+	void createNewPseudoRandomBlocksVector();
 
 private:
 
@@ -59,6 +62,10 @@ private:
 	std::vector<BackgroundBlock> _backgroundBlocks;
 
 	bool _quitFlag;
+
+	BackgroundSectorHandler _backgroundSectorHandler;
+
+	Graphics* _graphicsAssociated;
 
 };
 
