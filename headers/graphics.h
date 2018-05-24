@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include "camera.h"
 
 
 struct SDL_Window;
@@ -39,6 +40,8 @@ public:
 	void clear();
 
 	SDL_Renderer* getRenderer() const;
+
+	Camera camera;
 
 private:
 

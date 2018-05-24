@@ -11,7 +11,8 @@
 #include "graphics.h"
 #include "globals.h"
 
-Graphics::Graphics(){
+Graphics::Graphics():
+	camera(){
 
 	SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGTH, 0, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
@@ -37,7 +38,13 @@ SDL_Surface* Graphics::loadImage(const std::string &filePath){
  *  \brief chama SDL_RenderCopyEx com o unico render do jogo, os ultimos 3 parametros são opcionais, caso não dados a função comporta-se como SDL_RenderCopy
  */
 void Graphics::blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_Rect* destinationRectangle, double angle, SDL_Point* center, SDL_RendererFlip flip){
-	SDL_RenderCopyEx(this->_renderer, texture, sourceRectangle, destinationRectangle, angle, center, flip);
+
+	SDL_Rect aux = *destinationRectangle;
+
+	aux.x -= this->camera.getx() - (globals::SCREEN_WIDTH)/2;
+	aux.y -= this->camera.gety()	 - (globals::SCREEN_HEIGTH)/2;
+
+	SDL_RenderCopyEx(this->_renderer, texture, sourceRectangle, &aux, angle, center, flip);
 }
 
 /*

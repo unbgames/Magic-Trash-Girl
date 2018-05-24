@@ -448,6 +448,13 @@ void Player::update(float elapsedTime){
 		this->_vCone.update(elapsedTime);
 	}
 
+	/*
+	 * update da camera
+	 */
+
+	this->_graphicsAssociated->camera.setx(this->_x);
+	this->_graphicsAssociated->camera.sety(this->_y);
+
 	AnimatedSprite::update(elapsedTime);
 }
 

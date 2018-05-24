@@ -169,9 +169,9 @@ void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
 
 void Game::setupBackgroundBlocks(Graphics &graphics){
 
-	for(int j = 0; j < 9; j++){
-		for(int i = 0; i < 16; i++){
-			if((i == 0) || (j==0) || (i == 15) || (j == 8)){
+	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
+		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
+			if((i == 0) || (j==0) || (i == background_blocks_constants::NUMBER_BLOCKS_LINE-1) || (j == background_blocks_constants::NUMBER_BLOCKS_COLUMN-1)){
 				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, UNBREAKABLE));
 			}else if((i+j)%2 == 0){
 				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, BREAKABLE));
@@ -185,15 +185,15 @@ void Game::setupBackgroundBlocks(Graphics &graphics){
 void Game::damageBlock(int indexX, int indexY, float damage){
 
 	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		if((this->_backgroundBlocks[indexX + (indexY*16)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*16)].getType() == BUBLE)){
-			this->_backgroundBlocks[indexX + (indexY*16)].takeDamage(damage);
+		if((this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType() == BUBLE)){
+			this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].takeDamage(damage);
 		}
 	}
 }
 
 BlockType Game::getBlockType(int indexX, int indexY){
 	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		return this->_backgroundBlocks[indexX + (indexY*16)].getType();
+		return this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType();
 	}else{
 		return NONE;
 	}
@@ -201,7 +201,7 @@ BlockType Game::getBlockType(int indexX, int indexY){
 
 void Game::setBlockType(int indexX, int indexY, BlockType type){
 	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		this->_backgroundBlocks[indexX + (indexY*16)].setType(type);
+		this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].setType(type);
 	}
 }
 

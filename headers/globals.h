@@ -15,13 +15,13 @@
 #include <SDL2/SDL_image.h>
 
 namespace player_constants {
-	const float WALK_SPEED = 0.1f;
+	const float WALK_SPEED = 0.2f;
 	const float NORMAL_JUMP_SPEED = -0.7f;
 	const float BUBLE_JUMP_SPEED = -1.1f;
 	const float FALL_SPEED = 0.1f;
 
 	const float PLAYER_START_X = 130;
-	const float PLAYER_START_Y = 320;
+	const float PLAYER_START_Y = 72;
 
 	const float PROJECTILE_SPEED = 0.3f;
 
@@ -45,8 +45,8 @@ namespace background_blocks_constants {
 	const int BLOCK_WIDTH = 64;
 	const int BLOCK_HEIGTH = 64;
 
-	const int NUMBER_BLOCKS_LINE = globals::SCREEN_WIDTH / BLOCK_WIDTH;
-	const int NUMBER_BLOCKS_COLUMN = globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
+	const int NUMBER_BLOCKS_LINE = 8; //globals::SCREEN_WIDTH / BLOCK_WIDTH;
+	const int NUMBER_BLOCKS_COLUMN = 8 ;//globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
 }
 
 enum Direction{
