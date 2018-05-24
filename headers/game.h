@@ -38,6 +38,8 @@ public:
 
 	void requestQuit();
 
+	void redoBackgroundBlocksVector();
+
 private:
 
 	static Game* _instance;

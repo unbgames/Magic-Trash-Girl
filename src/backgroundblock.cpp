@@ -11,7 +11,7 @@
 
 
 BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, BlockType typeIn):
-			AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, indexX*64, indexY*64, 300),
+			AnimatedSprite(graphics, "assets/player.png", 0, 0, 64, 64, indexX*background_blocks_constants::BLOCK_WIDTH, indexY*background_blocks_constants::BLOCK_HEIGTH, 300),
 			_hp(100),
 			_type(typeIn)
 			{

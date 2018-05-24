@@ -45,17 +45,19 @@ void Game::gameLoop(){
 
 	Graphics graphics = Graphics();
 
+	this->setupBackgroundBlocks(graphics);
+
 	SDL_Event event;
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
-	this->setupBackgroundBlocks(graphics);
+	this->redoBackgroundBlocksVector();
 
 	while(true){
 
-//		std::cout << " ======= new frame on game loop ======== " << std::endl;
+		std::cout << " ======= new frame on game loop ======== " << std::endl;
 
 		if(this->_quitFlag){
 			return;
@@ -107,6 +109,10 @@ void Game::gameLoop(){
 
 		if(this->_input.wasKeyReleased(SDL_SCANCODE_X)){
 			this->_player.stopVacuum();
+		}
+
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_R)){
+			this->redoBackgroundBlocksVector();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
@@ -171,15 +177,33 @@ void Game::setupBackgroundBlocks(Graphics &graphics){
 
 	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
 		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
+			std::cout << i << " <- i ::" << j << " <- j " << std::endl;
+
+			SDL_Event PingStop;
+			while (SDL_PollEvent(&PingStop)) {}
+
+			this->_backgroundBlocks.reserve(background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::NUMBER_BLOCKS_LINE);
+
+			this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, NONE));
+		}
+	}
+
+}
+
+void Game::redoBackgroundBlocksVector(){
+
+	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
+		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
 			if((i == 0) || (j==0) || (i == background_blocks_constants::NUMBER_BLOCKS_LINE-1) || (j == background_blocks_constants::NUMBER_BLOCKS_COLUMN-1)){
-				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, UNBREAKABLE));
+				this->setBlockType(i,j,UNBREAKABLE);
 			}else if((i+j)%2 == 0){
-				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, BREAKABLE));
+				this->setBlockType(i,j,BREAKABLE);
 			}else{
-				this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, NONE));
+				this->setBlockType(i,j,NONE);
 			}
 		}
 	}
+
 }
 
 void Game::damageBlock(int indexX, int indexY, float damage){
