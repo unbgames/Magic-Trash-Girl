@@ -7,24 +7,25 @@
 
 #include "camera.h"
 #include "globals.h"
+#include "graphics.h"
 
-Camera::Camera():
+Camera::Camera(Graphics &graphics):
 	_x(((background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH))/2),
-	_y((background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH)/2){
-
+	_y((background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH)/2),
+	_graphicsAssociated(&graphics){
 }
 
 
 void Camera::setx(int x){
 
-	if((background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) <= globals::SCREEN_WIDTH){
+	if((background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) <= this->_graphicsAssociated->windowWidth){
 		return;
 	}
 
-	if(x < globals::SCREEN_WIDTH/2){
-		this->_x = globals::SCREEN_WIDTH/2;
-	}else if(x > (background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) - globals::SCREEN_WIDTH/2){
-		this->_x = (background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) - globals::SCREEN_WIDTH/2;
+	if(x < this->_graphicsAssociated->windowWidth/2){
+		this->_x = this->_graphicsAssociated->windowWidth/2;
+	}else if(x > (background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth/2){
+		this->_x = (background_blocks_constants::NUMBER_BLOCKS_LINE * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth/2;
 	}else{
 		this->_x = x;
 	}
@@ -33,14 +34,14 @@ void Camera::setx(int x){
 }
 void Camera::sety(int y){
 
-	if((background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) <= globals::SCREEN_HEIGTH){
+	if((background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) <= this->_graphicsAssociated->windowHeight){
 		return;
 	}
 
-	if( y < globals::SCREEN_HEIGTH/2){
-		this->_y = globals::SCREEN_HEIGTH/2;
-	}else if(y > (background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) - globals::SCREEN_HEIGTH/2){
-		this->_y = (background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) - globals::SCREEN_HEIGTH/2;
+	if( y < this->_graphicsAssociated->windowHeight/2){
+		this->_y = this->_graphicsAssociated->windowHeight/2;
+	}else if(y > (background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight/2){
+		this->_y = (background_blocks_constants::NUMBER_BLOCKS_COLUMN * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight/2;
 	}else{
 		this->_y = y;
 	}

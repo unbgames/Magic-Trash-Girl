@@ -41,9 +41,15 @@ public:
 
 	void clear();
 
+	void updateDisplayInfo();
+
 	SDL_Renderer* getRenderer() const;
 
 	Camera camera;
+
+	SDL_DisplayMode displayInfo;
+
+	int windowWidth, windowHeight;
 
 private:
 

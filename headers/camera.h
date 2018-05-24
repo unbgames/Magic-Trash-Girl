@@ -5,10 +5,15 @@
  *      Author: TMK
  */
 
+#ifndef SOURCE_HEADERS_CAMERA_H_
+#define SOURCE_HEADERS_CAMERA_H_
+
+class Graphics;
+
 class Camera{
 public:
 
-	Camera();
+	Camera(Graphics &graphics);
 
 	void setx(int x);
 	void sety(int y);
@@ -19,6 +24,9 @@ public:
 private:
 
 	int _x, _y;
+
+	Graphics* _graphicsAssociated;
 };
 
+#endif /* SOURCE_HEADERS_CAMERA_H_ */
 

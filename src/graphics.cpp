@@ -12,9 +12,11 @@
 #include "globals.h"
 
 Graphics::Graphics():
-	camera(){
+	camera(*this),
+	windowWidth(0),
+	windowHeight(0){
 
-	SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGTH, 0, &this->_window, &this->_renderer);
+	SDL_CreateWindowAndRenderer(globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, SDL_WINDOW_RESIZABLE, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
 }
 
@@ -48,8 +50,8 @@ void Graphics::blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_
 
 	SDL_Rect aux = *destinationRectangle;
 
-	aux.x -= this->camera.getx() - (globals::SCREEN_WIDTH)/2;
-	aux.y -= this->camera.gety()	 - (globals::SCREEN_HEIGTH)/2;
+	aux.x -= this->camera.getx() - (this->windowWidth)/2;
+	aux.y -= this->camera.gety()	 - (this->windowHeight)/2;
 
 	SDL_RenderCopyEx(this->_renderer, texture, sourceRectangle, &aux, angle, center, flip);
 }
@@ -70,4 +72,16 @@ void Graphics::clear(){
 
 SDL_Renderer* Graphics::getRenderer() const{
 	return this->_renderer;
+}
+
+void Graphics::updateDisplayInfo(){
+
+	int auxDisplayIndex = SDL_GetWindowDisplayIndex(this->_window);
+	if(auxDisplayIndex < 0){
+		std::cout << "error em Graphics::updateDisplayInfo :: error message : " << SDL_GetError() << std::endl;
+	}else{
+		SDL_GetCurrentDisplayMode(auxDisplayIndex, &this->displayInfo);
+	}
+
+	SDL_GetWindowSize(this->_window, &this->windowWidth, &this->windowHeight);
 }
