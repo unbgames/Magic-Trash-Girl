@@ -236,7 +236,7 @@ void Game::createNewPseudoRandomBlocksVector(){
 
 			for(int ix = 0; ix < 8; ix++){
 				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (i*8) + ix, 1 + (j*8) + jx,auxsector[(jx*8) + ix]);
+					this->setBlockType(1 + (i*8) + ix , 1 + (j*8) + jx, auxsector[(jx*8) + ix]);
 				}
 			}
 		}

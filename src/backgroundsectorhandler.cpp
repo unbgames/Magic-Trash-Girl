@@ -6,13 +6,17 @@
  */
 
 #include "BackgroundSectorHandler.h"
+#include <ctime>
 
 BackgroundSectorHandler::BackgroundSectorHandler(){
+
+	srand(time(NULL));
+
 	std::vector<BlockType> aux;
 
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j ++){
-			if(i == 0 || i == 7 || j == 0 || j == 8){
+			if(i == 0 || i == 7 || j == 0 || j == 7){
 				aux.push_back(BREAKABLE);
 			}else{
 				aux.push_back(NONE);
@@ -21,11 +25,40 @@ BackgroundSectorHandler::BackgroundSectorHandler(){
 	}
 
 	this->_sectorLibrary.push_back(aux);
+
+	aux.clear();
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j ++){
+			if(i == 0 || i == 7 || j == 0 || j == 7){
+				aux.push_back(NONE);
+			}else{
+				aux.push_back(BREAKABLE);
+			}
+		}
+	}
+
+	this->_sectorLibrary.push_back(aux);
+
+	aux.clear();
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j ++){
+			if(i == 0 || i == 7 || j == 0 || j == 7){
+				aux.push_back(BREAKABLE);
+			}else{
+				aux.push_back(UNBREAKABLE);
+			}
+		}
+	}
+
+	this->_sectorLibrary.push_back(aux);
+
 }
 
 std::vector<BlockType> BackgroundSectorHandler::getRandomSector(){
-	/*
-	 * joguei uma moeda, cara era 0, coroa era 1, deu cara, função devidamente randomica
-	 */
-	return this->_sectorLibrary[0];
+
+	int randomIndex = rand() % this->_sectorLibrary.size();
+
+	return this->_sectorLibrary[randomIndex];
 }
