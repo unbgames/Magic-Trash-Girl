@@ -452,8 +452,8 @@ void Player::update(float elapsedTime){
 	 * update da camera
 	 */
 
-	this->_graphicsAssociated->camera.setx(this->_x);
-	this->_graphicsAssociated->camera.sety(this->_y);
+	this->_graphicsAssociated->camera.setx(this->_x + this->_w/2);
+	this->_graphicsAssociated->camera.sety(this->_y + this->_h/2);
 
 	AnimatedSprite::update(elapsedTime);
 }
