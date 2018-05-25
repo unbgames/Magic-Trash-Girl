@@ -11,16 +11,75 @@
 #include "globals.h"
 #include <vector>
 
+/*
+ * inicio da declaração de SectorFlags
+ *
+ *	um enum simples eh mais facil, mas queria fazer pelo menos 1 vez na minha vida como as boas práticas mandam
+ *
+ * vide C++ standart 17.5.2.1.3 Bitmask types
+ */
+enum SectorFlags: unsigned int{
+
+	W_TOP_BOT_VALUE = 1 << 0, 			// permite passagem entre top e bot
+	W_TOP_LEFT_VALUE = 1 << 1,			// permite passagem entre top e left
+	W_TOP_RIGHT_VALUE = 1 << 2,			// permite passagem entre top e right
+	W_BOT_LEFT_VALUE = 1 << 3,			// permite passagem entre bot e left
+	w_BOT_RIGHT_VALUE = 1 << 4, 		// permite passagem entre bot e right
+	w_LEFT_RIGHT_VALUE = 1 << 5,		// permite passagem entre left e right
+
+};
+
+
+// permite passagem entre top e bot
+constexpr SectorFlags W_TOP_BOT(W_TOP_BOT_VALUE);
+
+// permite passagem entre top e left
+constexpr SectorFlags W_TOP_LEFT(W_TOP_LEFT_VALUE);
+
+// permite passagem entre top e right
+constexpr SectorFlags W_TOP_RIGHT(W_TOP_RIGHT_VALUE);
+
+// permite passagem entre bot e left
+constexpr SectorFlags W_BOT_LEFT(W_BOT_LEFT_VALUE);
+
+// permite passagem entre bot e roght
+constexpr SectorFlags W_BOT_RIGHT(w_BOT_RIGHT_VALUE);
+
+// permite passagem entre left e right
+constexpr SectorFlags W_LEFT_RIGHT(w_LEFT_RIGHT_VALUE);
+
+/*
+ * termino da declaração de SectorFlags
+ */
+
+struct BlockSector{
+
+	std::vector<BlockType> sectorInfo;
+	unsigned int sectorFlags;
+
+	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags):
+		sectorInfo(sectorInfo), sectorFlags(sectorFlags)
+	{}
+};
+
 class BackgroundSectorLibraryHandler{
 public:
 
 	BackgroundSectorLibraryHandler();
 
-	std::vector<BlockType> getRandomSector();
+	std::vector<BlockType> getRandomFillerSector(unsigned int flags = 0);
+
+	std::vector<BlockType> getRandomStarteSector(unsigned int flags = 0);
+
+	std::vector<BlockType> getRandomFinishSector(unsigned int flags = 0);
 
 private:
 
-	std::vector<std::vector<BlockType>> _sectorLibrary;
+	std::vector<BlockSector> _fillerSectorLibrary;
+
+	std::vector<BlockSector> _startSectorLibrary;
+
+	std::vector<BlockSector> _finishSectorLibrary;
 
 };
 

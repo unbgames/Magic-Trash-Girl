@@ -11,6 +11,7 @@
 #include "graphics.h"
 #include <iostream>
 #include "animatedsprite.h"
+#include <backgroundsectorlibraryhandler.h>
 #include <ctime>
 
 namespace {
@@ -211,6 +212,36 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
 
+	int auxX = (sectorsByLine*8) + 2;
+	int auxY = (sectorsByColumn*8) + 2;
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,UNBREAKABLE);
+			}
+		}
+	}
+
+	for(int i = 0; i < sectorsByLine; i++){
+		for(int j = 0; j < sectorsByColumn; j++){
+
+			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector();
+
+			for(int ix = 0; ix < 8; ix++){
+				for(int jx = 0; jx < 8; jx++){
+					this->setBlockType(1 + (i*8) + ix , 1 + (j*8) + jx, auxsector[(jx*8) + ix]);
+				}
+			}
+		}
+	}
+
+	/*
+	 * 	inicio da criação do caminho obrigatorio; falta setar as flags conforme vai criando
+	 */
+
 	std::vector<Vector2> sectorWay;
 	bool wayFound = false;
 	Direction lastMove = DOWN;
@@ -292,31 +323,9 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 		}
 	}
 
-	int auxX = (sectorsByLine*8) + 2;
-	int auxY = (sectorsByColumn*8) + 2;
-
-	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
-
-	for(int j = 0; j < auxY; j++){
-		for(int i = 0; i < auxX; i++){
-			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
-				this->setBlockType(i,j,UNBREAKABLE);
-			}
-		}
-	}
-
-	for(int i = 0; i < sectorsByLine; i++){
-		for(int j = 0; j < sectorsByColumn; j++){
-
-			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomSector();
-
-			for(int ix = 0; ix < 8; ix++){
-				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (i*8) + ix , 1 + (j*8) + jx, auxsector[(jx*8) + ix]);
-				}
-			}
-		}
-	}
+	/*
+	 * 	termino da criação do caminho obrigatorio;
+	 */
 }
 
 void Game::damageBlock(int indexX, int indexY, float damage){

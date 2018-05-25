@@ -140,6 +140,7 @@ void Player::update(float elapsedTime){
 
 	if(this->_isAirborne){
 		this->_dy += player_constants::FALL_ACELERATION * elapsedTime;
+		this->_dy = std::min(this->_dy , player_constants::MAX_FALL_SPEED);
 	}
 
 	/*
