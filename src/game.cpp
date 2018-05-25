@@ -11,6 +11,7 @@
 #include "graphics.h"
 #include <iostream>
 #include "animatedsprite.h"
+#include <ctime>
 
 namespace {
 	const int MINFPS = 33;
@@ -30,6 +31,7 @@ Game::Game():
 	_graphicsAssociated(nullptr){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
+	srand(time(NULL));
 	this->gameLoop();
 }
 
@@ -208,6 +210,87 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 }
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
+
+	std::vector<Vector2> sectorWay;
+	bool wayFound = false;
+	Direction lastMove = DOWN;
+
+	sectorWay.push_back(Vector2(rand() % sectorsByLine, 0));
+
+	int aux;
+
+	while(!wayFound){
+		switch(lastMove){
+			case DOWN:
+
+				aux = rand() % 3;
+
+				if(aux == 2){ //left
+					if(sectorWay.back().x == 0){
+						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					}else{
+						sectorWay.push_back(Vector2(sectorWay.back().x - 1,sectorWay.back().y));
+						lastMove = LEFT;
+					}
+				}else if(aux == 1){ //right
+					if(sectorWay.back().x == (sectorsByLine - 1)){
+						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					}else{
+						sectorWay.push_back(Vector2(sectorWay.back().x + 1,sectorWay.back().y));
+						lastMove = RIGHT;
+					}
+				}else{ //down
+					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+				}
+
+			break;
+			case LEFT:
+
+				aux = rand() % 2;
+
+				if(aux == 1){ //left
+					if(sectorWay.back().x == 0){
+						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						lastMove = DOWN;
+					}else{
+						sectorWay.push_back(Vector2(sectorWay.back().x - 1,sectorWay.back().y));
+					}
+				}else{ //down
+					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					lastMove = DOWN;
+				}
+
+			break;
+			case RIGHT:
+
+				aux = rand() % 2;
+
+				if(aux == 1){ //right
+					if(sectorWay.back().x == (sectorsByLine - 1)){
+						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						lastMove = DOWN;
+					}else{
+						sectorWay.push_back(Vector2(sectorWay.back().x + 1,sectorWay.back().y));
+					}
+				}else{ //down
+					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					lastMove = DOWN;
+				}
+
+
+			break;
+			case UP:
+				std::cout << "error: createNewPseudoRandomBlocksVector criou caminho impossivel" << std::endl;
+				wayFound = true;
+				this->requestQuit();
+			break;
+		}
+
+		if(sectorWay.back().y == sectorsByColumn){
+			wayFound = true;
+			sectorWay.pop_back();
+		}
+	}
 
 	int auxX = (sectorsByLine*8) + 2;
 	int auxY = (sectorsByColumn*8) + 2;

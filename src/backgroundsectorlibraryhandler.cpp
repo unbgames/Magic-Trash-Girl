@@ -6,11 +6,8 @@
  */
 
 #include <backgroundsectorlibraryhandler.h>
-#include <ctime>
 
 BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
-
-	srand(time(NULL));
 
 	std::vector<BlockType> aux;
 
