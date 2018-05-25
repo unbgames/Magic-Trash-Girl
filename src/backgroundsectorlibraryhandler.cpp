@@ -5,10 +5,10 @@
  *      Author: TMK
  */
 
-#include "BackgroundSectorHandler.h"
+#include <backgroundsectorlibraryhandler.h>
 #include <ctime>
 
-BackgroundSectorHandler::BackgroundSectorHandler(){
+BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	srand(time(NULL));
 
@@ -56,7 +56,7 @@ BackgroundSectorHandler::BackgroundSectorHandler(){
 
 }
 
-std::vector<BlockType> BackgroundSectorHandler::getRandomSector(){
+std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomSector(){
 
 	int randomIndex = rand() % this->_sectorLibrary.size();
 

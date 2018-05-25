@@ -5,16 +5,16 @@
  *      Author: TMK
  */
 
-#ifndef SOURCE_HEADERS_BACKGROUNDSECTORHANDLER_H_
-#define SOURCE_HEADERS_BACKGROUNDSECTORHANDLER_H_
+#ifndef SOURCE_HEADERS_BACKGROUNDSECTORLIBRARYHANDLER_H_
+#define SOURCE_HEADERS_BACKGROUNDSECTORLIBRARYHANDLER_H_
 
 #include "globals.h"
 #include <vector>
 
-class BackgroundSectorHandler{
+class BackgroundSectorLibraryHandler{
 public:
 
-	BackgroundSectorHandler();
+	BackgroundSectorLibraryHandler();
 
 	std::vector<BlockType> getRandomSector();
 
@@ -26,4 +26,4 @@ private:
 
 
 
-#endif /* SOURCE_HEADERS_BACKGROUNDSECTORHANDLER_H_ */
+#endif /* SOURCE_HEADERS_BACKGROUNDSECTORLIBRARYHANDLER_H_ */

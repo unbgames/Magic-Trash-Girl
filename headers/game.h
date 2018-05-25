@@ -8,13 +8,13 @@
 #ifndef SOURCE_HEADERS_GAME_H_
 #define SOURCE_HEADERS_GAME_H_
 
+#include <backgroundsectorlibraryhandler.h>
 #include <keyboardinput.h>
 #include "animatedsprite.h"
 #include <vector>
 #include "player.h"
 #include <memory>
 #include "backgroundblock.h"
-#include "BackgroundSectorHandler.h"
 
 class Graphics;
 
@@ -67,7 +67,7 @@ private:
 
 	bool _quitFlag;
 
-	BackgroundSectorHandler _backgroundSectorHandler;
+	BackgroundSectorLibraryHandler _backgroundSectorHandler;
 
 	Graphics* _graphicsAssociated;
 
