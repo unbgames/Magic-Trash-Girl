@@ -212,7 +212,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	int auxX = (sectorsByLine*8) + 2;
 	int auxY = (sectorsByColumn*8) + 2;
 
-	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxY, auxX);
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
 
 	for(int j = 0; j < auxY; j++){
 		for(int i = 0; i < auxX; i++){
