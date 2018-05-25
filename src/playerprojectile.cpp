@@ -10,7 +10,7 @@
 #include "game.h"
 
 PlayerProjectile::PlayerProjectile(Graphics &graphics, float posX, float posY, Direction facing):
-		AnimatedSprite(graphics, "assets/player.png", 0, 0, 24, 24, posX, posY, 1000),
+		AnimatedSprite(graphics, "assets/playerprojetil.png", 0, 0, 24, 24, posX, posY, 1000),
 		_facing(facing),
 		_lifeTime(0){
 	this->setupAnimations();
@@ -123,5 +123,5 @@ void PlayerProjectile::animationDone(std::string currentAnimation){
 }
 
 void PlayerProjectile::setupAnimations(){
-	this->addAnimation(1, 0, 320, "basic", 24,24, Vector2 (0,0));
+	this->addAnimation(1, 0, 0, "basic", 24,24, Vector2 (0,0));
 }
