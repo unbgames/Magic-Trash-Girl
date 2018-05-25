@@ -1,5 +1,5 @@
 /*
- * backgroundsectorhandler.h
+ * backgroundsectorlibraryhandler.h
  *
  *  Created on: May 24, 2018
  *      Author: TMK
