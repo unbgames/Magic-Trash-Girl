@@ -39,9 +39,11 @@ public:
 
 	void requestQuit();
 
-	void redoBackgroundBlocksVector();
+	void createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn);
 
-	void createNewPseudoRandomBlocksVector();
+	int getCurrentNumberBlocksLine();
+
+	int getCurrentNumberBlocksColumn();
 
 private:
 
@@ -60,6 +62,8 @@ private:
 	KeyboardInput _input;
 
 	std::vector<BackgroundBlock> _backgroundBlocks;
+
+	int _numberBlocksLine, _numberBlocksColumn;
 
 	bool _quitFlag;
 

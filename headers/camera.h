@@ -13,6 +13,7 @@ class Graphics;
 class Camera{
 public:
 
+	Camera();
 	Camera(Graphics &graphics);
 
 	void setx(int x);
@@ -22,10 +23,11 @@ public:
 	int gety();
 
 private:
+	Graphics* _graphicsAssociated;
 
 	int _x, _y;
 
-	Graphics* _graphicsAssociated;
+
 };
 
 #endif /* SOURCE_HEADERS_CAMERA_H_ */

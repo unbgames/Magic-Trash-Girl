@@ -23,11 +23,14 @@ struct SDL_Renderer;
  *	\ _spriteSheets é o map que guarda os spritesheets já carregados
  *
  */
+
+#include "game.h"
+
 class Graphics{
 
 public:
 
-	Graphics();
+	Graphics(Game &game);
 
 	~Graphics();
 
@@ -45,6 +48,8 @@ public:
 
 	void toggleFullscreen();
 
+	Game* getGameAssociated();
+
 	SDL_Renderer* getRenderer() const;
 
 	Camera camera;
@@ -54,6 +59,8 @@ public:
 	int windowWidth, windowHeight;
 
 private:
+
+	Game* _gameAssociated;
 
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;

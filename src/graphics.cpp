@@ -11,12 +11,12 @@
 #include "graphics.h"
 #include "globals.h"
 
-Graphics::Graphics():
-	camera(*this),
+Graphics::Graphics(Game &game):
 	windowWidth(0),
 	windowHeight(0),
+	_gameAssociated(&game),
 	_fullscreenState(false){
-
+	this->camera = Camera(*this);
 	SDL_CreateWindowAndRenderer(globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, SDL_WINDOW_RESIZABLE, &this->_window, &this->_renderer);
 	SDL_SetWindowTitle(this->_window, globals::WINDOW_NAME.c_str());
 }
@@ -52,7 +52,7 @@ void Graphics::blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_
 	SDL_Rect aux = *destinationRectangle;
 
 	aux.x -= this->camera.getx() - (this->windowWidth)/2;
-	aux.y -= this->camera.gety()	 - (this->windowHeight)/2;
+	aux.y -= this->camera.gety() - (this->windowHeight)/2;
 
 	SDL_RenderCopyEx(this->_renderer, texture, sourceRectangle, &aux, angle, center, flip);
 }
@@ -98,3 +98,6 @@ void Graphics::toggleFullscreen(){
 
 }
 
+Game* Graphics::getGameAssociated(){
+	return this->_gameAssociated;
+}

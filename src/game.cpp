@@ -23,6 +23,8 @@ Game* Game::_instance = nullptr;
 
 Game::Game():
 	_input(),
+	_numberBlocksLine(background_blocks_constants::INITIAL_NUMBER_BLOCKS_LINE),
+	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
 	_backgroundSectorHandler(),
 	_graphicsAssociated(nullptr){
@@ -45,11 +47,11 @@ Game& Game::getInstance(){
 
 void Game::gameLoop(){
 
-	Graphics graphics = Graphics();
+	Graphics graphics = Graphics(*this);
 
 	this->_graphicsAssociated = &graphics;
 
-	this->setupBackgroundBlocks(graphics, background_blocks_constants::NUMBER_BLOCKS_COLUMN, background_blocks_constants::NUMBER_BLOCKS_LINE);
+	this->setupBackgroundBlocks(graphics, this->_numberBlocksLine , this->_numberBlocksColumn);
 
 	SDL_Event event;
 
@@ -57,11 +59,11 @@ void Game::gameLoop(){
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
-	this->createNewPseudoRandomBlocksVector();
+	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
 	while(true){
 
-	//	std::cout << " ======= new frame on game loop ======== " << std::endl;
+		//std::cout << " ======= new frame on game loop ======== " << std::endl;
 
 		graphics.updateDisplayInfo();
 
@@ -118,7 +120,7 @@ void Game::gameLoop(){
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_R)){
-			this->createNewPseudoRandomBlocksVector();
+			this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_F)){
@@ -183,7 +185,10 @@ void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
 
 }
 
-void Game::setupBackgroundBlocks(Graphics &graphics, int columns, int lines){
+void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
+
+	this->_numberBlocksLine = lines;
+	this->_numberBlocksColumn = columns;
 
 	this->_backgroundBlocks.clear();
 
@@ -202,35 +207,23 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int columns, int lines){
 
 }
 
-void Game::redoBackgroundBlocksVector(){
+void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
 
-	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN; j++){
-		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE; i++){
-			if((i == 0) || (j==0) || (i == background_blocks_constants::NUMBER_BLOCKS_LINE-1) || (j == background_blocks_constants::NUMBER_BLOCKS_COLUMN-1)){
-				this->setBlockType(i,j,UNBREAKABLE);
-			}else if((i+j)%2 == 0){
-				this->setBlockType(i,j,BREAKABLE);
-			}else{
-				this->setBlockType(i,j,NONE);
-			}
-		}
-	}
-}
+	int auxX = (sectorsByLine*8) + 2;
+	int auxY = (sectorsByColumn*8) + 2;
 
-void Game::createNewPseudoRandomBlocksVector(){
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxY, auxX);
 
-	this->setupBackgroundBlocks(*this->_graphicsAssociated, 34, 34);
-
-	for(int j = 0; j < 34; j++){
-		for(int i = 0; i < 34; i++){
-			if((i == 0) || (j==0) || (i == 34-1) || (j == 34-1)){
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
 				this->setBlockType(i,j,UNBREAKABLE);
 			}
 		}
 	}
 
-	for(int i = 0; i < 4; i++){
-		for(int j = 0; j < 4; j++){
+	for(int i = 0; i < sectorsByLine; i++){
+		for(int j = 0; j < sectorsByColumn; j++){
 
 			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomSector();
 
@@ -245,16 +238,16 @@ void Game::createNewPseudoRandomBlocksVector(){
 
 void Game::damageBlock(int indexX, int indexY, float damage){
 
-	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		if((this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType() == BUBLE)){
-			this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].takeDamage(damage);
+	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
+		if((this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BUBLE)){
+			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].takeDamage(damage);
 		}
 	}
 }
 
 BlockType Game::getBlockType(int indexX, int indexY){
-	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		return this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].getType();
+	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
+		return this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType();
 	}else{
 		return NONE;
 	}
@@ -287,11 +280,19 @@ void Game::setBlockType(int indexX, int indexY, BlockType type){
 		}
 	}
 
-	if((indexX >= 0 && indexX < background_blocks_constants::NUMBER_BLOCKS_LINE) && (indexY >= 0 && indexY < background_blocks_constants::NUMBER_BLOCKS_COLUMN)){
-		this->_backgroundBlocks[indexX + (indexY*background_blocks_constants::NUMBER_BLOCKS_LINE)].setType(type);
+	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
+		this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].setType(type);
 	}
 }
 
 void Game::requestQuit(){
 	this->_quitFlag = true;
+}
+
+int Game::getCurrentNumberBlocksLine(){
+	return this->_numberBlocksLine;
+}
+
+int Game::getCurrentNumberBlocksColumn(){
+	return this->_numberBlocksColumn;
 }
