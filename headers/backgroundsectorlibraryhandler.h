@@ -20,12 +20,12 @@
  */
 enum SectorFlags: unsigned int{
 
-	W_TOP_BOT_VALUE = 1 << 0, 			// permite passagem entre top e bot
-	W_TOP_LEFT_VALUE = 1 << 1,			// permite passagem entre top e left
-	W_TOP_RIGHT_VALUE = 1 << 2,			// permite passagem entre top e right
-	W_BOT_LEFT_VALUE = 1 << 3,			// permite passagem entre bot e left
-	w_BOT_RIGHT_VALUE = 1 << 4, 		// permite passagem entre bot e right
-	w_LEFT_RIGHT_VALUE = 1 << 5,		// permite passagem entre left e right
+	W_TOP_BOT_VALUE = 1 << 0, 			// 0  -- permite passagem entre top e bot
+	W_TOP_LEFT_VALUE = 1 << 1,			// 2  -- permite passagem entre top e left
+	W_TOP_RIGHT_VALUE = 1 << 2,			// 4  -- permite passagem entre top e right
+	W_BOT_LEFT_VALUE = 1 << 3,			// 8  -- permite passagem entre bot e left
+	w_BOT_RIGHT_VALUE = 1 << 4, 		// 16 -- permite passagem entre bot e right
+	w_LEFT_RIGHT_VALUE = 1 << 5,		// 32 -- permite passagem entre left e right
 
 };
 

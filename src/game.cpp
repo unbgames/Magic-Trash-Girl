@@ -243,6 +243,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	 */
 
 	std::vector<Vector2> sectorWay;
+	std::vector<unsigned int> sectorWayFlags;
 	bool wayFound = false;
 	Direction lastMove = DOWN;
 
@@ -259,19 +260,24 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				if(aux == 2){ //left
 					if(sectorWay.back().x == 0){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						sectorWayFlags.push_back(W_TOP_BOT);
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x - 1,sectorWay.back().y));
+						sectorWayFlags.push_back(W_TOP_LEFT);
 						lastMove = LEFT;
 					}
 				}else if(aux == 1){ //right
 					if(sectorWay.back().x == (sectorsByLine - 1)){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						sectorWayFlags.push_back(W_TOP_BOT);
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x + 1,sectorWay.back().y));
+						sectorWayFlags.push_back(W_TOP_RIGHT);
 						lastMove = RIGHT;
 					}
 				}else{ //down
 					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					sectorWayFlags.push_back(W_TOP_BOT);
 				}
 
 			break;
@@ -282,12 +288,15 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				if(aux == 1){ //left
 					if(sectorWay.back().x == 0){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						sectorWayFlags.push_back(W_BOT_RIGHT);
 						lastMove = DOWN;
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x - 1,sectorWay.back().y));
+						sectorWayFlags.push_back(W_LEFT_RIGHT);
 					}
 				}else{ //down
 					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					sectorWayFlags.push_back(W_BOT_RIGHT);
 					lastMove = DOWN;
 				}
 
@@ -299,12 +308,15 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				if(aux == 1){ //right
 					if(sectorWay.back().x == (sectorsByLine - 1)){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+						sectorWayFlags.push_back(W_BOT_LEFT);
 						lastMove = DOWN;
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x + 1,sectorWay.back().y));
+						sectorWayFlags.push_back(W_LEFT_RIGHT);
 					}
 				}else{ //down
 					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
+					sectorWayFlags.push_back(W_BOT_LEFT);
 					lastMove = DOWN;
 				}
 
@@ -321,6 +333,10 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 			wayFound = true;
 			sectorWay.pop_back();
 		}
+	}
+
+	for(int i = 0; i < (int)sectorWay.size(); i++){
+		std::cout << i+1 << " = = " << sectorWay[i].y << "   ==   " << sectorWay[i].x << "   ===   " << sectorWayFlags[i] << std::endl;
 	}
 
 	/*
