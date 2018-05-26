@@ -40,7 +40,11 @@ public:
 
 	virtual std::string getObjectType() = 0;
 
+	bool checkColision(float posX, float posY, int width, int height, float desX, float desY);
+
 protected:
+
+	float _dx, _dy;
 
 	double _timeToUpdate;
 	bool _currentAnimationOnce;

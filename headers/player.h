@@ -47,8 +47,6 @@ public:
 
 private:
 
-	float _dx, _dy;
-
 	Direction _facing;
 	Direction _idleFacing;
 	bool _isAirborne;

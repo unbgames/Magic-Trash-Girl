@@ -114,6 +114,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == 4 && j == 4){
 				aux.push_back(NONE);
+			}else if(i == 5 && j == 4){
+				aux.push_back(UNBREAKABLE);
 			}else{
 				aux.push_back(BREAKABLE);
 			}

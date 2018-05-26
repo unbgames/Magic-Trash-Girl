@@ -15,6 +15,8 @@ AnimatedSprite::AnimatedSprite(){ // @suppress("Class members should be properly
 
 AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, int sourceX, int sourceY, int width, int height, float posX, float posY, float timeToUpdate):
 	Sprite(graphics, filePath, sourceX, sourceY, width, height, posX, posY),
+	_dx(0),
+	_dy(0),
 	_timeToUpdate(timeToUpdate),
 	_currentAnimationOnce(false),
 	_currentAnimation(""),
@@ -113,4 +115,21 @@ void AnimatedSprite::setPosition(float x, float y){
 	this->_x = x;
 	this->_y = y;
 
+}
+
+bool AnimatedSprite::checkColision(float posX, float posY, int width, int height, float desX, float desY){
+	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
+		return true;
+	}
+	if(((this->_x + this->_w > posX) && (this->_x + this->_w < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
+		return true;
+	}
+	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y + this->_h > posY) && (this->_y + this->_h < posY + height))){
+		return true;
+	}
+	if(((this->_x + this->_w > posX) && (this->_x + this->_w < posX+width)) && ((this->_y + this->_h > posY) && (this->_y + this->_h < posY + height))){
+		return true;
+	}
+
+	return false;
 }
