@@ -22,7 +22,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_LEFT_RIGHT);
+	auxFlags = (W_LEFT_RIGHT | W_RIGHT_LEFT);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
@@ -38,7 +38,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_TOP_BOT);
+	auxFlags = (W_TOP_BOT | W_BOT_TOP);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
@@ -54,7 +54,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_TOP_RIGHT | W_BOT_LEFT );
+	auxFlags = (W_TOP_RIGHT | W_BOT_LEFT | W_RIGHT_TOP | W_LEFT_BOT);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
@@ -70,7 +70,24 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_TOP_LEFT | W_BOT_RIGHT );
+	auxFlags = (W_TOP_LEFT | W_BOT_RIGHT | W_LEFT_TOP | W_RIGHT_BOT);
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	aux.clear();
+
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
+
+			if((i%2 == 0) && (j%2 == 0)){
+				aux.push_back(BREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (0);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
@@ -87,7 +104,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
+	auxFlags = (-1);
 
 	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
 
@@ -103,7 +120,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 		}
 	}
 
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
+	auxFlags = (-1);
 
 	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
 

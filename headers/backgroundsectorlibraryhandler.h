@@ -23,30 +23,43 @@ enum SectorFlags: unsigned int{
 	W_TOP_BOT_VALUE = 1 << 0, 			// 0  -- permite passagem entre top e bot
 	W_TOP_LEFT_VALUE = 1 << 1,			// 2  -- permite passagem entre top e left
 	W_TOP_RIGHT_VALUE = 1 << 2,			// 4  -- permite passagem entre top e right
-	W_BOT_LEFT_VALUE = 1 << 3,			// 8  -- permite passagem entre bot e left
-	w_BOT_RIGHT_VALUE = 1 << 4, 		// 16 -- permite passagem entre bot e right
-	w_LEFT_RIGHT_VALUE = 1 << 5,		// 32 -- permite passagem entre left e right
-
+	W_BOT_TOP_VALUE = 1 << 3,			// 8 -- permite passagem entre bot e bot
+	W_BOT_LEFT_VALUE = 1 << 4,			// 16 -- permite passagem entre bot e left
+	W_BOT_RIGHT_VALUE = 1 << 5, 		// 32 -- permite passagem entre bot e right
+	W_LEFT_TOP_VALUE = 1 << 6,			// 64 -- permite passagem entre left e top
+	W_LEFT_BOT_VALUE = 1 << 7,			// 128 -- permite passagem entre left e bot
+	W_LEFT_RIGHT_VALUE = 1 << 8,		// 256 -- permite passagem entre left e right
+	W_RIGHT_TOP_VALUE = 1 << 9,			// 512 --  permite passagem entre right e top
+	W_RIGHT_BOT_VALUE = 1 << 10,		// 1024 -- permite passagem entre right e bot
+	W_RIGHT_LEFT_VALUE = 1 << 11,		// 2048 -- permite passagem entre right e left
 };
 
 
-// permite passagem entre top e bot
+
 constexpr SectorFlags W_TOP_BOT(W_TOP_BOT_VALUE);
 
-// permite passagem entre top e left
 constexpr SectorFlags W_TOP_LEFT(W_TOP_LEFT_VALUE);
 
-// permite passagem entre top e right
 constexpr SectorFlags W_TOP_RIGHT(W_TOP_RIGHT_VALUE);
 
-// permite passagem entre bot e left
+constexpr SectorFlags W_BOT_TOP(W_BOT_TOP_VALUE);
+
 constexpr SectorFlags W_BOT_LEFT(W_BOT_LEFT_VALUE);
 
-// permite passagem entre bot e roght
-constexpr SectorFlags W_BOT_RIGHT(w_BOT_RIGHT_VALUE);
+constexpr SectorFlags W_BOT_RIGHT(W_BOT_RIGHT_VALUE);
 
-// permite passagem entre left e right
-constexpr SectorFlags W_LEFT_RIGHT(w_LEFT_RIGHT_VALUE);
+constexpr SectorFlags W_LEFT_TOP(W_LEFT_TOP_VALUE);
+
+constexpr SectorFlags W_LEFT_BOT(W_LEFT_BOT_VALUE);
+
+constexpr SectorFlags W_LEFT_RIGHT(W_LEFT_RIGHT_VALUE);
+
+constexpr SectorFlags W_RIGHT_TOP(W_RIGHT_TOP_VALUE);
+
+constexpr SectorFlags W_RIGHT_BOT(W_RIGHT_BOT_VALUE);
+
+constexpr SectorFlags W_RIGHT_LEFT(W_RIGHT_LEFT_VALUE);
+
 
 /*
  * termino da declaração de SectorFlags

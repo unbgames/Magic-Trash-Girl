@@ -255,7 +255,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	int aux;
 
 	while(!wayFound){
-		switch(lastMove){
+		switch(lastMove){ //arrumar flags aqui
 			case DOWN:
 
 				aux = rand() % 3;
@@ -291,15 +291,15 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				if(aux == 1){ //left
 					if(sectorWay.back().x == 0){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
-						sectorWayFlags.push_back(W_BOT_RIGHT);
+						sectorWayFlags.push_back(W_RIGHT_BOT);
 						lastMove = DOWN;
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x - 1,sectorWay.back().y));
-						sectorWayFlags.push_back(W_LEFT_RIGHT);
+						sectorWayFlags.push_back(W_RIGHT_LEFT);
 					}
 				}else{ //down
 					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
-					sectorWayFlags.push_back(W_BOT_RIGHT);
+					sectorWayFlags.push_back(W_RIGHT_BOT);
 					lastMove = DOWN;
 				}
 
@@ -311,7 +311,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				if(aux == 1){ //right
 					if(sectorWay.back().x == (sectorsByLine - 1)){
 						sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
-						sectorWayFlags.push_back(W_BOT_LEFT);
+						sectorWayFlags.push_back(W_LEFT_BOT);
 						lastMove = DOWN;
 					}else{
 						sectorWay.push_back(Vector2(sectorWay.back().x + 1,sectorWay.back().y));
@@ -319,7 +319,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 					}
 				}else{ //down
 					sectorWay.push_back(Vector2(sectorWay.back().x,sectorWay.back().y + 1));
-					sectorWayFlags.push_back(W_BOT_LEFT);
+					sectorWayFlags.push_back(W_LEFT_BOT);
 					lastMove = DOWN;
 				}
 
