@@ -47,6 +47,9 @@ namespace background_blocks_constants {
 	const int INITIAL_NUMBER_BLOCKS_LINE = 34; //globals::SCREEN_WIDTH / BLOCK_WIDTH;
 	const int INITIAL_NUMBER_BLOCKS_COLUMN = 34 ;//globals::SCREEN_HEIGTH / BLOCK_HEIGTH;
 
+	const int NUMBER_BLOCKS_LINE_SECTORS = 16;
+	const int NUMBER_BLOCKS_COLUMN_SECTORS = 16;
+
 	const int NUMBER_SECTORS_LINE = 6;
 	const int NUMBER_SECTORS_COLUMN = 6;
 }

@@ -12,9 +12,9 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	std::vector<BlockType> aux;
 	unsigned int auxFlags;
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
-			if(i == 0 || i == 7){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
+			if(i == 0 || i == background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS - 1){
 				aux.push_back(UNBREAKABLE);
 			}else{
 				aux.push_back(NONE);
@@ -28,9 +28,9 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	aux.clear();
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
-			if(j == 0 || j == 7){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
+			if(j == 0 || j == background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS-1){
 				aux.push_back(UNBREAKABLE);
 			}else{
 				aux.push_back(NONE);
@@ -44,8 +44,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	aux.clear();
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == j){
 				aux.push_back(UNBREAKABLE);
 			}else{
@@ -60,9 +60,9 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	aux.clear();
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
-			if(i + j == 7){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
+			if(i + j == background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS-1){
 				aux.push_back(UNBREAKABLE);
 			}else{
 				aux.push_back(NONE);
@@ -77,8 +77,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	aux.clear();
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == 4 && j == 4){
 				aux.push_back(NONE);
 			}else{
@@ -93,8 +93,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	aux.clear();
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == 4 && j == 4){
 				aux.push_back(NONE);
 			}else{
@@ -128,8 +128,8 @@ BlockSector BackgroundSectorLibraryHandler::getRandomFillerSector(unsigned int f
 
 	std::vector<BlockType> aux;
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			aux.push_back(NONE);
 		}
 	}
@@ -156,8 +156,8 @@ BlockSector BackgroundSectorLibraryHandler::getRandomStartSector(unsigned int fl
 
 	std::vector<BlockType> aux;
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			aux.push_back(NONE);
 		}
 	}
@@ -184,8 +184,8 @@ BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int f
 
 	std::vector<BlockType> aux;
 
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			aux.push_back(NONE);
 		}
 	}

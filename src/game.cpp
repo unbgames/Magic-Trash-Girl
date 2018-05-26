@@ -137,6 +137,7 @@ void Game::gameLoop(){
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
+		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -214,8 +215,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 	this->_player.setPosition(-1100, -1100);
 
-	int auxX = (sectorsByLine*8) + 2;
-	int auxY = (sectorsByColumn*8) + 2;
+	int auxX = (sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2;
+	int auxY = (sectorsByColumn*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + 2;
 
 	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
 
@@ -232,9 +233,9 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector().sectorInfo;
 
-			for(int ix = 0; ix < 8; ix++){
-				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (i*8) + ix , 1 + (j*8) + jx, auxsector[(jx*8) + ix]);
+			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
+				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
+					this->setBlockType(1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
 			}
 		}
@@ -341,28 +342,30 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 		if(i == 0){
 			BlockSector auxsector = this->_backgroundSectorHandler.getRandomStartSector(sectorWayFlags[i]);
 
-			for(int ix = 0; ix < 8; ix++){
-				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxsector.sectorInfo[(jx*8) + ix]);
+			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
+				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector.sectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
 			}
 
-			this->_player.setPosition((1 + (sectorWay[i].x*8))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*8))*64 + auxsector.start_finishPos.y);
+			this->_player.setPosition((1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*64 + auxsector.start_finishPos.y);
 
 		}else if(i == (int)sectorWay.size() - 1){
 			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFinishSector(sectorWayFlags[i]);
 
-			for(int ix = 0; ix < 8; ix++){
-				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxsector.sectorInfo[(jx*8) + ix]);
+			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
+				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector.sectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
 			}
+
 		}else{
+
 			std::vector<BlockType> auxSectorInfo = this->_backgroundSectorHandler.getRandomFillerSector(sectorWayFlags[i]).sectorInfo;
 
-			for(int ix = 0; ix < 8; ix++){
-				for(int jx = 0; jx < 8; jx++){
-					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxSectorInfo[(jx*8) + ix]);
+			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
+				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxSectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
 			}
 		}
