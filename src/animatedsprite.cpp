@@ -117,7 +117,7 @@ void AnimatedSprite::setPosition(float x, float y){
 
 }
 
-bool AnimatedSprite::checkColision(float posX, float posY, int width, int height, float desX, float desY){
+bool AnimatedSprite::checkColision(float posX, float posY, float width, float height, float desX, float desY){
 	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
 		return true;
 	}
@@ -132,4 +132,22 @@ bool AnimatedSprite::checkColision(float posX, float posY, int width, int height
 	}
 
 	return false;
+}
+
+void AnimatedSprite::getPosSize(float* x, float* y, float* w, float* h){
+	*x = this->_x;
+	*y = this->_y;
+	*w = this->_w;
+	*h = this->_h;
+}
+
+void AnimatedSprite::getDes(float* dx, float *dy){
+	*dx = this->_dx;
+	*dy = this->_dy;
+}
+
+void AnimatedSprite::takeContextAction(std::string objectType){
+
+	std::cout << "context action   == " << objectType << std::endl;
+
 }

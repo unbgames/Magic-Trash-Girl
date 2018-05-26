@@ -31,3 +31,9 @@ void Portal::setupAnimations(){
 std::string Portal::getObjectType(){
 	return "Portal";
 }
+
+void Portal::takeContextAction(std::string objectType){
+
+	std::cout << " portal context action   == " << objectType << std::endl;
+
+}

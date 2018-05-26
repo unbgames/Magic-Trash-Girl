@@ -33,9 +33,6 @@ public:
 	void bubble();
 	void takeContextAction(std::string objectType);
 
-	void getPosSize(float* x, float* y, float* w, float* h);
-
-
 	void animationDone(std::string currentAnimation);
 
 	void setupAnimations();

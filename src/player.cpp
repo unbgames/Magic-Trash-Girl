@@ -130,7 +130,7 @@ void Player::stopVacuum(){
 
 void Player::takeContextAction(std::string objectType){
 
-	std::cout << "context action   == " << objectType << std::endl;
+	std::cout << " player context action   == " << objectType << std::endl;
 
 }
 
@@ -473,13 +473,6 @@ void Player::setTimeForFrames(double newTime){
 }
 double Player::getTimeForFrames(){
 	return this->_timeToUpdate;
-}
-
-void Player::getPosSize(float* x, float* y, float* w, float* h){
-	*x = this->_x;
-	*y = this->_y;
-	*w = this->_w;
-	*h = this->_h;
 }
 
 std::string Player::getObjectType(){

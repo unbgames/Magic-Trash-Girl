@@ -22,6 +22,8 @@ public:
 
 	std::string getObjectType();
 
+	void takeContextAction(std::string objectType);
+
 private:
 
 

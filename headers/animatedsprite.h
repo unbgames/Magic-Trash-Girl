@@ -40,7 +40,13 @@ public:
 
 	virtual std::string getObjectType() = 0;
 
-	bool checkColision(float posX, float posY, int width, int height, float desX, float desY);
+	bool checkColision(float posX, float posY, float width, float height, float desX, float desY);
+
+	void getPosSize(float* x, float* y, float* w, float* h);
+
+	void getDes(float* dx, float *dy);
+
+	virtual void takeContextAction(std::string objectType);
 
 protected:
 

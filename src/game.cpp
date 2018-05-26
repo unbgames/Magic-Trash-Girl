@@ -120,7 +120,21 @@ void Game::gameLoop(){
 		}
 
 		if(this->_input.wasKeyPressed(SDL_SCANCODE_C)){
-			this->_player.takeContextAction(" test ");
+
+			for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+				float auxPosX,auxPosY,auxWidth, auxheigth, auxDesX = 0, auxDesY = 0;
+
+				this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
+				this->_player.getDes(&auxDesX, &auxDesY);
+
+				if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
+					(*it)->takeContextAction("Player");
+					this->_player.takeContextAction((*it)->getObjectType());
+				}
+
+			}
+
+
 		}
 
 		if(this->_input.wasKeyReleased(SDL_SCANCODE_X)){
