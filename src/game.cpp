@@ -234,6 +234,8 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
 
+	this->_spritesToDraw.clear();
+
 	this->_player.setPosition(-1100, -1100);
 
 	int auxX = (sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2;
