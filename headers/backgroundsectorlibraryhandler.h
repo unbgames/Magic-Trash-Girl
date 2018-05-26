@@ -56,9 +56,10 @@ struct BlockSector{
 
 	std::vector<BlockType> sectorInfo;
 	unsigned int sectorFlags;
+	Vector2 start_finishPos;
 
-	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags):
-		sectorInfo(sectorInfo), sectorFlags(sectorFlags)
+	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags, Vector2 start_finishPos = Vector2(-1,-1)):
+		sectorInfo(sectorInfo), sectorFlags(sectorFlags), start_finishPos(start_finishPos)
 	{}
 };
 
@@ -67,11 +68,11 @@ public:
 
 	BackgroundSectorLibraryHandler();
 
-	std::vector<BlockType> getRandomFillerSector(unsigned int flags = 0);
+	BlockSector getRandomFillerSector(unsigned int flags = 0);
 
-	std::vector<BlockType> getRandomStarteSector(unsigned int flags = 0);
+	BlockSector getRandomStartSector(unsigned int flags = 0);
 
-	std::vector<BlockType> getRandomFinishSector(unsigned int flags = 0);
+	BlockSector getRandomFinishSector(unsigned int flags = 0);
 
 private:
 

@@ -212,6 +212,8 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
 
+	this->_player.setPosition(-1100, -1100);
+
 	int auxX = (sectorsByLine*8) + 2;
 	int auxY = (sectorsByColumn*8) + 2;
 
@@ -228,7 +230,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	for(int i = 0; i < sectorsByLine; i++){
 		for(int j = 0; j < sectorsByColumn; j++){
 
-			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector();
+			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector().sectorInfo;
 
 			for(int ix = 0; ix < 8; ix++){
 				for(int jx = 0; jx < 8; jx++){
@@ -336,7 +338,34 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	}
 
 	for(int i = 0; i < (int)sectorWay.size(); i++){
-		std::cout << i+1 << " = = " << sectorWay[i].y << "   ==   " << sectorWay[i].x << "   ===   " << sectorWayFlags[i] << std::endl;
+		if(i == 0){
+			BlockSector auxsector = this->_backgroundSectorHandler.getRandomStartSector(sectorWayFlags[i]);
+
+			for(int ix = 0; ix < 8; ix++){
+				for(int jx = 0; jx < 8; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxsector.sectorInfo[(jx*8) + ix]);
+				}
+			}
+
+			this->_player.setPosition((1 + (sectorWay[i].x*8))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*8))*64 + auxsector.start_finishPos.y);
+
+		}else if(i == (int)sectorWay.size() - 1){
+			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFinishSector(sectorWayFlags[i]);
+
+			for(int ix = 0; ix < 8; ix++){
+				for(int jx = 0; jx < 8; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxsector.sectorInfo[(jx*8) + ix]);
+				}
+			}
+		}else{
+			std::vector<BlockType> auxSectorInfo = this->_backgroundSectorHandler.getRandomFillerSector(sectorWayFlags[i]).sectorInfo;
+
+			for(int ix = 0; ix < 8; ix++){
+				for(int jx = 0; jx < 8; jx++){
+					this->setBlockType(1 + (sectorWay[i].x*8) + ix , 1 + (sectorWay[i].y*8) + jx, auxSectorInfo[(jx*8) + ix]);
+				}
+			}
+		}
 	}
 
 	/*

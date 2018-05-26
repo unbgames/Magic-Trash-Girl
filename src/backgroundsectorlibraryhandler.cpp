@@ -14,47 +14,15 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j ++){
-			if(i == 0 || i == 7 || j == 0 || j == 7){
-				aux.push_back(BREAKABLE);
-			}else{
-				aux.push_back(NONE);
-			}
-		}
-	}
-
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
-
-	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
-
-	aux.clear();
-
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
-			if(i == 0 || i == 7 || j == 0 || j == 7){
-				aux.push_back(NONE);
-			}else{
-				aux.push_back(BREAKABLE);
-			}
-		}
-	}
-
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
-
-	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
-
-	aux.clear();
-
-	for(int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j ++){
-			if(i == 0 || i == 7 || j == 0 || j == 7){
-				aux.push_back(BREAKABLE);
-			}else{
+			if(i == 0 || i == 7){
 				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
 			}
 		}
 	}
 
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
+	auxFlags = (W_LEFT_RIGHT);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
@@ -62,40 +30,97 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j ++){
-			aux.push_back(BREAKABLE);
+			if(j == 0 || j == 7){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
 		}
 	}
 
-	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
+	auxFlags = (W_TOP_BOT);
 
-	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags));
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
 	aux.clear();
 
 	for(int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j ++){
-			aux.push_back(UNBREAKABLE);
+			if(i == j){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (W_TOP_RIGHT | W_BOT_LEFT );
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	aux.clear();
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j ++){
+			if(i + j == 7){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (W_TOP_LEFT | W_BOT_RIGHT );
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+
+	aux.clear();
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j ++){
+			if(i == 4 && j == 4){
+				aux.push_back(NONE);
+			}else{
+				aux.push_back(BREAKABLE);
+			}
 		}
 	}
 
 	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
 
-	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags));
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
+
+	aux.clear();
+
+	for(int i = 0; i < 8; i++){
+		for(int j = 0; j < 8; j ++){
+			if(i == 4 && j == 4){
+				aux.push_back(NONE);
+			}else{
+				aux.push_back(BREAKABLE);
+			}
+		}
+	}
+
+	auxFlags = (W_TOP_BOT | W_TOP_LEFT | W_TOP_RIGHT | W_BOT_LEFT | W_BOT_RIGHT | W_LEFT_RIGHT);
+
+	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
 
 }
 
-std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomFillerSector(unsigned int flags){
+BlockSector BackgroundSectorLibraryHandler::getRandomFillerSector(unsigned int flags){
 
 	int randomIndex = rand() % this->_fillerSectorLibrary.size();
 
 	for(int i = randomIndex ; i < (int)this->_fillerSectorLibrary.size() ; i ++){
 		if((this->_fillerSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_fillerSectorLibrary[i].sectorInfo;
+			return this->_fillerSectorLibrary[i];
 		}
 	}
 	for(int i = randomIndex-1 ; i >= 0 ; i --){
 		if((this->_fillerSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_fillerSectorLibrary[i].sectorInfo;
+			return this->_fillerSectorLibrary[i];
 		}
 	}
 
@@ -109,21 +134,21 @@ std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomFillerSector(uns
 		}
 	}
 
-	return aux;
+	return BlockSector(aux, 0);
 }
 
-std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomStarteSector(unsigned int flags){
+BlockSector BackgroundSectorLibraryHandler::getRandomStartSector(unsigned int flags){
 
 	int randomIndex = rand() % this->_startSectorLibrary.size();
 
 	for(int i = randomIndex ; i < (int)this->_startSectorLibrary.size() ; i ++){
 		if((this->_startSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_startSectorLibrary[i].sectorInfo;
+			return this->_startSectorLibrary[i];
 		}
 	}
 	for(int i = randomIndex-1 ; i >= 0 ; i --){
 		if((this->_startSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_startSectorLibrary[i].sectorInfo;
+			return this->_startSectorLibrary[i];
 		}
 	}
 
@@ -137,21 +162,21 @@ std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomStarteSector(uns
 		}
 	}
 
-	return aux;
+	return BlockSector(aux, 0, Vector2(64,64));
 }
 
-std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int flags){
+BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int flags){
 
 	int randomIndex = rand() % this->_finishSectorLibrary.size();
 
 	for(int i = randomIndex ; i < (int)this->_finishSectorLibrary.size() ; i ++){
 		if((this->_finishSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_finishSectorLibrary[i].sectorInfo;
+			return this->_finishSectorLibrary[i];
 		}
 	}
 	for(int i = randomIndex-1 ; i >= 0 ; i --){
 		if((this->_finishSectorLibrary[i].sectorFlags & flags) == flags){
-			return this->_finishSectorLibrary[i].sectorInfo;
+			return this->_finishSectorLibrary[i];
 		}
 	}
 
@@ -165,7 +190,7 @@ std::vector<BlockType> BackgroundSectorLibraryHandler::getRandomFinishSector(uns
 		}
 	}
 
-	return aux;
+	return BlockSector(aux, 0, Vector2(64,64));
 }
 
 /*
