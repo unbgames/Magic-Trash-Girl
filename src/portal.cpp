@@ -27,3 +27,7 @@ void Portal::setupAnimations(){
 	this->addAnimation(1, 0, 0, "IDLE", 64, 64, Vector2(0,0));
 	this->addAnimation(4, 0, 0, "OPEN", 64, 64, Vector2(0,0));
 }
+
+std::string Portal::getObjectType(){
+	return "Portal";
+}

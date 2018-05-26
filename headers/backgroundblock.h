@@ -26,6 +26,8 @@ public:
 
 	void setType(BlockType type);
 
+	std::string getObjectType();
+
 private:
 
 	float _hp;

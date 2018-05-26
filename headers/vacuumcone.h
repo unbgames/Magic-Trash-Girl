@@ -23,6 +23,8 @@ public:
 
 	void setupAnimations();
 
+	std::string getObjectType();
+
 private:
 
 	Direction _facing;

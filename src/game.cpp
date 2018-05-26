@@ -119,6 +119,10 @@ void Game::gameLoop(){
 			this->_player.startVacuum();
 		}
 
+		if(this->_input.wasKeyPressed(SDL_SCANCODE_C)){
+			this->_player.takeContextAction(" test ");
+		}
+
 		if(this->_input.wasKeyReleased(SDL_SCANCODE_X)){
 			this->_player.stopVacuum();
 		}
@@ -138,7 +142,7 @@ void Game::gameLoop(){
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-		std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
+		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -164,6 +168,9 @@ void Game::draw(Graphics &graphics){
 
 void Game::update(float elapsedtime){
 
+	//checkar aqui colisão do player com todos os do sprite to draw e logo em seguida tratar;
+
+
 	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 		 it->update(elapsedtime);
 	}
@@ -179,7 +186,6 @@ void Game::update(float elapsedtime){
 	}
 
 	this->_player.update(elapsedtime);
-
 }
 
 void Game::addNewSpriteToDraw(AnimatedSprite* sprite){

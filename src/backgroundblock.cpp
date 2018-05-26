@@ -106,3 +106,7 @@ void  BackgroundBlock::setType(BlockType type){
 	this->_type = type;
 	this->_hp = 100;
 }
+
+std::string BackgroundBlock::getObjectType(){
+	return "BackgroundBlock";
+}

@@ -38,6 +38,8 @@ public:
 	void setVisible(bool visible);
 	bool getVisible();
 
+	virtual std::string getObjectType() = 0;
+
 protected:
 
 	double _timeToUpdate;

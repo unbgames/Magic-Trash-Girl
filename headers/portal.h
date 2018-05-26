@@ -20,6 +20,8 @@ public:
 
 	void setupAnimations();
 
+	std::string getObjectType();
+
 private:
 
 

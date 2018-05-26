@@ -65,3 +65,7 @@ void VacuumCone::setupAnimations(){
 	this->addAnimation(6, 0, 0, "facingUp", 24,24, Vector2 (0,0), ExVariables(270, nullptr, SDL_FLIP_NONE));
 	this->addAnimation(6, 0, 0, "facingDown", 24,24, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 }
+
+std::string VacuumCone::getObjectType(){
+	return "VacuumCone";
+}

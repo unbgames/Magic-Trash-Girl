@@ -31,6 +31,7 @@ public:
 	void startVacuum();
 	void stopVacuum();
 	void bubble();
+	void takeContextAction(std::string objectType);
 
 	void getPosSize(float* x, float* y, float* w, float* h);
 
@@ -41,6 +42,8 @@ public:
 
 	void setTimeForFrames(double newTime);
 	double getTimeForFrames();
+
+	std::string getObjectType();
 
 private:
 
