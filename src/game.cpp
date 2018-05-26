@@ -11,8 +11,9 @@
 #include "graphics.h"
 #include <iostream>
 #include "animatedsprite.h"
-#include <backgroundsectorlibraryhandler.h>
+#include "backgroundsectorlibraryhandler.h"
 #include <ctime>
+#include "portal.h"
 
 namespace {
 	const int MINFPS = 33;
@@ -137,7 +138,7 @@ void Game::gameLoop(){
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
+		std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -358,6 +359,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector.sectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
 			}
+
+			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*64 + auxsector.start_finishPos.y) );
 
 		}else{
 
