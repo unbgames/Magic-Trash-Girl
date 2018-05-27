@@ -15,7 +15,7 @@
 #include <SDL2/SDL_image.h>
 
 namespace player_constants {
-	const float WALK_SPEED = 0.2f;
+	const float WALK_SPEED = 0.4f;
 	const float NORMAL_JUMP_SPEED = -0.7f;
 	const float BUBLE_JUMP_SPEED = -1.1f;
 	const float FALL_ACELERATION = 0.002f;
@@ -24,10 +24,10 @@ namespace player_constants {
 	const float PLAYER_START_X = 130;
 	const float PLAYER_START_Y = 72;
 
-	const float PROJECTILE_SPEED = 0.5f;
+	const float PROJECTILE_SPEED = 0.8f;
 
-	const int PLAYER_WIDTH = 26;
-	const int PLAYER_HEIGTH = 42;
+	const int PLAYER_WIDTH = 32;
+	const int PLAYER_HEIGTH = 48;
 
 	const int CONE_WIDTH = 42;
 	const int CONE_HEIGTH = 42;

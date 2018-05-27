@@ -106,7 +106,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	auxFlags = (-1);
 
-	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
 
 	aux.clear();
 
@@ -181,7 +181,7 @@ BlockSector BackgroundSectorLibraryHandler::getRandomStartSector(unsigned int fl
 		}
 	}
 
-	return BlockSector(aux, 0, Vector2(64,64));
+	return BlockSector(aux, 0, Vector2(background_blocks_constants::BLOCK_WIDTH,background_blocks_constants::BLOCK_HEIGTH));
 }
 
 BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int flags){
@@ -209,7 +209,7 @@ BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int f
 		}
 	}
 
-	return BlockSector(aux, 0, Vector2(64,64));
+	return BlockSector(aux, 0, Vector2(background_blocks_constants::BLOCK_WIDTH,background_blocks_constants::BLOCK_HEIGTH));
 }
 
 /*

@@ -16,7 +16,7 @@ Player::Player(){ // @suppress("Class members should be properly initialized")
 }
 
 Player::Player(Graphics &graphics, float posX, float posY):
-		AnimatedSprite(graphics, "assets/Sprites_Karen.png", 0, 0, player_constants::PLAYER_WIDTH, player_constants::PLAYER_HEIGTH, posX, posY, 300),
+		AnimatedSprite(graphics, "assets/playerchanged.png", 0, 0, player_constants::PLAYER_WIDTH, player_constants::PLAYER_HEIGTH, posX, posY, 300),
 		_facing(RIGHT),
 		_idleFacing(RIGHT),
 		_isAirborne(false),
@@ -37,12 +37,12 @@ void Player::animationDone(std::string currentAnimation){
 }
 
 void Player::setupAnimations(){
-	this->addAnimation(5, 0, 0, "IdleRight", 40,64, Vector2 (0,0));
-	this->addAnimation(5, 0, 0, "IdleLeft", 40,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(5, 0, 0, "MoveRight", 40,64, Vector2 (0,0));
-	this->addAnimation(5, 0, 0, "MoveLeft", 40,64, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(5, 0, 0, "LookUp", 40,64, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
-	this->addAnimation(5, 0, 0, "LookDown", 40,64, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(8, 0, 0, "IdleRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(8, 0, 0, "IdleLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "MoveRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "MoveLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(8, 0, 0, "LookUp", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(8, 0, 0, "LookDown", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 
 }
 
@@ -432,19 +432,19 @@ void Player::update(float elapsedTime){
 	if(this->_vCone.getVisible()){
 		switch(this->_facing){
 			case UP:
-				this->_vCone.setPosition(this->_x , this->_y - 32);
+				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - 32);
 				this->_vCone.playAnimation("facingUp");
 			break;
 			case DOWN:
-				this->_vCone.setPosition(this->_x , this->_y + 32);
+				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2, this->_y + 32);
 				this->_vCone.playAnimation("facingDown");
 			break;
 			case LEFT:
-				this->_vCone.setPosition(this->_x - 32, this->_y);
+				this->_vCone.setPosition(this->_x - 32, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
 				this->_vCone.playAnimation("facingLeft");
 			break;
 			case RIGHT:
-				this->_vCone.setPosition(this->_x + 32, this->_y);
+				this->_vCone.setPosition(this->_x + 32, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
 				this->_vCone.playAnimation("facingRight");
 			break;
 		}

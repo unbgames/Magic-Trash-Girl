@@ -156,7 +156,7 @@ void Game::gameLoop(){
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
+//		std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -371,7 +371,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				}
 			}
 
-			this->_player.setPosition((1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*64 + auxsector.start_finishPos.y);
+			this->_player.setPosition((1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + auxsector.start_finishPos.y);
 
 		}else if(i == (int)sectorWay.size() - 1){
 			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFinishSector(sectorWayFlags[i]);
@@ -382,7 +382,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				}
 			}
 
-			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*64 + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*64 + auxsector.start_finishPos.y) );
+			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + auxsector.start_finishPos.y) );
 
 		}else{
 
