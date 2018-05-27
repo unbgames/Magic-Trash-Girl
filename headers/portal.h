@@ -24,8 +24,11 @@ public:
 
 	void takeContextAction(std::string objectType);
 
+	void animationDone(std::string currentAnimation);
+
 private:
 
+	void _loadAssociatedLevel();
 
 
 };

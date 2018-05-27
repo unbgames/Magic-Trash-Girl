@@ -79,8 +79,7 @@ void AnimatedSprite::update(float elapsedTime) {
 		this->_timeElapsed -= this->_timeToUpdate;
 		if (this->_frameIndex < this->_animations[this->_currentAnimation].size() - 1) {
 			this->_frameIndex++;
-		}
-		else {
+		}else {
 			if (this->_currentAnimationOnce == true) {
 				this->setVisible(false);
 			}
@@ -118,6 +117,7 @@ void AnimatedSprite::setPosition(float x, float y){
 }
 
 bool AnimatedSprite::checkColision(float posX, float posY, float width, float height, float desX, float desY){
+
 	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
 		return true;
 	}
@@ -128,6 +128,19 @@ bool AnimatedSprite::checkColision(float posX, float posY, float width, float he
 		return true;
 	}
 	if(((this->_x + this->_w > posX) && (this->_x + this->_w < posX+width)) && ((this->_y + this->_h > posY) && (this->_y + this->_h < posY + height))){
+		return true;
+	}
+
+	if(((posX > this->_x) && (posX < this->_x + this->_w)) && ((posY > this->_y) && (posY < this->_y + this->_h))){
+		return true;
+	}
+	if(((posX+width > this->_x) && (posX+width < this->_x + this->_w)) && ((posY > this->_y) && (posY < this->_y + this->_h))){
+		return true;
+	}
+	if(((posX > this->_x) && (posX < this->_x + this->_w)) && ((posY + height > this->_y) && (posY + height < this->_y + this->_h))){
+		return true;
+	}
+	if(((posX+width > this->_x) && (posX+width < this->_x + this->_w)) && ((posY + height > this->_y) && (posY + height < this->_y + this->_h))){
 		return true;
 	}
 

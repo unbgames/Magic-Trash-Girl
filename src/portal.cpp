@@ -7,6 +7,7 @@
 
 
 #include "portal.h"
+#include "game.h"
 
 Portal::Portal(Graphics &graphics, float posX, float posY):
 		AnimatedSprite(graphics, "assets/portal.png", 0, 0, background_blocks_constants::BLOCK_WIDTH, background_blocks_constants::BLOCK_HEIGTH, posX, posY, 300)
@@ -34,6 +35,22 @@ std::string Portal::getObjectType(){
 
 void Portal::takeContextAction(std::string objectType){
 
-	std::cout << " portal context action   == " << objectType << std::endl;
+	if(objectType == "Player"){
+		this->playAnimation("OPEN", true);
+	}
 
 }
+
+void Portal::animationDone(std::string currentAnimation){
+	if(currentAnimation == "OPEN"){
+		this->_loadAssociatedLevel();
+	}
+}
+
+//aqui carrega o level associado ao portal, como por enquanto o unico level eh o randomicamente gerado sempre sera ele por enquanto
+void Portal::_loadAssociatedLevel(){
+
+	Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
+
+}
+

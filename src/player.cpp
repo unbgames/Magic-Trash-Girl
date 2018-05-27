@@ -130,8 +130,6 @@ void Player::stopVacuum(){
 
 void Player::takeContextAction(std::string objectType){
 
-	std::cout << " player context action   == " << objectType << std::endl;
-
 }
 
 
