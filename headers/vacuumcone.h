@@ -25,12 +25,17 @@ public:
 
 	std::string getObjectType();
 
+	void setActive(bool status);
+
+	bool getActive();
+
 private:
 
 	Direction _facing;
 
 	float _dps;
 
+	bool _isActive;
 };
 
 

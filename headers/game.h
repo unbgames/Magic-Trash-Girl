@@ -46,6 +46,8 @@ public:
 
 	int getCurrentNumberBlocksColumn();
 
+	void togglePause();
+
 private:
 
 	static Game* _instance;
@@ -73,6 +75,10 @@ private:
 	BackgroundSectorLibraryHandler _backgroundSectorHandler;
 
 	Graphics* _graphicsAssociated;
+
+	SDL_Texture* _pauseBackground;
+
+	bool _isPaused;
 
 };
 

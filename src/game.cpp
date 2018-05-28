@@ -33,7 +33,9 @@ Game::Game():
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
 	_backgroundSectorHandler(),
-	_graphicsAssociated(nullptr){
+	_graphicsAssociated(nullptr),
+	_pauseBackground(nullptr),
+	_isPaused(false){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
@@ -122,6 +124,14 @@ void Game::gameLoop(){
 			return;
 		}
 
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
+			this->togglePause();
+		}
+
+		if(this->_isPaused){
+			continue;
+		}
+
 		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
 			this->_player.moveLeft();
 		}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
@@ -142,12 +152,8 @@ void Game::gameLoop(){
 			this->_player.bubble();
 		}
 
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_X) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::X)){
-			this->_player.startVacuum();
-		}
-
-		if(this->_keyboardInput.wasKeyReleased(SDL_SCANCODE_X) || this->_gamepadInput.wasbuttonReleased(xbox360GamepadMaping::X)){
-			this->_player.stopVacuum();
+		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::X)){
+			this->_player.activateVacuum();
 		}
 
 		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
@@ -487,4 +493,8 @@ int Game::getCurrentNumberBlocksLine(){
 
 int Game::getCurrentNumberBlocksColumn(){
 	return this->_numberBlocksColumn;
+}
+
+void Game::togglePause(){
+	this->_isPaused = !this->_isPaused;
 }

@@ -28,8 +28,7 @@ public:
 	void jump();
 	void lookUp();
 	void lookDown();
-	void startVacuum();
-	void stopVacuum();
+	void activateVacuum();
 	void bubble();
 	void takeContextAction(std::string objectType);
 

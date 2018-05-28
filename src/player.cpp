@@ -119,17 +119,9 @@ void Player::bubble(){
 
 }
 
-void Player::startVacuum(){
+void Player::activateVacuum(){
 
-	this->_vCone.setVisible(true);
-
-}
-
-void Player::stopVacuum(){
-
-	this->_vCone.setPosition(-1000, -1000);
-
-	this->_vCone.setVisible(false);
+	this->_vCone.setActive(true);
 
 }
 
@@ -445,7 +437,8 @@ void Player::update(float elapsedTime){
 	 * termino da correção
 	 */
 
-	if(this->_vCone.getVisible()){
+	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui
+	if(this->_vCone.getActive()){
 		switch(this->_facing){
 			case UP:
 				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - 32);
@@ -464,8 +457,8 @@ void Player::update(float elapsedTime){
 				this->_vCone.playAnimation("facingRight");
 			break;
 		}
-		this->_vCone.update(elapsedTime);
 	}
+	this->_vCone.update(elapsedTime);
 
 	/*
 	 * update da camera

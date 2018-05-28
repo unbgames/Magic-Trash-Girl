@@ -15,14 +15,17 @@ VacuumCone::VacuumCone(){ // @suppress("Class members should be properly initial
 VacuumCone::VacuumCone(Graphics &graphics):
 		AnimatedSprite(graphics, "assets/vaccum.png", 0, 0, player_constants::CONE_WIDTH, player_constants::CONE_HEIGTH, -1000, -1000, 100),
 		_facing(LEFT),
-		_dps(100){
+		_dps(100),
+		_isActive(false){
 	this->setVisible(false);
 	this->setupAnimations();
 }
 
 void VacuumCone::update(float elapsedTime){
 
-	if(this->getVisible()){
+	if(this->_isActive){
+
+		this->setVisible(true);
 
 		Vector2 auxColision[4];
 
@@ -50,6 +53,12 @@ void VacuumCone::update(float elapsedTime){
 				Game::getInstance().damageBlock(auxColision[i].x,auxColision[i].y,this->_dps*elapsedTime/1000);
 			}
 		}
+
+		this->_isActive = false;
+
+	}else{
+		this->setVisible(false);
+		this->setPosition(-1000, -1000);
 	}
 
 	AnimatedSprite::update(elapsedTime);
@@ -68,4 +77,12 @@ void VacuumCone::setupAnimations(){
 
 std::string VacuumCone::getObjectType(){
 	return "VacuumCone";
+}
+
+void VacuumCone::setActive(bool status){
+	this->_isActive = status;
+}
+
+bool VacuumCone::getActive(){
+	return this->_isActive;
 }
