@@ -15,6 +15,7 @@
 #include "player.h"
 #include <memory>
 #include "backgroundblock.h"
+#include "gamepadinput.h"
 
 class Graphics;
 
@@ -60,6 +61,8 @@ private:
 	Player _player;
 
 	KeyboardInput _input;
+
+	GamepadInput _gamepadInput;
 
 	std::vector<BackgroundBlock> _backgroundBlocks;
 

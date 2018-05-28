@@ -14,6 +14,8 @@
 #include "backgroundsectorlibraryhandler.h"
 #include <ctime>
 #include "portal.h"
+#include "globals.h"
+
 
 namespace {
 	const int MINFPS = 33;
@@ -26,6 +28,7 @@ Game* Game::_instance = nullptr;
 
 Game::Game():
 	_input(),
+	_gamepadInput(),
 	_numberBlocksLine(background_blocks_constants::INITIAL_NUMBER_BLOCKS_LINE),
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
@@ -50,6 +53,8 @@ Game& Game::getInstance(){
 
 
 void Game::gameLoop(){
+
+	this->_gamepadInput.initGamepad();
 
 	Graphics graphics = Graphics(*this);
 
@@ -78,6 +83,13 @@ void Game::gameLoop(){
 		this->_input.beginNewFrame();
 
 		while(SDL_PollEvent(&event)){
+			/*
+			 * testando resposta do gamepad
+			 */
+			if(event.type == SDL_CONTROLLERBUTTONDOWN){
+				std::cout << (int)event.cbutton.button << std::endl;
+			}
+
 			if(event.type == SDL_KEYDOWN){
 				if(event.key.repeat == 0){
 					this->_input.keyDownEvent(event);

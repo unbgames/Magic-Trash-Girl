@@ -13,6 +13,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_gamecontroller.h>
 
 namespace player_constants {
 	const float WALK_SPEED = 0.4f;
@@ -29,8 +30,8 @@ namespace player_constants {
 	const int PLAYER_WIDTH = 32;
 	const int PLAYER_HEIGTH = 48;
 
-	const int CONE_WIDTH = 42;
-	const int CONE_HEIGTH = 42;
+	const int CONE_WIDTH = 32;
+	const int CONE_HEIGTH = 32;
 }
 
 namespace globals{
