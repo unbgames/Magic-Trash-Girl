@@ -94,8 +94,8 @@ void AnimatedSprite::draw(Graphics &graphics){
 		SDL_Rect destinationRectangle;
 		destinationRectangle.x = this->_x + this->_offsets[this->_currentAnimation].x;
 		destinationRectangle.y = this->_y + this->_offsets[this->_currentAnimation].y;
-		destinationRectangle.w = this->_sourceRect.w;
-		destinationRectangle.h = this->_sourceRect.h;
+		destinationRectangle.w = this->_w;
+		destinationRectangle.h = this->_h;
 
 		SDL_Rect sourceRect = (this->_animations[this->_currentAnimation])[this->_frameIndex];
 

@@ -13,9 +13,11 @@
 #include "animatedsprite.h"
 #include <vector>
 #include "player.h"
+#include "menubackground.h"
 #include <memory>
 #include "backgroundblock.h"
 #include "gamepadinput.h"
+
 
 class Graphics;
 
@@ -79,6 +81,8 @@ private:
 	SDL_Texture* _pauseBackground;
 
 	bool _isPaused;
+
+	MenuBackground testMenuBackground;
 
 };
 

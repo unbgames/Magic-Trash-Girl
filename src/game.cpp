@@ -15,6 +15,9 @@
 #include <ctime>
 #include "portal.h"
 #include "globals.h"
+#include "menubackground.h"
+
+
 
 
 namespace {
@@ -72,6 +75,8 @@ void Game::gameLoop(){
 
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
+	this->testMenuBackground = MenuBackground(graphics, globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, "assets/backgroundmenu.png");
+
 	while(true){
 
 		//std::cout << " ======= new frame on game loop ======== " << std::endl;
@@ -124,62 +129,61 @@ void Game::gameLoop(){
 			return;
 		}
 
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_F)){
+			graphics.toggleFullscreen();
+		}
+
 		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
 			this->togglePause();
 		}
 
-		if(this->_isPaused){
-			continue;
-		}
+		if(!this->_isPaused){
 
-		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
-			this->_player.moveLeft();
-		}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
-			this->_player.moveRight();
-		}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
-			this->_player.lookUp();
-		}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
-			this->_player.lookDown();
-		}else{
-			this->_player.stopMoving();
-		}
+			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
+				this->_player.moveLeft();
+			}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
+				this->_player.moveRight();
+			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
+				this->_player.lookUp();
+			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
+				this->_player.lookDown();
+			}else{
+				this->_player.stopMoving();
+			}
 
-		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_SPACE) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::A)){
-			this->_player.jump();
-		}
+			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_SPACE) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::A)){
+				this->_player.jump();
+			}
 
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::B)){
-			this->_player.bubble();
-		}
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::B)){
+				this->_player.bubble();
+			}
 
-		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::X)){
-			this->_player.activateVacuum();
-		}
+			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::X)){
+				this->_player.activateVacuum();
+			}
 
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
 
-			for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-				float auxPosX,auxPosY,auxWidth, auxheigth, auxDesX = 0, auxDesY = 0;
+				for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+					float auxPosX,auxPosY,auxWidth, auxheigth, auxDesX = 0, auxDesY = 0;
 
-				this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
-				this->_player.getDes(&auxDesX, &auxDesY);
+					this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
+					this->_player.getDes(&auxDesX, &auxDesY);
 
-				if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
-					(*it)->takeContextAction("Player");
-					this->_player.takeContextAction((*it)->getObjectType());
+					if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
+						(*it)->takeContextAction("Player");
+						this->_player.takeContextAction((*it)->getObjectType());
+					}
+
 				}
+
 
 			}
 
-
-		}
-
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
-			this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
-		}
-
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_F)){
-			graphics.toggleFullscreen();
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
+				this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
+			}
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
@@ -198,6 +202,7 @@ void Game::gameLoop(){
 }
 
 void Game::draw(Graphics &graphics){
+
 	graphics.clear();
 
 	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
@@ -210,6 +215,10 @@ void Game::draw(Graphics &graphics){
 
 	this->_player.draw(graphics);
 
+	if(this->_isPaused){
+		testMenuBackground.draw(graphics);
+	}
+
 	graphics.flip();
 }
 
@@ -217,22 +226,27 @@ void Game::update(float elapsedtime){
 
 	//checkar aqui colisão do player com todos os do sprite to draw e logo em seguida tratar;
 
-
-	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
-		 it->update(elapsedtime);
-	}
-
-	for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
-
-		this->_spritesToDraw[i]->update(elapsedtime);
-
-		if(this->_spritesToDraw[i]->getToBeDeleted()){
-			std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin();
-			this->_spritesToDraw.erase(it + i);
+	if(!this->_isPaused){
+		for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
+			 it->update(elapsedtime);
 		}
+
+		for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
+
+			this->_spritesToDraw[i]->update(elapsedtime);
+
+			if(this->_spritesToDraw[i]->getToBeDeleted()){
+				std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin();
+				this->_spritesToDraw.erase(it + i);
+			}
+		}
+
+		this->_player.update(elapsedtime);
+
+	}else{
+		this->testMenuBackground.update(elapsedtime);
 	}
 
-	this->_player.update(elapsedtime);
 }
 
 void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
