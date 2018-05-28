@@ -43,6 +43,9 @@ void Player::setupAnimations(){
 	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "MoveLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 	this->addAnimation(8, 0, 0, "LookUp", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
 	this->addAnimation(8, 0, 0, "LookDown", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(3, 0, player_constants::PLAYER_HEIGTH*2, "Jump", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 
 }
 
@@ -71,6 +74,8 @@ void Player::stopMoving(){
 void Player::jump(){
 	if(!this->_isAirborne){
 		this->_startJump = true;
+
+		//this->playAnimation("Jump", true);
 
 		Vector2 auxCheckBuble[2];
 
@@ -141,6 +146,17 @@ void Player::update(float elapsedTime){
 	}
 
 	if(this->_isAirborne){
+
+	//	if(this->_currentAnimation != "Jump"){
+				if(this->_facing == RIGHT){
+					this->playAnimation("FallingRight");
+				}else if(this->_facing == LEFT){
+					this->playAnimation("FallingLeft");
+				}
+
+
+		//}
+
 		this->_dy += player_constants::FALL_ACELERATION * elapsedTime;
 		this->_dy = std::min(this->_dy , player_constants::MAX_FALL_SPEED);
 	}
