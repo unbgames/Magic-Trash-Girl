@@ -27,7 +27,7 @@ namespace {
 Game* Game::_instance = nullptr;
 
 Game::Game():
-	_input(),
+	_keyboardInput(),
 	_gamepadInput(),
 	_numberBlocksLine(background_blocks_constants::INITIAL_NUMBER_BLOCKS_LINE),
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
@@ -80,58 +80,77 @@ void Game::gameLoop(){
 			return;
 		}
 
-		this->_input.beginNewFrame();
+		this->_keyboardInput.beginNewFrame();
+		this->_gamepadInput.beginNewFrame();
 
 		while(SDL_PollEvent(&event)){
-			/*
-			 * testando resposta do gamepad
-			 */
+
+			if(event.type == SDL_CONTROLLERDEVICEADDED){
+
+				this->_gamepadInput.initGamepad();
+			}
+
+			if(event.type == SDL_CONTROLLERDEVICEREMOVED){
+				this->_gamepadInput.closeGamepad();
+			}
+
 			if(event.type == SDL_CONTROLLERBUTTONDOWN){
-				std::cout << (int)event.cbutton.button << std::endl;
+
+				this->_gamepadInput.buttonDownEvent(event);
+
+			}
+
+			if(event.type == SDL_CONTROLLERBUTTONUP){
+
+				this->_gamepadInput.buttonUpEvent(event);
 			}
 
 			if(event.type == SDL_KEYDOWN){
 				if(event.key.repeat == 0){
-					this->_input.keyDownEvent(event);
+					this->_keyboardInput.keyDownEvent(event);
 				}
 			}
 			else if(event.type == SDL_KEYUP){
-				this->_input.keyUpEvent(event);
+				this->_keyboardInput.keyUpEvent(event);
 			}
 			if(event.type == SDL_QUIT){
 				return;
 			}
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_ESCAPE)){
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE)){
 			return;
 		}
 
-		if(this->_input.isKeyHeld(SDL_SCANCODE_LEFT)){
+		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
 			this->_player.moveLeft();
-		}else if(this->_input.isKeyHeld(SDL_SCANCODE_RIGHT)){
+		}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
 			this->_player.moveRight();
-		}else if(this->_input.isKeyHeld(SDL_SCANCODE_UP) && !this->_input.isKeyHeld(SDL_SCANCODE_DOWN)){
+		}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
 			this->_player.lookUp();
-		}else if(this->_input.isKeyHeld(SDL_SCANCODE_DOWN) && !this->_input.isKeyHeld(SDL_SCANCODE_UP)){
+		}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
 			this->_player.lookDown();
 		}else{
 			this->_player.stopMoving();
 		}
 
-		if(this->_input.isKeyHeld(SDL_SCANCODE_SPACE)){
+		if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_SPACE) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::A)){
 			this->_player.jump();
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_Z)){
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::B)){
 			this->_player.bubble();
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_X)){
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_X) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::X)){
 			this->_player.startVacuum();
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_C)){
+		if(this->_keyboardInput.wasKeyReleased(SDL_SCANCODE_X) || this->_gamepadInput.wasbuttonReleased(xbox360GamepadMaping::X)){
+			this->_player.stopVacuum();
+		}
+
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
 
 			for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
 				float auxPosX,auxPosY,auxWidth, auxheigth, auxDesX = 0, auxDesY = 0;
@@ -149,15 +168,11 @@ void Game::gameLoop(){
 
 		}
 
-		if(this->_input.wasKeyReleased(SDL_SCANCODE_X)){
-			this->_player.stopVacuum();
-		}
-
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_R)){
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
 			this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 		}
 
-		if(this->_input.wasKeyPressed(SDL_SCANCODE_F)){
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_F)){
 			graphics.toggleFullscreen();
 		}
 

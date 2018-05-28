@@ -60,7 +60,7 @@ private:
 
 	Player _player;
 
-	KeyboardInput _input;
+	KeyboardInput _keyboardInput;
 
 	GamepadInput _gamepadInput;
 

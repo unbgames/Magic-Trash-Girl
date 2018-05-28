@@ -103,4 +103,16 @@ struct ExVariables{
 
 };
 
+enum xbox360GamepadMaping{
+	A = 0,
+	B = 1,
+	X = 2,
+	Y = 3,
+	directionalUp = 11,
+	directionalDown = 12,
+	directionalRight = 14,
+	directionalLeft = 13,
+	start = 6
+};
+
 #endif /* SOURCE_HEADERS_GLOBALS_H_ */
