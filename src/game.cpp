@@ -37,7 +37,8 @@ Game::Game():
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
 	_backgroundSectorHandler(),
-	_graphicsAssociated(nullptr){
+	_graphicsAssociated(nullptr),
+	_menuToReplaceInStack(nullptr){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
@@ -122,17 +123,13 @@ void Game::gameLoop(){
 			}
 		}
 
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE)){
-			return;
-		}
-
 		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_F)){
 			graphics.toggleFullscreen();
 		}
 
 		if(this->_menuStack.empty()){
 
-			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE) || this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
 				this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInput));
 			}
 
@@ -249,6 +246,11 @@ void Game::update(float elapsedtime){
 
 		if(this->_menuStack.top()->getRequestPop()){
 			this->_menuStack.pop();
+			if(this->_menuToReplaceInStack){
+				this->_menuStack.emplace(this->_menuToReplaceInStack);
+				this->_menuToReplaceInStack = nullptr;
+				this->_menuStack.top()->update(elapsedtime);
+			}
 		}
 	}
 

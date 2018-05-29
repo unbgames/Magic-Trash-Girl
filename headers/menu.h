@@ -35,7 +35,7 @@ public:
 
 protected:
 
-	void addButton();
+	virtual void activateButton();
 
 	Graphics* _graphicsAssociated;
 
@@ -51,6 +51,8 @@ protected:
 
 	float _x,_y;
 	int _w,_h;
+
+	std::size_t _activeButton;
 
 private:
 

@@ -50,6 +50,8 @@ public:
 
 	int getCurrentNumberBlocksColumn();
 
+	int setMenuToReplaceInStack();
+
 private:
 
 	static Game* _instance;
@@ -79,6 +81,8 @@ private:
 	Graphics* _graphicsAssociated;
 
 	std::stack<std::unique_ptr<Menu>> _menuStack;
+
+	Menu* _menuToReplaceInStack;
 
 };
 

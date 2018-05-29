@@ -15,7 +15,7 @@ class Menu;
 class MenuButton: public AnimatedSprite{
 public:
 
-	MenuButton(Graphics &graphics, float offsetX, float offsetY, std::string spritesheetPath, float widthFactor, float heightFactor, Menu& menuAssociated);
+	MenuButton(std::string name, Graphics &graphics, float offsetX, float offsetY, std::string spritesheetPath, float widthFactor, float heightFactor, Menu& menuAssociated);
 	~MenuButton();
 
 	void update(float elapsedTime);
@@ -24,9 +24,17 @@ public:
 
 	std::string getObjectType();
 
+	std::string getName();
+
+	void setupIdleAnimation(int frames, int x, int y, int width, int height, Vector2 offset, ExVariables exVariables = ExVariables());
+
+	void setupActiveAnimation(int frames, int x, int y,int width, int height, Vector2 offset, ExVariables exVariables = ExVariables());
+
 private:
 
 	Menu* _menuAssociated;
+
+	std::string _name;
 
 	float _offsetX,_offsetY, _widthFactor, _heightFactor;
 

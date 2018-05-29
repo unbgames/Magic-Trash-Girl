@@ -12,9 +12,10 @@
  *	MenuButton é derivado de animated sprites, mas é construido por partes
  *	offsets e width são sempre uma fração do tamanho do menu
  */
-MenuButton::MenuButton(Graphics &graphics, float offsetX, float offsetY, std::string spritesheetPath, float widthFactor, float heightFactor, Menu& menuAssociated):
+MenuButton::MenuButton(std::string name, Graphics &graphics, float offsetX, float offsetY, std::string spritesheetPath, float widthFactor, float heightFactor, Menu& menuAssociated):
 		AnimatedSprite(graphics, spritesheetPath, 0, 0, 0, 0, -1000, -1000, 300),
 		_menuAssociated(&menuAssociated),
+		_name(name),
 		_offsetX(offsetX),
 		_offsetY(offsetY),
 		_widthFactor(widthFactor),
@@ -27,8 +28,6 @@ MenuButton::~MenuButton(){
 }
 
 void MenuButton::update(float elapsedTime){
-
-	//os offsets não estáo sendo ajustados caso haja resizing da janela a ponto de diminuir o menu, tenho q arrumar isso depois
 
 	int auxW, auxH;
 
@@ -51,4 +50,16 @@ void MenuButton::setupAnimations(){
 
 std::string MenuButton::getObjectType(){
 	return "MenuButton";
+}
+
+std::string MenuButton::getName(){
+	return this->_name;
+}
+
+void MenuButton::setupIdleAnimation(int frames, int x, int y, int width, int height, Vector2 offset, ExVariables exVariables){
+	this->addAnimation(frames, x, y, "IDLE", width, height, offset, exVariables);
+}
+
+void MenuButton::setupActiveAnimation(int frames, int x, int y, int width, int height, Vector2 offset, ExVariables exVariables){
+	this->addAnimation(frames, x, y, "ACTIVE", width, height, offset, exVariables);
 }

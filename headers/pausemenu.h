@@ -26,6 +26,9 @@ public:
 	void setupButtons();
 
 private:
+
+	void activateButton();
+
 };
 
 #endif /* SOURCE_HEADERS_PAUSEMENU_H_ */

@@ -16,7 +16,8 @@ Menu::Menu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInput &gamep
 	_x(0),
 	_y(0),
 	_w(0),
-	_h(0){
+	_h(0),
+	_activeButton(0){
 
 }
 
@@ -31,8 +32,14 @@ void Menu::update(float elapsedTime){
 
 	if(!this->_buttonsVector.empty()){
 		for (std::vector<MenuButton>::iterator it = this->_buttonsVector.begin() ; it != this->_buttonsVector.end(); ++it){
-				 it->update(elapsedTime);
-			}
+			 it->update(elapsedTime);
+
+			 if((std::size_t)(it - this->_buttonsVector.begin()) != this->_activeButton){
+				 it->playAnimation("IDLE");
+			 }else{
+				 it->playAnimation("ACTIVE");
+			 }
+		}
 	}
 }
 
@@ -44,10 +51,6 @@ void Menu::draw(){
 			it->draw(*this->_graphicsAssociated);
 		}
 	}
-
-}
-
-void Menu::addButton(){
 
 }
 
@@ -68,4 +71,8 @@ void Menu::getPosSize(float* x, float* y, int* w, int* h){
 	if(h != nullptr){
 		*h = this->_h;
 	}
+}
+
+void Menu::activateButton(){
+	std::cout << this->_buttonsVector[this->_activeButton].getName() << std::endl;
 }
