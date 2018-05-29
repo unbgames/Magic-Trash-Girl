@@ -12,6 +12,7 @@
 #include "menubackground.h"
 #include "gamepadinput.h"
 #include "keyboardinput.h"
+#include "menubutton.h"
 
 class Menu{
 public:
@@ -30,6 +31,8 @@ public:
 
 	bool getRequestPop();
 
+	void getPosSize(float* x, float* y, int* w, int* h);
+
 protected:
 
 	void addButton();
@@ -44,7 +47,10 @@ protected:
 
 	bool _requestPop;
 
-	//std::vector<MenuButtons> _buttonsVector;
+	std::vector<MenuButton> _buttonsVector;
+
+	float _x,_y;
+	int _w,_h;
 
 private:
 

@@ -42,7 +42,7 @@ public:
 
 	bool checkColision(float posX, float posY, float width, float height, float desX, float desY);
 
-	void getPosSize(float* x, float* y, float* w, float* h);
+	void getPosSize(float* x, float* y, int* w, int* h);
 
 	void getDes(float* dx, float *dy);
 

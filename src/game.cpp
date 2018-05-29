@@ -163,7 +163,8 @@ void Game::gameLoop(){
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
 
 				for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-					float auxPosX,auxPosY,auxWidth, auxheigth, auxDesX = 0, auxDesY = 0;
+					float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
+					int auxWidth, auxheigth;
 
 					this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
 					this->_player.getDes(&auxDesX, &auxDesY);
@@ -192,7 +193,7 @@ void Game::gameLoop(){
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-//		std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
+		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -473,7 +474,8 @@ void Game::setBlockType(int indexX, int indexY, BlockType type){
 
 	Vector2 auxColision[4];
 
-	float auxX, auxY, auxW, auxH;
+	float auxX, auxY;
+	int auxW, auxH;
 
 	this->_player.getPosSize(&auxX, &auxY, &auxW, &auxH);
 

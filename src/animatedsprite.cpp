@@ -27,6 +27,11 @@ AnimatedSprite::AnimatedSprite(Graphics &graphics, const std::string &filePath, 
 
 void AnimatedSprite::addAnimation(int frames, int x, int y, std::string name, int width, int height, Vector2 offset, ExVariables exVariables){
 	std::vector<SDL_Rect> rectangles;
+
+	if(frames < 1){
+		std::cout << "error :: Tentativa de inserir animação sem frames" << std::endl;
+	}
+
 	for (int i=0; i<frames; i++){
 		SDL_Rect newRect = { (i* width + x), y, width, height};
 		rectangles.push_back(newRect);
@@ -147,7 +152,7 @@ bool AnimatedSprite::checkColision(float posX, float posY, float width, float he
 	return false;
 }
 
-void AnimatedSprite::getPosSize(float* x, float* y, float* w, float* h){
+void AnimatedSprite::getPosSize(float* x, float* y, int* w, int* h){
 	*x = this->_x;
 	*y = this->_y;
 	*w = this->_w;

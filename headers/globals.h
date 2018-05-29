@@ -51,8 +51,8 @@ namespace background_blocks_constants {
 	const int NUMBER_BLOCKS_LINE_SECTORS = 16;
 	const int NUMBER_BLOCKS_COLUMN_SECTORS = 16;
 
-	const int NUMBER_SECTORS_LINE = 6;
-	const int NUMBER_SECTORS_COLUMN = 6;
+	const int NUMBER_SECTORS_LINE = 8;
+	const int NUMBER_SECTORS_COLUMN = 8;
 }
 
 enum Direction{
