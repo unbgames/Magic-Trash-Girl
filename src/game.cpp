@@ -17,6 +17,7 @@
 #include "globals.h"
 #include "menubackground.h"
 #include "pausemenu.h"
+#include "mainmenu.h"
 
 
 
@@ -79,7 +80,7 @@ void Game::gameLoop(){
 
 	this->draw(graphics);
 
-	this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+	this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInput));
 
 	while(true){
 
@@ -522,3 +523,8 @@ int Game::getCurrentNumberBlocksLine(){
 int Game::getCurrentNumberBlocksColumn(){
 	return this->_numberBlocksColumn;
 }
+
+void Game::setMenuToReplaceInStack(Menu* menuToReplaceInStack){
+	this->_menuToReplaceInStack = menuToReplaceInStack;
+}
+

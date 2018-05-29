@@ -10,6 +10,7 @@
 #include "game.h"
 #include "camera.h"
 #include "graphics.h"
+#include "mainmenu.h"
 
 PauseMenu::PauseMenu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInput &gamepadInput):
 	Menu(graphics, keyboardInput, gamepadInput){
@@ -93,7 +94,8 @@ void PauseMenu::activateButton(){
 	if(this->_buttonsVector[this->_activeButton].getName() == "continue"){
 		this->_requestPop = true;
 	}else if(this->_buttonsVector[this->_activeButton].getName() == "backToMainMenu"){
-		Game::getInstance().requestQuit();
+		Game::getInstance().setMenuToReplaceInStack(new MainMenu(*this->_graphicsAssociated, *this->_keyboardInput, *this->_gamepadInput));
+		this->_requestPop = true;
 	}
 
 }

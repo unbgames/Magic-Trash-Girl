@@ -50,7 +50,7 @@ public:
 
 	int getCurrentNumberBlocksColumn();
 
-	int setMenuToReplaceInStack();
+	void setMenuToReplaceInStack(Menu* menuToReplaceInStack);
 
 private:
 
