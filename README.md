@@ -1,9 +1,8 @@
 Implementando:
 
-	menu de pausa do jogo
-
 falta implementar mas ja ta encaminhado
 
+	menu principal
 	load de setores por arquivos
 	fazer o smooth da camera
 	
