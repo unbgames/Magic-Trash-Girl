@@ -14,7 +14,7 @@ TITO:
 		a maioria dos width e height tão em float, era bom modificar pra int
 				
 	
-prasos para entrega:
+prazos para entrega:
 
 	30%: Core de gameplay:
 		todas as ações do personagem principal - Tito - implementado
