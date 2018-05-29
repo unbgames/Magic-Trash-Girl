@@ -14,6 +14,7 @@ Camera::Camera(){ // @suppress("Class members should be properly initialized")
 }
 
 Camera::Camera(Graphics &graphics):
+	folowPlayer(true),
 	_graphicsAssociated(&graphics),
 	_x(((this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH))/2),
 	_y(( this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH)/2){

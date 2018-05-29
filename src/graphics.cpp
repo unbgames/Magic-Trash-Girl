@@ -95,7 +95,6 @@ void Graphics::toggleFullscreen(){
 		SDL_SetWindowFullscreen(this->_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		this->_fullscreenState = true;
 	}
-
 }
 
 Game* Graphics::getGameAssociated(){

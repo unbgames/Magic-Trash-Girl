@@ -8,20 +8,22 @@
 #include "pausemenu.h"
 #include "menubutton.h"
 #include "game.h"
+#include "camera.h"
+#include "graphics.h"
 
 PauseMenu::PauseMenu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInput &gamepadInput):
 	Menu(graphics, keyboardInput, gamepadInput){
 	this->_background = MenuBackground(graphics, globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, "assets/backgroundmenu.png");
 	this->setupButtons();
-
 }
 
 PauseMenu::~PauseMenu(){
-
 }
 
 void PauseMenu::update(float elapsedTime){
+
 	Menu::update(elapsedTime);
+
 }
 
 void PauseMenu::handleEvents(){

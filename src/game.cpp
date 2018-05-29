@@ -75,6 +75,12 @@ void Game::gameLoop(){
 
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
+	this->update(MAX_FRAME_TIME);
+
+	this->draw(graphics);
+
+	this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+
 	while(true){
 
 		//std::cout << " ======= new frame on game loop ======== " << std::endl;

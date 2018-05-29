@@ -7,6 +7,8 @@
 
 
 #include "menu.h"
+#include "camera.h"
+#include "graphics.h"
 
 Menu::Menu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInput &gamepadInput):
 	_graphicsAssociated(&graphics),
@@ -41,6 +43,11 @@ void Menu::update(float elapsedTime){
 			 }
 		}
 	}
+
+	//corrije a camera depois de mudar a resolução
+	this->_graphicsAssociated->camera.setx(this->_graphicsAssociated->camera.getx());
+	this->_graphicsAssociated->camera.sety(this->_graphicsAssociated->camera.gety());
+
 }
 
 void Menu::draw(){

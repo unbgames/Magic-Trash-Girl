@@ -22,11 +22,13 @@ public:
 	int getx();
 	int gety();
 
+	bool folowPlayer;
+
 private:
+
 	Graphics* _graphicsAssociated;
 
 	int _x, _y;
-
 
 };
 
