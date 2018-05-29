@@ -5,14 +5,12 @@ TITO:
 
 	falta implementar mas ja ta encaminhado
 
-		menu principal
 		load de setores por arquivos
 		fazer o smooth da camera
 		
 	coisas pra arrumar
+	
 
-		a maioria dos width e height tão em float, era bom modificar pra int
-				
 	
 prazos para entrega:
 
@@ -27,5 +25,5 @@ prazos para entrega:
 		integração da trilha sonora - Tollini -
 	100%:
 		Correção de eventuais bugs - Ambos -
-		menus - Tito - implementando
+		menus - Tito - implementado
 		cutscenes - Tollini -
