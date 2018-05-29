@@ -17,6 +17,8 @@
 #include <memory>
 #include "backgroundblock.h"
 #include "gamepadinput.h"
+#include <stack>
+#include "menu.h"
 
 
 class Graphics;
@@ -48,8 +50,6 @@ public:
 
 	int getCurrentNumberBlocksColumn();
 
-	void togglePause();
-
 private:
 
 	static Game* _instance;
@@ -78,11 +78,7 @@ private:
 
 	Graphics* _graphicsAssociated;
 
-	SDL_Texture* _pauseBackground;
-
-	bool _isPaused;
-
-	MenuBackground testMenuBackground;
+	std::stack<std::unique_ptr<Menu>> _menuStack;
 
 };
 

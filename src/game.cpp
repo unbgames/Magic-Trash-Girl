@@ -16,6 +16,7 @@
 #include "portal.h"
 #include "globals.h"
 #include "menubackground.h"
+#include "pausemenu.h"
 
 
 
@@ -36,9 +37,7 @@ Game::Game():
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
 	_backgroundSectorHandler(),
-	_graphicsAssociated(nullptr),
-	_pauseBackground(nullptr),
-	_isPaused(false){
+	_graphicsAssociated(nullptr){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
@@ -74,8 +73,6 @@ void Game::gameLoop(){
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
-
-	this->testMenuBackground = MenuBackground(graphics, globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, "assets/backgroundmenu.png");
 
 	while(true){
 
@@ -133,11 +130,11 @@ void Game::gameLoop(){
 			graphics.toggleFullscreen();
 		}
 
-		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
-			this->togglePause();
-		}
+		if(this->_menuStack.empty()){
 
-		if(!this->_isPaused){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
+				this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+			}
 
 			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
 				this->_player.moveLeft();
@@ -184,6 +181,8 @@ void Game::gameLoop(){
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
 				this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 			}
+		}else{
+			this->_menuStack.top()->handleEvents();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
@@ -198,6 +197,7 @@ void Game::gameLoop(){
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
 		this->draw(graphics);
+
 	}
 }
 
@@ -215,8 +215,8 @@ void Game::draw(Graphics &graphics){
 
 	this->_player.draw(graphics);
 
-	if(this->_isPaused){
-		testMenuBackground.draw(graphics);
+	if(!this->_menuStack.empty()){
+		this->_menuStack.top()->draw();
 	}
 
 	graphics.flip();
@@ -226,7 +226,7 @@ void Game::update(float elapsedtime){
 
 	//checkar aqui colisão do player com todos os do sprite to draw e logo em seguida tratar;
 
-	if(!this->_isPaused){
+	if(this->_menuStack.empty()){
 		for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 			 it->update(elapsedtime);
 		}
@@ -244,7 +244,11 @@ void Game::update(float elapsedtime){
 		this->_player.update(elapsedtime);
 
 	}else{
-		this->testMenuBackground.update(elapsedtime);
+		this->_menuStack.top()->update(elapsedtime);
+
+		if(this->_menuStack.top()->getRequestPop()){
+			this->_menuStack.pop();
+		}
 	}
 
 }
@@ -507,8 +511,4 @@ int Game::getCurrentNumberBlocksLine(){
 
 int Game::getCurrentNumberBlocksColumn(){
 	return this->_numberBlocksColumn;
-}
-
-void Game::togglePause(){
-	this->_isPaused = !this->_isPaused;
 }
