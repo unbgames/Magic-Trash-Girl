@@ -152,7 +152,7 @@ void Game::gameLoop(){
 				this->_player.stopMoving();
 			}
 
-			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_SPACE) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::A)){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_SPACE) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::A)){
 				this->_player.jump();
 			}
 

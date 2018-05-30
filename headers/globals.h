@@ -17,10 +17,10 @@
 
 namespace player_constants {
 	const float WALK_SPEED = 0.4f;
-	const float NORMAL_JUMP_SPEED = -0.7f;
-	const float BUBLE_JUMP_SPEED = -1.1f;
+	const float NORMAL_JUMP_SPEED = -0.8f;
+	const float BUBLE_JUMP_SPEED = -1.2f;
 	const float FALL_ACELERATION = 0.002f;
-	const float MAX_FALL_SPEED = 1.1f;
+	const float MAX_FALL_SPEED = 1.2f;
 
 	const float PLAYER_START_X = 130;
 	const float PLAYER_START_Y = 72;

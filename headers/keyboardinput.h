@@ -21,6 +21,7 @@
 class KeyboardInput {
 public:
 	void beginNewFrame();
+	void menuTransition();
 	void keyUpEvent(const SDL_Event& event);
 	void keyDownEvent(const SDL_Event& event);
 

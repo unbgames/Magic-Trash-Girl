@@ -15,6 +15,13 @@ void KeyboardInput::beginNewFrame(){
 	this->_releasedKeys.clear();
 }
 
+void KeyboardInput::menuTransition(){
+	this->_pressedKeys.clear();
+	this->_releasedKeys.clear();
+	this->_heldKeys.clear();
+}
+
+
 void KeyboardInput::keyDownEvent(const SDL_Event& event){
 	this->_pressedKeys[event.key.keysym.scancode] = true;
 	this->_heldKeys[event.key.keysym.scancode] = true;
