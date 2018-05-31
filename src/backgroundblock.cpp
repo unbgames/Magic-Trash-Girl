@@ -8,8 +8,6 @@
 
 #include "backgroundblock.h"
 
-
-
 BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, BlockType typeIn):
 			AnimatedSprite(graphics, "assets/backgroundblock.png", 0, 0, background_blocks_constants::BLOCK_WIDTH, background_blocks_constants::BLOCK_HEIGTH, indexX*background_blocks_constants::BLOCK_WIDTH, indexY*background_blocks_constants::BLOCK_HEIGTH, 300),
 			_hp(100),
@@ -44,6 +42,7 @@ void BackgroundBlock::update(float elapsedTime){
 
 	if(this->_hp <= 0){
 		this->_type = NONE;
+		this->removeBorders();
 		this->_hp = 100;
 	}
 
@@ -81,7 +80,20 @@ void BackgroundBlock::update(float elapsedTime){
 		}
 	}
 
+	for (std::vector<BlockBorder>::iterator it = this->_blockBorderVector.begin() ; it != this->_blockBorderVector.end(); ++it){
+		 it->update(elapsedTime);
+	}
+
 	AnimatedSprite::update(elapsedTime);
+
+}
+
+void BackgroundBlock::draw(Graphics &graphics){
+//	for (std::vector<BlockBorder>::iterator it = this->_blockBorderVector.begin() ; it != this->_blockBorderVector.end(); ++it){
+//		 it->draw(graphics);
+//	}
+
+	AnimatedSprite::draw(graphics);
 
 }
 
@@ -110,3 +122,18 @@ void  BackgroundBlock::setType(BlockType type){
 std::string BackgroundBlock::getObjectType(){
 	return "BackgroundBlock";
 }
+
+void BackgroundBlock::addBorder(){
+	this->_blockBorderVector.emplace_back(BlockBorder(*this->_graphicsAssociated, *this));
+}
+
+void BackgroundBlock::removeBorders(){
+	this->_blockBorderVector.clear();
+}
+
+void BackgroundBlock::drawBorder(){
+	for (std::vector<BlockBorder>::iterator it = this->_blockBorderVector.begin() ; it != this->_blockBorderVector.end(); ++it){
+		 it->draw(*this->_graphicsAssociated);
+	}
+}
+

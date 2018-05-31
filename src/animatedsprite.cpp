@@ -176,3 +176,11 @@ void AnimatedSprite::takeContextAction(std::string objectType){
 	std::cout << "context action   == " << objectType << std::endl;
 
 }
+
+float AnimatedSprite::getPosX(){
+	return this->_x;
+}
+float AnimatedSprite::getPosY(){
+	return this->_y;
+}
+

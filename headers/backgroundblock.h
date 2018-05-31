@@ -9,6 +9,8 @@
 #define SOURCE_HEADERS_BACKGROUNDBLOCK_H_
 
 #include "animatedsprite.h"
+#include "blockborder.h"
+#include <vector>
 
 class BackgroundBlock: public AnimatedSprite{
 public:
@@ -17,6 +19,8 @@ public:
 	~BackgroundBlock();
 
 	void update(float elapsedTime);
+
+	void draw(Graphics &graphics);
 
 	void setupAnimations();
 
@@ -28,7 +32,15 @@ public:
 
 	std::string getObjectType();
 
+	void addBorder();
+
+	void removeBorders();
+
+	void drawBorder();
+
 private:
+
+	std::vector<BlockBorder> _blockBorderVector;
 
 	float _hp;
 

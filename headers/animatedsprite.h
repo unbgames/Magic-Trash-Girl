@@ -48,6 +48,9 @@ public:
 
 	virtual void takeContextAction(std::string objectType);
 
+	float getPosX();
+	float getPosY();
+
 protected:
 
 	float _dx, _dy;

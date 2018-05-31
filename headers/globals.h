@@ -53,6 +53,9 @@ namespace background_blocks_constants {
 
 	const int NUMBER_SECTORS_LINE = 8;
 	const int NUMBER_SECTORS_COLUMN = 8;
+
+	const int BLOCK_BORDER_TOP_BOT_SIZE = BLOCK_WIDTH/4;
+	const int BLOCK_BORDER_RIGHT_LEFT_SIZE = BLOCK_HEIGTH/4;
 }
 
 enum Direction{
