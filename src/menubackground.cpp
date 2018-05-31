@@ -40,9 +40,9 @@ void MenuBackground::update(float elapsedTime){
 		this->_h = this->_defaultHeight;
 	}
 
-	this->_x = this->_graphicsAssociated->camera.getx() - this->_w/2;
+	this->_x = this->_graphicsAssociated->camera.getx() - this->_w/2 + this->_graphicsAssociated->windowWidth/2;
 
-	this->_y =  this->_graphicsAssociated->camera.gety() - this->_h/2;
+	this->_y =  this->_graphicsAssociated->camera.gety() - this->_h/2 + this->_graphicsAssociated->windowHeight/2;
 
 	AnimatedSprite::update(elapsedTime);
 }

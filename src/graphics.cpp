@@ -51,8 +51,8 @@ void Graphics::blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_
 
 	SDL_Rect aux = *destinationRectangle;
 
-	aux.x -= this->camera.getx() - (this->windowWidth)/2;
-	aux.y -= this->camera.gety() - (this->windowHeight)/2;
+	aux.x -= this->camera.getx();
+	aux.y -= this->camera.gety();
 
 	SDL_RenderCopyEx(this->_renderer, texture, sourceRectangle, &aux, angle, center, flip);
 }

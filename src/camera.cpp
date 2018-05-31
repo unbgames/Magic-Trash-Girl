@@ -24,11 +24,11 @@ Camera::Camera(Graphics &graphics):
 void Camera::setx(int x){
 
 	if((this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) <= this->_graphicsAssociated->windowWidth){
-		this->_x = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH)/2;
-	}else if(x < this->_graphicsAssociated->windowWidth/2){
-		this->_x = this->_graphicsAssociated->windowWidth/2;
-	}else if(x > (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth/2){
-		this->_x = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth/2;
+		this->_x = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH)/2 - this->_graphicsAssociated->windowWidth/2;
+	}else if(x < 0){
+		this->_x = 0;
+	}else if(x > (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth){
+		this->_x = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth;
 	}else{
 		this->_x = x;
 	}
@@ -38,11 +38,11 @@ void Camera::setx(int x){
 void Camera::sety(int y){
 
 	if((this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) <= this->_graphicsAssociated->windowHeight){
-		this->_y = ( this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH)/2;
-	}else if( y < this->_graphicsAssociated->windowHeight/2){
-		this->_y = this->_graphicsAssociated->windowHeight/2;
-	}else if(y > (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight/2){
-		this->_y = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight/2;
+		this->_y = ( this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH)/2 - this->_graphicsAssociated->windowHeight/2;;
+	}else if( y < 0){
+		this->_y = 0;
+	}else if(y > (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight){
+		this->_y = (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight;
 	}else{
 		this->_y = y;
 	}

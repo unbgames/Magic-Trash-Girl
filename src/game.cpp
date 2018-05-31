@@ -192,12 +192,13 @@ void Game::gameLoop(){
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+		//std::cout << " fps antes de correção-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		if(ELAPSED_TIME_MS < MIN_FRAME_TIME){
 			SDL_Delay(MIN_FRAME_TIME - ELAPSED_TIME_MS);
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-		//std::cout << " fps-> " << 1000/ELAPSED_TIME_MS << std::endl;
+		//std::cout << " fps real-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 

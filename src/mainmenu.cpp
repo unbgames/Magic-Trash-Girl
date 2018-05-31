@@ -27,11 +27,11 @@ MainMenu::~MainMenu(){
 
 void MainMenu::update(float elapsedTime){
 
-	if((this->_graphicsAssociated->camera.getx() == this->_graphicsAssociated->windowWidth/2) || (this->_graphicsAssociated->camera.getx() == (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth/2)){
+	if((this->_graphicsAssociated->camera.getx() == 0) || (this->_graphicsAssociated->camera.getx() == (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth)){
 		this->_camDesX = -1 * this->_camDesX;
 	}
 
-	if((this->_graphicsAssociated->camera.gety() == this->_graphicsAssociated->windowHeight/2) || (this->_graphicsAssociated->camera.gety() == (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight/2)){
+	if((this->_graphicsAssociated->camera.gety() == 0) || (this->_graphicsAssociated->camera.gety() == (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH) - this->_graphicsAssociated->windowHeight)){
 		this->_camDesY = -1 * this->_camDesY;
 	}
 
@@ -108,8 +108,6 @@ void MainMenu::activateButton(){
 
 	if(this->_buttonsVector[this->_activeButton].getName() == "startGame"){
 		Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
-		this->_gamepadInput->menuTransition();
-		this->_keyboardInput->menuTransition();
 		this->_requestPop = true;
 	}else if(this->_buttonsVector[this->_activeButton].getName() == "quitGame"){
 		Game::getInstance().requestQuit();

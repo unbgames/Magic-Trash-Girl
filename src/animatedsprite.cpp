@@ -95,6 +95,13 @@ void AnimatedSprite::update(float elapsedTime) {
 
 void AnimatedSprite::draw(Graphics &graphics){
 
+	if( (this->_x + this->_w < this->_graphicsAssociated->camera.getx()) ||
+		(this->_x > this->_graphicsAssociated->camera.getx() + this->_graphicsAssociated->windowWidth) ||
+		(this->_y + this->_h < this->_graphicsAssociated->camera.gety()) ||
+		(this->_y > this->_graphicsAssociated->camera.gety() + this->_graphicsAssociated->windowHeight)){
+		return;
+	}
+
 	if( this->_visible){
 		SDL_Rect destinationRectangle;
 		destinationRectangle.x = this->_x + this->_offsets[this->_currentAnimation].x;
