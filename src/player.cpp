@@ -208,7 +208,7 @@ void Player::update(float elapsedTime){
 		this->_dy += (player_constants::FALL_ACELERATION_IN_WATER) * elapsedTime;
 
 	}else{
-		if(this->_isSwiming){
+		if(this->_isSwiming && (this->_isAirborne == true)){
 			this->_dy = player_constants::NORMAL_JUMP_SPEED;
 		}
 		this->_isSwiming = false;
