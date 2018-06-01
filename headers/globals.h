@@ -19,7 +19,10 @@ namespace player_constants {
 	const float WALK_SPEED = 0.4f;
 	const float NORMAL_JUMP_SPEED = -0.8f;
 	const float BUBLE_JUMP_SPEED = -1.2f;
+	const float WATER_JUMP_SPEED =  -0.2f;
 	const float FALL_ACELERATION = 0.002f;
+	const float FALL_ACELERATION_IN_WATER = 0.0002f;
+	const float MAX_FALL_SPEED_ON_WATER = 0.3f;
 	const float MAX_FALL_SPEED = 1.2f;
 
 	const float PLAYER_START_X = 130;
@@ -70,6 +73,7 @@ enum BlockType{
 	BREAKABLE,
 	UNBREAKABLE,
 	BUBLE,
+	WATER,
 //	OUTOFBONDS
 };
 

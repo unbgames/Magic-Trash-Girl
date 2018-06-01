@@ -26,7 +26,11 @@ void BlockBorder::update(float elapsedTime){
 }
 
 void BlockBorder::setupAnimations(){
-	this->addAnimation(1, 0, 256, "IDLE", 80,80, Vector2 (0,0));
+	if(this->_blockAssociated->getType() == WATER){
+		this->addAnimation(2, 80, 256, "IDLE", 80,80, Vector2 (0,0));
+	}else{
+		this->addAnimation(1, 0, 256, "IDLE", 80,80, Vector2 (0,0));
+	}
 }
 
 std::string BlockBorder::getObjectType(){

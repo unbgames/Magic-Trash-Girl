@@ -46,6 +46,7 @@ private:
 	Direction _facing;
 	Direction _idleFacing;
 	bool _isAirborne;
+	bool _isSwiming;
 
 	bool _startJump;
 

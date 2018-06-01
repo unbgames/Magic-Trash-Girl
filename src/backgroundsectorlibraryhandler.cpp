@@ -91,12 +91,32 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
+	aux.clear();
+
+	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
+
+			if(j == 0 || j == background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS-1){
+				aux.push_back(UNBREAKABLE);
+			}else if(i == 0){
+				aux.push_back(NONE);
+			}else if(i == background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS - 1){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(WATER);
+			}
+		}
+	}
+
+	auxFlags = (0);
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
 	aux.clear();
 
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
-			if(i == 4 && j == 4){
+			if(i == 4 || j == 5){
 				aux.push_back(NONE);
 			}else{
 				aux.push_back(BREAKABLE);

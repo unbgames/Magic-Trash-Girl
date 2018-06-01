@@ -22,16 +22,24 @@ BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, Blo
 				case BREAKABLE:
 					this->setVisible(true);
 					this->playAnimation("BREAKABLE");
+					this->addBorder();
 				break;
 				case UNBREAKABLE:
 					this->setVisible(true);
 					this->playAnimation("UNBREAKABLE");
+					this->addBorder();
 				break;
 				case BUBLE:
 					this->setVisible(true);
 					this->playAnimation("BUBLE");
 				break;
+				case WATER:
+					this->setVisible(true);
+					this->playAnimation("WATER");
+					this->addBorder();
+				break;
 			}
+
 }
 
 BackgroundBlock::~BackgroundBlock(){
@@ -63,6 +71,10 @@ void BackgroundBlock::update(float elapsedTime){
 			this->setVisible(true);
 			this->playAnimation("BUBLE");
 		break;
+		case WATER:
+			this->setVisible(true);
+			this->playAnimation("WATER");
+		break;
 	}
 
 	if(this->_hp <= 50){
@@ -76,6 +88,8 @@ void BackgroundBlock::update(float elapsedTime){
 			break;
 			case BUBLE:
 				this->playAnimation("BUBLE 50");
+			break;
+			case WATER:
 			break;
 		}
 	}
@@ -104,6 +118,7 @@ void BackgroundBlock::setupAnimations(){
 	this->addAnimation(1, 0, 64, "UNBREAKABLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 0, 128, "BUBLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 64, 128, "BUBLE 50", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 64, 192, "WATER", 64,64, Vector2 (0,0));
 }
 
 void BackgroundBlock::takeDamage(float damage){
@@ -115,8 +130,16 @@ BlockType BackgroundBlock::getType(){
 }
 
 void  BackgroundBlock::setType(BlockType type){
+
 	this->_type = type;
 	this->_hp = 100;
+	if((type != NONE) && (type!=BUBLE)){
+		this->removeBorders();
+		this->addBorder();
+	}else{
+		this->removeBorders();
+	}
+
 }
 
 std::string BackgroundBlock::getObjectType(){

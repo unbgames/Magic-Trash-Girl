@@ -20,6 +20,7 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_facing(RIGHT),
 		_idleFacing(RIGHT),
 		_isAirborne(false),
+		_isSwiming(false),
 		_startJump(false),
 		_vCone(graphics)
 		{
@@ -46,6 +47,10 @@ void Player::setupAnimations(){
 	this->addAnimation(3, 0, player_constants::PLAYER_HEIGTH*2, "Jump", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "SwimRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "SwimLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(8, 0, 0, "SwimUp", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(8, 0, 0, "SwimDown", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 
 }
 
@@ -53,14 +58,22 @@ void Player::moveLeft(){
 		this->_facing = LEFT;
 		this->_idleFacing = LEFT;
 		this->_dx = -player_constants::WALK_SPEED;
-		this->playAnimation("MoveLeft");
+		if(this->_isSwiming){
+			this->playAnimation("SwimLeft");
+		}else{
+			this->playAnimation("MoveLeft");
+		}
 }
 
 void Player::moveRight(){
 		this->_facing = RIGHT;
 		this->_idleFacing = RIGHT;
 		this->_dx = player_constants::WALK_SPEED;
-		this->playAnimation("MoveRight");
+		if(this->_isSwiming){
+			this->playAnimation("SwimRight");
+		}else{
+			this->playAnimation("MoveRight");
+		}
 }
 
 void Player::stopMoving(){
@@ -73,9 +86,13 @@ void Player::stopMoving(){
 
 void Player::jump(){
 	if(!this->_isAirborne){
-		this->_startJump = true;
 
 		//this->playAnimation("Jump", true);
+
+		if(this->_isSwiming){
+			this->_dy = player_constants::WATER_JUMP_SPEED;
+			return;
+		}
 
 		Vector2 auxCheckBuble[2];
 
@@ -89,12 +106,14 @@ void Player::jump(){
 			this->_dy = player_constants::NORMAL_JUMP_SPEED;
 		}
 
-
 	}
 }
 
 void Player::lookUp(){
-		this->_dx = 0.0f;
+
+		if(!this->_isSwiming){
+			this->_dx = 0.0f;
+		}
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
 			this->_idleFacing = this->_facing;
@@ -104,7 +123,10 @@ void Player::lookUp(){
 }
 
 void Player::lookDown(){
-		this->_dx = 0.0f;
+
+		if(!this->_isSwiming){
+			this->_dx = 0.0f;
+		}
 
 		if((this->_facing == LEFT) || (this->_facing == RIGHT)){
 			this->_idleFacing = this->_facing;
@@ -115,8 +137,9 @@ void Player::lookDown(){
 
 void Player::bubble(){
 
-	Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, this->_facing));
-
+	if(!this->_isSwiming){
+		Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, this->_facing));
+	}
 }
 
 void Player::activateVacuum(){
@@ -131,11 +154,6 @@ void Player::takeContextAction(std::string objectType){
 
 
 void Player::update(float elapsedTime){
-
-	if(this->_startJump){
-		this->_isAirborne = true;
-		this->_startJump = false;
-	}
 
 	if(this->_isAirborne){
 
@@ -164,6 +182,36 @@ void Player::update(float elapsedTime){
 
 	if(((Game::getInstance().getBlockType(auxCheckAirborne[0].x, auxCheckAirborne[0].y)) == NONE) && ((Game::getInstance().getBlockType(auxCheckAirborne[1].x, auxCheckAirborne[1].y)) == NONE)){
 		this->_isAirborne = true;
+	}
+
+	/*
+	 * check de estado de swiming
+	 */
+
+	Vector2 auxCheckSwiming[2];
+
+	auxCheckSwiming[0] = Vector2((int)(((this->_x + 1)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+	auxCheckSwiming[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y+ this->_h)/background_blocks_constants::BLOCK_HEIGTH));
+
+	if(((Game::getInstance().getBlockType(auxCheckSwiming[0].x, auxCheckSwiming[0].y)) == WATER) && ((Game::getInstance().getBlockType(auxCheckSwiming[1].x, auxCheckSwiming[1].y)) == WATER)){
+		if(!this->_isSwiming){
+			this->_isSwiming = true;
+			this->_isAirborne = false;
+
+			if(this->_dy < 0){
+				this->_dy = std::max(this->_dy , -player_constants::MAX_FALL_SPEED_ON_WATER);
+			}else if(this->_dy > 0){
+				this->_dy = std::min(this->_dy , player_constants::MAX_FALL_SPEED_ON_WATER);
+			}
+		}
+
+		this->_dy += (player_constants::FALL_ACELERATION_IN_WATER) * elapsedTime;
+
+	}else{
+		if(this->_isSwiming){
+			this->_dy = player_constants::NORMAL_JUMP_SPEED;
+		}
+		this->_isSwiming = false;
 	}
 
 	/*
@@ -205,10 +253,11 @@ void Player::update(float elapsedTime){
 			 */
 
 			/*
-			 * check de colision para a direita com movimento vertical;
+			 * check de colision com movimento horizontal;
 			 */
 
-			if((this->_dx > 0) && (((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE))){
+			if((this->_dx > 0)
+				&& ((((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE)) && (((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != WATER)))){
 				foundHorizontalColision = true;
 
 				fauxX -= auxXncI;
@@ -216,7 +265,8 @@ void Player::update(float elapsedTime){
 
 				this->_x += auxX;
 			}
-			if((this->_dx < 0) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE))){
+			if((this->_dx < 0)
+				&& ((((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE)) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != WATER)))){
 				foundHorizontalColision = true;
 
 				fauxX -= auxXncI;
@@ -224,12 +274,14 @@ void Player::update(float elapsedTime){
 
 				this->_x += auxX;
 			}
-			if((this->_dy > 0) && (((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE))){
+			if((this->_dy > 0)
+				&& ((((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != NONE)) && (((Game::getInstance().getBlockType(auxCheckColision[2].x, auxCheckColision[2].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckColision[3].x, auxCheckColision[3].y)) != WATER)))){
 				foundVerticalColision = true;
 
 				this->_y += auxY - 1;
 			}
-			if((this->_dy < 0) && (((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE))){
+			if((this->_dy < 0)
+				&& ((((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != NONE)) && (((Game::getInstance().getBlockType(auxCheckColision[1].x, auxCheckColision[1].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckColision[0].x, auxCheckColision[0].y)) != WATER)))){
 				foundVerticalColision = true;
 
 				this->_y += auxY + 1;
@@ -253,7 +305,8 @@ void Player::update(float elapsedTime){
 				auxCheckRightColision[0] = Vector2((int)(((this->_x + this->_w - 1 + i)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 				auxCheckRightColision[1] = Vector2((int)((this->_x + this->_w - 1 + i)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
 
-				if(((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE)){
+				if((((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE))
+					&& (((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != WATER))){
 				this->_x += i - 1;
 					this->_dx = 0;
 					break;
@@ -274,7 +327,8 @@ void Player::update(float elapsedTime){
 			auxCheckLeftColision[0] = Vector2((int)(((this->_x + i)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y+ this->_h - 1)/background_blocks_constants::BLOCK_HEIGTH));
 			auxCheckLeftColision[1] = Vector2((int)((this->_x + i)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y)/background_blocks_constants::BLOCK_HEIGTH));
 
-			if(((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE)){
+			if((((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE))
+					&& (((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != WATER))){
 				this->_x += i + 1;
 				this->_dx = 0;
 				break;
@@ -294,7 +348,8 @@ void Player::update(float elapsedTime){
 			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
 			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + i)/background_blocks_constants::BLOCK_HEIGTH));
 
-			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+			if((((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE))
+			&& (((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != WATER))){
 
 				this->_y += i + 1;
 				this->_dy = 0;
@@ -315,7 +370,8 @@ void Player::update(float elapsedTime){
 			auxCheckUpColision[0] = Vector2((int)(((this->_x)/background_blocks_constants::BLOCK_WIDTH)), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
 			auxCheckUpColision[1] = Vector2((int)((this->_x + this->_w - 1)/background_blocks_constants::BLOCK_WIDTH), (int)((this->_y + this->_h + i)/background_blocks_constants::BLOCK_HEIGTH));
 
-			if(((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE)){
+			if((((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != NONE) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != NONE))
+				&& (((Game::getInstance().getBlockType(auxCheckUpColision[0].x, auxCheckUpColision[0].y)) != WATER) || ((Game::getInstance().getBlockType(auxCheckUpColision[1].x, auxCheckUpColision[1].y)) != WATER))){
 
 				this->_isAirborne = false;
 				this->_y += i;
@@ -356,7 +412,7 @@ void Player::update(float elapsedTime){
 		bool colisionArray[4] = {false,false,false,false};
 
 		for(int i = 0; i < 4; i++){
-			if((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE){
+			if(((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != NONE) && ((Game::getInstance().getBlockType(auxColision[i].x, auxColision[i].y)) != WATER)){
 
 				colisionArray[i] = true;
 
@@ -435,6 +491,10 @@ void Player::update(float elapsedTime){
 
 	/*
 	 * termino da correção
+	 */
+
+	/*
+	 *  calculo de posição do cone
 	 */
 
 	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui

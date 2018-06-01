@@ -515,11 +515,6 @@ void Game::setBlockType(int indexX, int indexY, BlockType type){
 
 	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
 		this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].setType(type);
-		if((type != NONE) && (type!=BUBLE)){
-			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder();
-		}else{
-			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].removeBorders();
-		}
 	}
 }
 

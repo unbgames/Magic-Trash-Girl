@@ -11,6 +11,8 @@ TITO:
 		
 	coisas pra arrumar
 	
+		BlockBorder deve ser direcional
+	
 
 	
 prazos para entrega:
