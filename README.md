@@ -9,10 +9,7 @@ TITO:
 		
 		verificar como vai popular o vetor de animated sprites do game para cada setor
 		
-	coisas pra arrumar
-	
-		BlockBorder deve ser direcional
-	
+	coisas pra arrumar	
 
 	
 prazos para entrega:
