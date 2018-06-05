@@ -313,7 +313,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	for(int j = 0; j < auxY; j++){
 		for(int i = 0; i < auxX; i++){
 			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
-				this->setBlockType(i,j,UNBREAKABLE);
+				this->setBlockType(i,j,OUTOFBONDS);
 			}
 		}
 	}
@@ -471,7 +471,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 void Game::damageBlock(int indexX, int indexY, float damage){
 
 	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
-		if((this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BREAKABLE)|| (this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BUBLE)){
+		if((this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BREAKABLE) || (this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].takeDamage(damage);
 		}
 	}

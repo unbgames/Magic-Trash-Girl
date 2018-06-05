@@ -74,7 +74,7 @@ enum BlockType{
 	UNBREAKABLE,
 	BUBLE,
 	WATER,
-//	OUTOFBONDS
+	OUTOFBONDS
 };
 
 

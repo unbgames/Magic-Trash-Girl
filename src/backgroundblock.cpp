@@ -38,6 +38,11 @@ BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, Blo
 					this->playAnimation("WATER");
 					this->addBorder();
 				break;
+				case OUTOFBONDS:
+					this->setVisible(true);
+					this->playAnimation("OUTOFBONDS");
+					this->addBorder();
+				break;
 			}
 
 }
@@ -75,6 +80,10 @@ void BackgroundBlock::update(float elapsedTime){
 			this->setVisible(true);
 			this->playAnimation("WATER");
 		break;
+		case OUTOFBONDS:
+			this->setVisible(true);
+			this->playAnimation("OUTOFBONDS");
+		break;
 	}
 
 	if(this->_hp <= 50){
@@ -90,6 +99,8 @@ void BackgroundBlock::update(float elapsedTime){
 				this->playAnimation("BUBLE 50");
 			break;
 			case WATER:
+			break;
+			case OUTOFBONDS:
 			break;
 		}
 	}
@@ -116,6 +127,7 @@ void BackgroundBlock::setupAnimations(){
 	this->addAnimation(1, 0, 0, "BREAKABLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 64, 0, "BREAKABLE 50", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 0, 64, "UNBREAKABLE", 64,64, Vector2 (0,0));
+	this->addAnimation(1, 0, 64, "OUTOFBONDS", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 0, 128, "BUBLE", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 64, 128, "BUBLE 50", 64,64, Vector2 (0,0));
 	this->addAnimation(1, 64, 192, "WATER", 64,64, Vector2 (0,0));
