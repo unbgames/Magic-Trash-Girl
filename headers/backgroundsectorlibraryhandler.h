@@ -9,6 +9,8 @@
 #define SOURCE_HEADERS_BACKGROUNDSECTORLIBRARYHANDLER_H_
 
 #include "globals.h"
+#include "animatedsprite.h"
+#include <memory>
 #include <vector>
 
 /*

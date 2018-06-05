@@ -2,12 +2,12 @@
 TITO:
 	
 	Implementando:
-	
-		fazer o smooth da camera
 
 	falta implementar mas ja ta encaminhado
 
 		load de setores por arquivos
+		
+		verificar como vai popular o vetor de animated sprites do game para cada setor
 		
 	coisas pra arrumar
 	
