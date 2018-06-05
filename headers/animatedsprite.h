@@ -50,6 +50,8 @@ public:
 
 	float getPosX();
 	float getPosY();
+	float getW();
+	float getH();
 
 protected:
 

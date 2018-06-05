@@ -16,8 +16,13 @@ public:
 	Camera();
 	Camera(Graphics &graphics);
 
-	void setx(int x);
-	void sety(int y);
+	void update(float elapsedTime);
+
+	void smoothSetX(int x);
+	void smoothSetY(int y);
+
+	void hardSetX(int x);
+	void hardSetY(int y);
 
 	int getx();
 	int gety();
@@ -28,7 +33,9 @@ private:
 
 	Graphics* _graphicsAssociated;
 
-	int _x, _y;
+	int _x, _y, _targetX, _targetY;
+
+	float _dx, _dy;
 
 };
 

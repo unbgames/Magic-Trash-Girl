@@ -183,4 +183,10 @@ float AnimatedSprite::getPosX(){
 float AnimatedSprite::getPosY(){
 	return this->_y;
 }
+float AnimatedSprite::getW(){
+	return this->_w;
+}
+float AnimatedSprite::getH(){
+	return this->_h;
+}
 

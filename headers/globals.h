@@ -42,6 +42,8 @@ namespace globals{
 	const int INITIAL_SCREEN_HEIGTH = 576;
 
 	const std::string WINDOW_NAME = "Trash Girl";
+
+	const float SMOOTH_CAMERA_VELOCITY = 0.3f;
 }
 
 namespace background_blocks_constants {

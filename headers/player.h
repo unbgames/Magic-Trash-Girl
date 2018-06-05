@@ -39,6 +39,8 @@ public:
 	void setTimeForFrames(double newTime);
 	double getTimeForFrames();
 
+	void setPosition(float x, float y);
+
 	std::string getObjectType();
 
 private:

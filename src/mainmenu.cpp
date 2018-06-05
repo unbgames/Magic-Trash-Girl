@@ -35,8 +35,8 @@ void MainMenu::update(float elapsedTime){
 		this->_camDesY = -1 * this->_camDesY;
 	}
 
-	this->_graphicsAssociated->camera.setx(this->_graphicsAssociated->camera.getx() + this->_camDesX * elapsedTime/1000);
-	this->_graphicsAssociated->camera.sety(this->_graphicsAssociated->camera.gety() + this->_camDesY * elapsedTime/1000);
+	this->_graphicsAssociated->camera.hardSetX(this->_graphicsAssociated->camera.getx() + this->_camDesX * elapsedTime/1000);
+	this->_graphicsAssociated->camera.hardSetY(this->_graphicsAssociated->camera.gety() + this->_camDesY * elapsedTime/1000);
 
 	Menu::update(elapsedTime);
 

@@ -47,8 +47,8 @@ void Menu::update(float elapsedTime){
 	}
 
 	//corrije a camera depois de mudar a resolução
-	this->_graphicsAssociated->camera.setx(this->_graphicsAssociated->camera.getx());
-	this->_graphicsAssociated->camera.sety(this->_graphicsAssociated->camera.gety());
+	this->_graphicsAssociated->camera.hardSetX(this->_graphicsAssociated->camera.getx());
+	this->_graphicsAssociated->camera.hardSetY(this->_graphicsAssociated->camera.gety());
 
 }
 

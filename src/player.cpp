@@ -524,11 +524,23 @@ void Player::update(float elapsedTime){
 	 * update da camera
 	 */
 	if(this->_graphicsAssociated->camera.folowPlayer){
-		this->_graphicsAssociated->camera.setx(this->_x + this->_w/2 - this->_graphicsAssociated->windowWidth/2);
-		this->_graphicsAssociated->camera.sety(this->_y + this->_h/2 - this->_graphicsAssociated->windowHeight/2);
+		this->_graphicsAssociated->camera.smoothSetX(this->_x + this->_w/2 - this->_graphicsAssociated->windowWidth/2);
+		this->_graphicsAssociated->camera.smoothSetY(this->_y + this->_h/2 - this->_graphicsAssociated->windowHeight/2);
 	}
 
 	AnimatedSprite::update(elapsedTime);
+}
+
+void Player::setPosition(float x, float y){
+
+	this->_x = x;
+	this->_y = y;
+
+	if(this->_graphicsAssociated->camera.folowPlayer){
+		this->_graphicsAssociated->camera.hardSetX(this->_x + this->_w/2 - this->_graphicsAssociated->windowWidth/2);
+		this->_graphicsAssociated->camera.hardSetY(this->_y + this->_h/2 - this->_graphicsAssociated->windowHeight/2);
+	}
+
 }
 
 void Player::draw(Graphics &graphics){

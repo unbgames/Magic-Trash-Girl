@@ -253,9 +253,11 @@ void Game::update(float elapsedtime){
 		}
 
 		this->_player.update(elapsedtime);
+		this->_graphicsAssociated->camera.update(elapsedtime);
 
 	}else{
 		this->_menuStack.top()->update(elapsedtime);
+		this->_graphicsAssociated->camera.update(elapsedtime);
 
 		if(this->_menuStack.top()->getRequestPop()){
 			this->_menuStack.pop();
@@ -263,6 +265,7 @@ void Game::update(float elapsedtime){
 				this->_menuStack.emplace(this->_menuToReplaceInStack);
 				this->_menuToReplaceInStack = nullptr;
 				this->_menuStack.top()->update(elapsedtime);
+				this->_graphicsAssociated->camera.update(elapsedtime);
 			}
 		}
 	}
@@ -300,6 +303,8 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 }
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
 
 	this->_spritesToDraw.clear();
 
