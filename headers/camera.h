@@ -31,6 +31,10 @@ public:
 
 private:
 
+	bool _delayFlag;
+
+	float _delayTimer;
+
 	Graphics* _graphicsAssociated;
 
 	int _x, _y, _targetX, _targetY;

@@ -15,6 +15,8 @@ Camera::Camera(){ // @suppress("Class members should be properly initialized")
 
 Camera::Camera(Graphics &graphics):
 	folowPlayer(true),
+	_delayFlag(true),
+	_delayTimer(0),
 	_graphicsAssociated(&graphics),
 	_x(((this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH))/2),
 	_y(( this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksColumn() * background_blocks_constants::BLOCK_HEIGTH)/2),
@@ -101,6 +103,22 @@ void Camera::update(float elapsedTime){
 	this->_dx = (this->_targetX > this->_x)? globals::SMOOTH_CAMERA_VELOCITY : -globals::SMOOTH_CAMERA_VELOCITY;
 	this->_dy = (this->_targetY > this->_y)? globals::SMOOTH_CAMERA_VELOCITY : -globals::SMOOTH_CAMERA_VELOCITY;
 
+	if((this->_y == this->_targetY) && (this->_x == this->_targetX)){
+		this->_delayTimer = 0;
+	}
+
+	if(((this->_y != this->_targetY) || (this->_x != this->_targetX)) && this->_delayFlag == true){
+		this->_delayTimer += elapsedTime;
+ 		if(this->_delayTimer >= globals::SMOOTH_CAMERA_TIMER_MAX){
+			this->_delayFlag = false;
+			this->_delayTimer = 0;
+		}
+	}
+
+	if(this->_delayFlag == true){
+		return;
+	}
+
 	this->_x += this->_dx * elapsedTime;
 	this->_y += this->_dy * elapsedTime;
 
@@ -135,6 +153,9 @@ void Camera::update(float elapsedTime){
 		}
 	}
 
+	if((this->_y == this->_targetY) && (this->_x == this->_targetX)){
+		this->_delayFlag = true;
+	}
 }
 
 int Camera::getx(){

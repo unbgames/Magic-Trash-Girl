@@ -44,6 +44,7 @@ namespace globals{
 	const std::string WINDOW_NAME = "Trash Girl";
 
 	const float SMOOTH_CAMERA_VELOCITY = 0.3f;
+	const float SMOOTH_CAMERA_TIMER_MAX = 200;
 }
 
 namespace background_blocks_constants {
