@@ -18,6 +18,7 @@
 #include "menubackground.h"
 #include "pausemenu.h"
 #include "mainmenu.h"
+#include "backgroundblock.h"
 
 
 
@@ -81,6 +82,16 @@ void Game::gameLoop(){
 	this->draw(graphics);
 
 	this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+
+
+
+	float fpsTimer = 0;
+
+	float fps = 0;
+
+	int fpsSampleCounter = 0;
+
+
 
 	while(true){
 
@@ -192,13 +203,22 @@ void Game::gameLoop(){
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-		//std::cout << " fps antes de correção-> " << 1000/ELAPSED_TIME_MS << std::endl;
+
+		fpsTimer += ELAPSED_TIME_MS;
+		fps += 1000/ELAPSED_TIME_MS;
+		fpsSampleCounter++;
+
+		if(fpsTimer > 1000){
+			//std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
+			fpsTimer = 0;
+			fps = 0;
+			fpsSampleCounter = 0;
+		}
 		if(ELAPSED_TIME_MS < MIN_FRAME_TIME){
 			SDL_Delay(MIN_FRAME_TIME - ELAPSED_TIME_MS);
 			const int CURRENT_TIME_MS = SDL_GetTicks();
 			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		}
-		//std::cout << " fps real-> " << 1000/ELAPSED_TIME_MS << std::endl;
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
@@ -212,9 +232,6 @@ void Game::draw(Graphics &graphics){
 	graphics.clear();
 
 	//quando arrumar o background para somente colocar o lado q precisa retirar esse draw daqui e descomentar o do proprio bloco
-	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
-		 it->drawBorder();
-	}
 
 	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 		 it->draw(graphics);
@@ -474,6 +491,12 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	/*
 	 * 	termino da criação do caminho obrigatorio;
 	 */
+
+	for(int i = 0; i < this->_numberBlocksLine; i++){
+		for(int j = 0; j < this->_numberBlocksColumn; j++){
+			this->setupBlockBorder(i,j);
+		}
+	}
 }
 
 void Game::damageBlock(int indexX, int indexY, float damage){
@@ -524,6 +547,64 @@ void Game::setBlockType(int indexX, int indexY, BlockType type){
 	if((indexX >= 0 && indexX < this->_numberBlocksLine) && (indexY >= 0 && indexY < this->_numberBlocksColumn)){
 		this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].setType(type);
 	}
+
+}
+
+void Game::redoAdjacentsBlocksBorders(int indexX, int indexY){
+
+	if(indexX > 0){
+		this->redoBlockBorder(indexX - 1, indexY);
+	}
+
+	if(indexY > 0){
+		this->redoBlockBorder(indexX, indexY - 1);
+	}
+
+	if(indexX < this->_numberBlocksLine - 1){
+		this->redoBlockBorder(indexX + 1, indexY);
+	}
+
+	if(indexY < this->_numberBlocksColumn - 1){
+		this->redoBlockBorder(indexX, indexY + 1);
+	}
+
+}
+
+void Game::redoBlockBorder(int indexX, int indexY){
+	this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].removeBorders();
+	this->setupBlockBorder(indexX, indexY);
+}
+
+void Game::setupBlockBorder(int indexX, int indexY){
+
+	if(this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].getType() == NONE){
+		return;
+	}
+
+	if(indexY > 0){
+		if(this->_backgroundBlocks[indexX + ((indexY - 1)*this->_numberBlocksLine)].getType() == NONE){
+			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(UP);
+		}
+	}
+
+	if(indexY < this->_numberBlocksColumn - 1){
+		if(this->_backgroundBlocks[indexX + ((indexY + 1)*this->_numberBlocksLine)].getType() == NONE){
+			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(DOWN);
+		}
+	}
+
+	if(indexX < this->_numberBlocksLine - 1){
+		if(this->_backgroundBlocks[(indexX + 1) + (indexY*this->_numberBlocksLine)].getType() == NONE){
+			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(RIGHT);
+		}
+	}
+
+	if(indexX > 0){
+		if(this->_backgroundBlocks[indexX -1 + (indexY *this->_numberBlocksLine)].getType() == NONE){
+			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(LEFT);
+		}
+	}
+
 }
 
 void Game::requestQuit(){

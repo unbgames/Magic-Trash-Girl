@@ -42,6 +42,12 @@ public:
 
 	void setBlockType(int indexX, int indexY, BlockType type);
 
+	void setupBlockBorder(int x, int y);
+
+	void redoBlockBorder(int x, int y);
+
+	void redoAdjacentsBlocksBorders(int x, int y);
+
 	void requestQuit();
 
 	void createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn);

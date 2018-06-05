@@ -32,7 +32,7 @@ public:
 
 	std::string getObjectType();
 
-	void addBorder();
+	void addBorder(Direction Facing);
 
 	void removeBorders();
 
@@ -45,6 +45,8 @@ private:
 	float _hp;
 
 	BlockType _type;
+
+	int _indexX, _indexY;
 
 };
 

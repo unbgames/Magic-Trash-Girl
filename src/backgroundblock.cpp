@@ -7,11 +7,14 @@
 
 
 #include "backgroundblock.h"
+#include "game.h"
 
 BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, BlockType typeIn):
 			AnimatedSprite(graphics, "assets/backgroundblock.png", 0, 0, background_blocks_constants::BLOCK_WIDTH, background_blocks_constants::BLOCK_HEIGTH, indexX*background_blocks_constants::BLOCK_WIDTH, indexY*background_blocks_constants::BLOCK_HEIGTH, 300),
 			_hp(100),
-			_type(typeIn)
+			_type(typeIn),
+			_indexX(indexX),
+			_indexY(indexY)
 			{
 			this->setupAnimations();
 			switch(this->_type){
@@ -22,12 +25,10 @@ BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, Blo
 				case BREAKABLE:
 					this->setVisible(true);
 					this->playAnimation("BREAKABLE");
-					this->addBorder();
 				break;
 				case UNBREAKABLE:
 					this->setVisible(true);
 					this->playAnimation("UNBREAKABLE");
-					this->addBorder();
 				break;
 				case BUBLE:
 					this->setVisible(true);
@@ -36,12 +37,10 @@ BackgroundBlock::BackgroundBlock(Graphics &graphics, int indexX, int indexY, Blo
 				case WATER:
 					this->setVisible(true);
 					this->playAnimation("WATER");
-					this->addBorder();
 				break;
 				case OUTOFBONDS:
 					this->setVisible(true);
 					this->playAnimation("OUTOFBONDS");
-					this->addBorder();
 				break;
 			}
 
@@ -54,9 +53,8 @@ BackgroundBlock::~BackgroundBlock(){
 void BackgroundBlock::update(float elapsedTime){
 
 	if(this->_hp <= 0){
-		this->_type = NONE;
-		this->removeBorders();
-		this->_hp = 100;
+		this->setType(NONE);
+		Game::getInstance().redoAdjacentsBlocksBorders(this->_indexX, this->_indexY);
 	}
 
 	switch(this->_type){
@@ -114,11 +112,10 @@ void BackgroundBlock::update(float elapsedTime){
 }
 
 void BackgroundBlock::draw(Graphics &graphics){
-//	for (std::vector<BlockBorder>::iterator it = this->_blockBorderVector.begin() ; it != this->_blockBorderVector.end(); ++it){
-//		 it->draw(graphics);
-//	}
 
 	AnimatedSprite::draw(graphics);
+
+	this->drawBorder();
 
 }
 
@@ -141,16 +138,11 @@ BlockType BackgroundBlock::getType(){
 	return this->_type;
 }
 
-void  BackgroundBlock::setType(BlockType type){
+void BackgroundBlock::setType(BlockType type){
 
 	this->_type = type;
 	this->_hp = 100;
-	if((type != NONE) && (type!=BUBLE)){
-		this->removeBorders();
-		this->addBorder();
-	}else{
-		this->removeBorders();
-	}
+	this->removeBorders();
 
 }
 
@@ -158,8 +150,8 @@ std::string BackgroundBlock::getObjectType(){
 	return "BackgroundBlock";
 }
 
-void BackgroundBlock::addBorder(){
-	this->_blockBorderVector.emplace_back(BlockBorder(*this->_graphicsAssociated, *this));
+void BackgroundBlock::addBorder(Direction facing){
+	this->_blockBorderVector.emplace_back(BlockBorder(*this->_graphicsAssociated, *this, facing));
 }
 
 void BackgroundBlock::removeBorders(){

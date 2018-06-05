@@ -15,7 +15,7 @@ class BackgroundBlock;
 class BlockBorder: public AnimatedSprite{
 public:
 
-	BlockBorder(Graphics &graphics, BackgroundBlock blockAssociated);
+	BlockBorder(Graphics &graphics, BackgroundBlock blockAssociated, Direction facing);
 	~BlockBorder();
 
 	void update(float elapsedTime);
@@ -27,6 +27,8 @@ public:
 private:
 
 	BackgroundBlock* _blockAssociated;
+
+	Direction _facing;
 
 };
 
