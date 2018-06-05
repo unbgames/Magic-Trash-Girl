@@ -306,6 +306,9 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 	this->_graphicsAssociated->camera.folowPlayer = true;
 
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInput.clearInputs();
+
 	this->_spritesToDraw.clear();
 
 	this->_player.setPosition(-1100, -1100);

@@ -15,7 +15,7 @@ void KeyboardInput::beginNewFrame(){
 	this->_releasedKeys.clear();
 }
 
-void KeyboardInput::menuTransition(){
+void KeyboardInput::clearInputs(){
 	this->_pressedKeys.clear();
 	this->_releasedKeys.clear();
 	this->_heldKeys.clear();

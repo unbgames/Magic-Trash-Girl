@@ -76,7 +76,7 @@ bool GamepadInput::isbuttonHeld(Uint8 button){
 	return this->_heldButtons[button];
 }
 
-void GamepadInput::menuTransition(){
+void GamepadInput::clearInputs(){
 	this->_pressedButtons.clear();
 	this->_releasedButtons.clear();
 	this->_heldButtons.clear();

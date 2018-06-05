@@ -20,7 +20,7 @@ public:
 	void closeGamepad();
 
 	void beginNewFrame();
-	void menuTransition();
+	void clearInputs();
 	void buttonUpEvent(const SDL_Event& event);
 	void buttonDownEvent(const SDL_Event& event);
 

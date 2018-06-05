@@ -20,13 +20,13 @@ Menu::Menu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInput &gamep
 	_w(0),
 	_h(0),
 	_activeButton(0){
-	this->_gamepadInput->menuTransition();
-	this->_keyboardInput->menuTransition();
+	this->_gamepadInput->clearInputs();
+	this->_keyboardInput->clearInputs();
 }
 
 Menu::~Menu(){
-	this->_gamepadInput->menuTransition();
-	this->_keyboardInput->menuTransition();
+	this->_gamepadInput->clearInputs();
+	this->_keyboardInput->clearInputs();
 }
 
 void Menu::update(float elapsedTime){
