@@ -123,7 +123,7 @@ void PlayerProjectile::animationDone(std::string currentAnimation){
 }
 
 void PlayerProjectile::setupAnimations(){
-	this->addAnimation(1, 0, 0, "basic", 24,24, Vector2 (0,0));
+	this->addAnimation(1, 0, 0, "basic", 64,64, Vector2 (0,0));
 }
 
 std::string PlayerProjectile::getObjectType(){
