@@ -19,7 +19,13 @@ public:
 	VacuumCleaner(Graphics &graphics, Player &player);
 	~VacuumCleaner();
 
+	void activateVacuum();
+	void bubble();
+
+	bool getFolowingPlayer();
+
 	void update(float elapsedTime);
+	void draw(Graphics &graphics);
 
 	std::string getObjectType();
 
@@ -32,6 +38,9 @@ private:
 	Player* _playerAssociated;
 
 	Direction _facing;
+
+	VacuumCone _vCone;
+
 
 };
 

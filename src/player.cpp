@@ -21,8 +21,7 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_idleFacing(RIGHT),
 		_isAirborne(false),
 		_isSwiming(false),
-		_startJump(false),
-		_vCone(graphics){
+		_startJump(false){
 
 		this->setupAnimations();
 		this->playAnimation("IdleRight");
@@ -133,19 +132,6 @@ void Player::lookDown(){
 		}
 		this->_facing = DOWN;
 		this->playAnimation("LookDown");
-}
-
-void Player::bubble(){
-
-	if(!this->_isSwiming){
-		Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, this->_facing));
-	}
-}
-
-void Player::activateVacuum(){
-
-	this->_vCone.setActive(true);
-
 }
 
 void Player::takeContextAction(std::string objectType){
@@ -494,33 +480,6 @@ void Player::update(float elapsedTime){
 	 */
 
 	/*
-	 *  calculo de posição do cone
-	 */
-
-	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui
-	if(this->_vCone.getActive()){
-		switch(this->_facing){
-			case UP:
-				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - 32);
-				this->_vCone.playAnimation("facingUp");
-			break;
-			case DOWN:
-				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2, this->_y + 32);
-				this->_vCone.playAnimation("facingDown");
-			break;
-			case LEFT:
-				this->_vCone.setPosition(this->_x - 32, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
-				this->_vCone.playAnimation("facingLeft");
-			break;
-			case RIGHT:
-				this->_vCone.setPosition(this->_x + 32, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
-				this->_vCone.playAnimation("facingRight");
-			break;
-		}
-	}
-	this->_vCone.update(elapsedTime);
-
-	/*
 	 * update da camera
 	 */
 	if(this->_graphicsAssociated->camera.folowPlayer){
@@ -545,7 +504,6 @@ void Player::setPosition(float x, float y){
 
 void Player::draw(Graphics &graphics){
 	AnimatedSprite::draw(graphics);
-	this->_vCone.draw(graphics);
 }
 
 void Player::setTimeForFrames(double newTime){
@@ -561,4 +519,8 @@ std::string Player::getObjectType(){
 
 Direction Player::getFacing(){
 	return this->_facing;
+}
+
+bool Player::getIsSwiming(){
+	return this->_isSwiming;
 }

@@ -7,6 +7,8 @@
 
 
 #include <vacuumcleaner.h>
+#include "game.h"
+#include "playerprojectile.h"
 
 VacuumCleaner::VacuumCleaner(){ // @suppress("Class members should be properly initialized")
 
@@ -16,7 +18,8 @@ VacuumCleaner::VacuumCleaner(Graphics &graphics, Player &player):
 		AnimatedSprite(graphics, "assets/aspirador.png", 0, 0, vacuum_constants::VACUUM_WIDTH, vacuum_constants::VACUUM_HEIGTH, -1000, -1000, 300),
 		_folowingPlayer(true),
 		_playerAssociated(&player),
-		_facing(RIGHT){
+		_facing(RIGHT),
+		_vCone(graphics){
 
 		this->setupAnimations();
 		this->playAnimation("IdleRight");
@@ -51,6 +54,35 @@ void VacuumCleaner::update(float elapsedTime){
 		break;
 	}
 
+	/*
+	 *  calculo de posição do cone
+	 */
+
+	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui
+	if(this->_vCone.getActive()){
+		switch(this->_facing){
+			case UP:
+				//depois arrumar esses valores aqui quando tiver as animaçoes corretas
+				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - this->_w*3/4 - 8);
+				this->_vCone.playAnimation("facingUp");
+			break;
+			case DOWN:
+				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2, this->_y + this->_w*3/4);
+				this->_vCone.playAnimation("facingDown");
+			break;
+			case LEFT:
+				this->_vCone.setPosition(this->_x - player_constants::CONE_WIDTH, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
+				this->_vCone.playAnimation("facingLeft");
+			break;
+			case RIGHT:
+				this->_vCone.setPosition(this->_x + this->_w , this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
+				this->_vCone.playAnimation("facingRight");
+			break;
+		}
+	}
+	this->_vCone.update(elapsedTime);
+
+
 	AnimatedSprite::update(elapsedTime);
 }
 
@@ -66,3 +98,27 @@ void VacuumCleaner::setupAnimations(){
 	this->addAnimation(1, 0, 0, "LookDown", vacuum_constants::VACUUM_WIDTH, vacuum_constants::VACUUM_HEIGTH, Vector2(0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
 
 }
+
+void VacuumCleaner::activateVacuum(){
+
+	this->_vCone.setActive(true);
+
+}
+
+void VacuumCleaner::bubble(){
+
+	if(!this->_playerAssociated->getIsSwiming()){
+		Game::getInstance().addNewSpriteToDraw(new PlayerProjectile(*this->_graphicsAssociated, this->_x - 12 + this->_w/2, this->_y - 12 + this->_h/2, this->_facing));
+	}
+
+}
+
+bool VacuumCleaner::getFolowingPlayer(){
+	return this->_folowingPlayer;
+}
+
+void VacuumCleaner::draw(Graphics &graphics){
+	AnimatedSprite::draw(graphics);
+	this->_vCone.draw(graphics);
+}
+

@@ -170,11 +170,19 @@ void Game::gameLoop(){
 			}
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::B)){
-				this->_player.bubble();
+
+				if(this->_vaccumcleaner.getFolowingPlayer()){
+					this->_vaccumcleaner.bubble();
+				}
+
 			}
 
 			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::X)){
-				this->_player.activateVacuum();
+
+				if(this->_vaccumcleaner.getFolowingPlayer()){
+					this->_vaccumcleaner.activateVacuum();
+				}
+
 			}
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){

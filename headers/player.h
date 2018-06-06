@@ -29,7 +29,6 @@ public:
 	void lookUp();
 	void lookDown();
 	void activateVacuum();
-	void bubble();
 	void takeContextAction(std::string objectType);
 
 	void animationDone(std::string currentAnimation);
@@ -45,6 +44,8 @@ public:
 
 	Direction getFacing();
 
+	bool getIsSwiming();
+
 private:
 
 	Direction _facing;
@@ -53,8 +54,6 @@ private:
 	bool _isSwiming;
 
 	bool _startJump;
-
-	VacuumCone _vCone;
 
 };
 
