@@ -34,7 +34,8 @@ Game* Game::_instance = nullptr;
 
 Game::Game():
 	_keyboardInput(),
-	_gamepadInput(),
+	_gamepadInputPlayer1(),
+	_gamepadInputPlayer2(),
 	_numberBlocksLine(background_blocks_constants::INITIAL_NUMBER_BLOCKS_LINE),
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
@@ -61,7 +62,9 @@ Game& Game::getInstance(){
 
 void Game::gameLoop(){
 
-	this->_gamepadInput.initGamepad();
+	this->_gamepadInputPlayer1.initGamepad();
+
+	this->_gamepadInputPlayer2.initGamepad();
 
 	Graphics graphics = Graphics(*this);
 
@@ -83,7 +86,7 @@ void Game::gameLoop(){
 
 	this->draw(graphics);
 
-	this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+	this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
 
 
 
@@ -106,28 +109,48 @@ void Game::gameLoop(){
 		}
 
 		this->_keyboardInput.beginNewFrame();
-		this->_gamepadInput.beginNewFrame();
+		this->_gamepadInputPlayer1.beginNewFrame();
+		this->_gamepadInputPlayer2.beginNewFrame();
 
 		while(SDL_PollEvent(&event)){
 
 			if(event.type == SDL_CONTROLLERDEVICEADDED){
-
-				this->_gamepadInput.initGamepad();
+				this->_gamepadInputPlayer1.initGamepad();
+				if(event.cdevice.which != this->_gamepadInputPlayer1.getGamepadId()){
+					this->_gamepadInputPlayer2.initGamepad();
+				}
 			}
 
 			if(event.type == SDL_CONTROLLERDEVICEREMOVED){
-				this->_gamepadInput.closeGamepad();
+				if(event.cdevice.which == this->_gamepadInputPlayer1.getGamepadId()){
+					this->_gamepadInputPlayer1.closeGamepad();
+				}
+				if(event.cdevice.which == this->_gamepadInputPlayer2.getGamepadId()){
+					this->_gamepadInputPlayer2.closeGamepad();
+				}
+
 			}
 
 			if(event.type == SDL_CONTROLLERBUTTONDOWN){
 
-				this->_gamepadInput.buttonDownEvent(event);
+				if(event.cdevice.which == this->_gamepadInputPlayer1.getGamepadId()){
+					this->_gamepadInputPlayer1.buttonDownEvent(event);
+				}
+				if(event.cdevice.which == this->_gamepadInputPlayer2.getGamepadId()){
+					this->_gamepadInputPlayer2.buttonDownEvent(event);
+				}
 
 			}
 
 			if(event.type == SDL_CONTROLLERBUTTONUP){
 
-				this->_gamepadInput.buttonUpEvent(event);
+				if(event.cdevice.which == this->_gamepadInputPlayer1.getGamepadId()){
+					this->_gamepadInputPlayer1.buttonUpEvent(event);
+				}
+				if(event.cdevice.which == this->_gamepadInputPlayer2.getGamepadId()){
+					this->_gamepadInputPlayer2.buttonUpEvent(event);
+				}
+
 			}
 
 			if(event.type == SDL_KEYDOWN){
@@ -149,27 +172,31 @@ void Game::gameLoop(){
 
 		if(this->_menuStack.empty()){
 
-			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE) || this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::start)){
-				this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInput));
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE) || this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::start)){
+				this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
 			}
 
-			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
+			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
 				this->_player.moveLeft();
-			}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
+			}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
 				this->_player.moveRight();
-			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
+			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
 				this->_player.lookUp();
-			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
+			}else if((this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
 				this->_player.lookDown();
 			}else{
 				this->_player.stopMoving();
 			}
 
-			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_SPACE) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::A)){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_SPACE) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::A)){
 				this->_player.jump();
 			}
 
-			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::B)){
+			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::A)){
+				std::cout << "botao a do segundo controle foi apetado" << std::endl;
+			}
+
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::B)){
 
 				if(this->_vaccumcleaner.getFolowingPlayer()){
 					this->_vaccumcleaner.bubble();
@@ -177,7 +204,7 @@ void Game::gameLoop(){
 
 			}
 
-			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInput.isbuttonHeld(xbox360GamepadMaping::X)){
+			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::X)){
 
 				if(this->_vaccumcleaner.getFolowingPlayer()){
 					this->_vaccumcleaner.activateVacuum();
@@ -185,7 +212,7 @@ void Game::gameLoop(){
 
 			}
 
-			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInput.wasbuttonPressed(xbox360GamepadMaping::Y)){
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::Y)){
 
 				for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
 					float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
@@ -336,7 +363,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	this->_graphicsAssociated->camera.folowPlayer = true;
 
 	this->_keyboardInput.clearInputs();
-	this->_gamepadInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
 
 	this->_spritesToDraw.clear();
 

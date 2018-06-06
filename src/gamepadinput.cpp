@@ -6,8 +6,11 @@
  */
 
 #include "gamepadinput.h"
+#include "globals.h"
 
-GamepadInput::GamepadInput():
+std::vector<SDL_JoystickID> GamepadInput::_gamepadIdUseds;
+
+GamepadInput::GamepadInput(): // @suppress("Class members should be properly initialized")
 	_gamepad(nullptr){
 }
 
@@ -24,13 +27,24 @@ void GamepadInput::initGamepad(){
 
 		for(int i = 0; i < SDL_NumJoysticks(); i++){
 			if(SDL_IsGameController(i)){
-				this->_gamepad = SDL_GameControllerOpen(i);
-				if(this->_gamepad){
-					this->_gamepadId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(this->_gamepad));
-					std::cout << " gamepad conectado " << std::endl;
-					break;
-				}else{
-					std::cout << " Há gamepad disponivel mas ocorreu um erro ao tentar abri-lo, gamepad number: " << i << "   ---  erro: " << SDL_GetError() << std::endl;
+				bool controlerFree = true;
+				SDL_JoystickID idAux;
+				idAux = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(SDL_GameControllerOpen(i)));
+				for (std::vector<SDL_JoystickID>::iterator it = _gamepadIdUseds.begin() ; it != _gamepadIdUseds.end(); ++it){
+					if(*it == idAux){
+						controlerFree = false;
+					}
+				}
+				if(controlerFree){
+					this->_gamepad = SDL_GameControllerOpen(i);
+					if(this->_gamepad){
+						this->_gamepadId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(this->_gamepad));
+						_gamepadIdUseds.push_back(this->_gamepadId);
+						std::cout << " gamepad conectado id: " << this->_gamepadId << std::endl;
+						break;
+					}else{
+						std::cout << " Há gamepad disponivel mas ocorreu um erro ao tentar abri-lo, gamepad number: " << i << "   ---  erro: " << SDL_GetError() << std::endl;
+					}
 				}
 			}
 		}
@@ -39,9 +53,15 @@ void GamepadInput::initGamepad(){
 
 void GamepadInput::closeGamepad(){
 	if(this->_gamepad){
+		for (std::vector<SDL_JoystickID>::iterator it = _gamepadIdUseds.begin() ; it != _gamepadIdUseds.end(); ++it){
+			if(*it == this->_gamepadId){
+				_gamepadIdUseds.erase(it);
+				std::cout << "gamepad desconectado id: " << this->_gamepadId << std::endl;;
+			}
+		}
 		SDL_GameControllerClose(this->_gamepad);
 		this->_gamepad = nullptr;
-		std::cout << " gamepad desconectado " << std::endl;
+		this->_gamepadId = -1;
 	}
 }
 
@@ -80,4 +100,8 @@ void GamepadInput::clearInputs(){
 	this->_pressedButtons.clear();
 	this->_releasedButtons.clear();
 	this->_heldButtons.clear();
+}
+
+SDL_JoystickID GamepadInput::getGamepadId(){
+	return this->_gamepadId;
 }

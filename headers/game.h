@@ -77,7 +77,9 @@ private:
 
 	KeyboardInput _keyboardInput;
 
-	GamepadInput _gamepadInput;
+	GamepadInput _gamepadInputPlayer1;
+
+	GamepadInput _gamepadInputPlayer2;
 
 	std::vector<BackgroundBlock> _backgroundBlocks;
 

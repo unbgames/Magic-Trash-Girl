@@ -10,6 +10,7 @@
 
 #include "globals.h"
 #include <map>
+#include <vector>
 
 class GamepadInput {
 public:
@@ -18,6 +19,7 @@ public:
 	~GamepadInput();
 	void initGamepad();
 	void closeGamepad();
+	SDL_JoystickID getGamepadId();
 
 	void beginNewFrame();
 	void clearInputs();
@@ -33,6 +35,8 @@ private:
 
 	SDL_GameController* _gamepad;
 	SDL_JoystickID _gamepadId;
+
+	static std::vector<SDL_JoystickID> _gamepadIdUseds;
 
 	std::map<Uint8, bool> _heldButtons;
 	std::map<Uint8, bool> _pressedButtons;
