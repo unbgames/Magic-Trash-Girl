@@ -151,7 +151,9 @@ std::string BackgroundBlock::getObjectType(){
 }
 
 void BackgroundBlock::addBorder(Direction facing){
-	this->_blockBorderVector.emplace_back(BlockBorder(*this->_graphicsAssociated, *this, facing));
+	if(this->_type != NONE && this->_type != BUBLE){
+		this->_blockBorderVector.emplace_back(BlockBorder(*this->_graphicsAssociated, *this, facing));
+	}
 }
 
 void BackgroundBlock::removeBorders(){
