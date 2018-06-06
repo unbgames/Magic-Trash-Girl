@@ -37,6 +37,11 @@ namespace player_constants {
 	const int CONE_HEIGTH = 32;
 }
 
+namespace vacuum_constants{
+	const int VACUUM_WIDTH = 48;
+	const int VACUUM_HEIGTH = 24;
+}
+
 namespace globals{
 	const int INITIAL_SCREEN_WIDTH = 1024;
 	const int INITIAL_SCREEN_HEIGTH = 576;

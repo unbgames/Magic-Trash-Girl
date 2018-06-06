@@ -22,11 +22,11 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_isAirborne(false),
 		_isSwiming(false),
 		_startJump(false),
-		_vCone(graphics)
-		{
-			this->setupAnimations();
-			this->playAnimation("IdleRight");
-		}
+		_vCone(graphics){
+
+		this->setupAnimations();
+		this->playAnimation("IdleRight");
+}
 
 
 Player::~Player(){
@@ -557,4 +557,8 @@ double Player::getTimeForFrames(){
 
 std::string Player::getObjectType(){
 	return "Player";
+}
+
+Direction Player::getFacing(){
+	return this->_facing;
 }

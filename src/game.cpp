@@ -75,6 +75,8 @@ void Game::gameLoop(){
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
 
+	this->_vaccumcleaner = VacuumCleaner(graphics, this->_player);
+
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
 	this->update(MAX_FRAME_TIME);
@@ -242,6 +244,7 @@ void Game::draw(Graphics &graphics){
 	}
 
 	this->_player.draw(graphics);
+	this->_vaccumcleaner.draw(graphics);
 
 	if(!this->_menuStack.empty()){
 		this->_menuStack.top()->draw();
@@ -270,6 +273,7 @@ void Game::update(float elapsedtime){
 		}
 
 		this->_player.update(elapsedtime);
+		this->_vaccumcleaner.update(elapsedtime);
 		this->_graphicsAssociated->camera.update(elapsedtime);
 
 	}else{

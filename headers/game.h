@@ -10,6 +10,7 @@
 
 #include <backgroundsectorlibraryhandler.h>
 #include <keyboardinput.h>
+#include <vacuumcleaner.h>
 #include "animatedsprite.h"
 #include <vector>
 #include "player.h"
@@ -71,6 +72,8 @@ private:
 	std::vector<std::unique_ptr<AnimatedSprite>> _spritesToDraw;
 
 	Player _player;
+
+	VacuumCleaner _vaccumcleaner;
 
 	KeyboardInput _keyboardInput;
 

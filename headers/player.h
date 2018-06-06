@@ -43,6 +43,8 @@ public:
 
 	std::string getObjectType();
 
+	Direction getFacing();
+
 private:
 
 	Direction _facing;
