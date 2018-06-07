@@ -313,7 +313,7 @@ void Game::checkColisionSpritesToPlayer(){
 
 void Game::checkColisionSpritesToSprites(){
 	for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-		for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it_2 = it; it_2 != this->_spritesToDraw.end(); ++it_2) {
+		for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it_2 = it+1; it_2 != this->_spritesToDraw.end(); ++it_2) {
 
 			float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
 			int auxWidth, auxheigth;

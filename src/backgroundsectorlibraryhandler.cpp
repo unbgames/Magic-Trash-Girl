@@ -101,6 +101,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 	this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(7*background_blocks_constants::BLOCK_HEIGTH, 7*background_blocks_constants::BLOCK_WIDTH)));
+	this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(8*background_blocks_constants::BLOCK_HEIGTH, 7*background_blocks_constants::BLOCK_WIDTH)));
+
 	//------------------------------------------------------------------------
 
 	aux.clear();

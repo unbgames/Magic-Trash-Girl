@@ -130,29 +130,29 @@ void AnimatedSprite::setPosition(float x, float y){
 
 bool AnimatedSprite::checkColision(float posX, float posY, float width, float height, float desX, float desY){
 
-	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
+	if(((this->_x >= posX) && (this->_x <= posX+width - 1)) && ((this->_y >= posY) && (this->_y <= posY + height - 1))){
 		return true;
 	}
-	if(((this->_x + this->_w > posX) && (this->_x + this->_w < posX+width)) && ((this->_y > posY) && (this->_y < posY + height))){
+	if(((this->_x + this->_w - 1 >= posX) && (this->_x + this->_w - 1 <= posX+width - 1)) && ((this->_y >= posY) && (this->_y <= posY + height - 1))){
 		return true;
 	}
-	if(((this->_x > posX) && (this->_x < posX+width)) && ((this->_y + this->_h > posY) && (this->_y + this->_h < posY + height))){
+	if(((this->_x >= posX) && (this->_x <= posX+width - 1)) && ((this->_y + this->_h - 1 >= posY) && (this->_y + this->_h - 1 <= posY + height - 1))){
 		return true;
 	}
-	if(((this->_x + this->_w > posX) && (this->_x + this->_w < posX+width)) && ((this->_y + this->_h > posY) && (this->_y + this->_h < posY + height))){
+	if(((this->_x + this->_w - 1 >= posX) && (this->_x + this->_w - 1 <= posX+width - 1)) && ((this->_y + this->_h - 1 >= posY) && (this->_y + this->_h - 1 <= posY + height - 1))){
 		return true;
 	}
 
-	if(((posX > this->_x) && (posX < this->_x + this->_w)) && ((posY > this->_y) && (posY < this->_y + this->_h))){
+	if(((posX >= this->_x) && (posX <= this->_x + this->_w - 1)) && ((posY >= this->_y) && (posY <= this->_y + this->_h - 1))){
 		return true;
 	}
-	if(((posX+width > this->_x) && (posX+width < this->_x + this->_w)) && ((posY > this->_y) && (posY < this->_y + this->_h))){
+	if(((posX+width - 1 >= this->_x) && (posX+width - 1 <= this->_x + this->_w - 1)) && ((posY >= this->_y) && (posY <= this->_y + this->_h - 1))){
 		return true;
 	}
-	if(((posX > this->_x) && (posX < this->_x + this->_w)) && ((posY + height > this->_y) && (posY + height < this->_y + this->_h))){
+	if(((posX >= this->_x) && (posX <= this->_x + this->_w - 1)) && ((posY + height - 1 >= this->_y) && (posY + height - 1 <= this->_y + this->_h - 1))){
 		return true;
 	}
-	if(((posX+width > this->_x) && (posX+width < this->_x + this->_w)) && ((posY + height > this->_y) && (posY + height < this->_y + this->_h))){
+	if(((posX+width - 1 >= this->_x) && (posX+width - 1 <= this->_x + this->_w - 1)) && ((posY + height - 1 >= this->_y) && (posY + height - 1 <= this->_y + this->_h - 1))){
 		return true;
 	}
 
