@@ -578,13 +578,21 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 			}
 
 			if(fillerSector == true){
-				std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector().sectorInfo;
+
+				BlockSector auxsector = this->_backgroundSectorHandler.getRandomFillerSector();
 
 				for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
 					for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
-						this->setBlockType(1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
+						this->setBlockType(1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector.sectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 					}
 				}
+
+				for(std::vector<MapObjectBlueprint>::iterator it = auxsector.objectsToBuildVector.begin(); it != auxsector.objectsToBuildVector.end(); ++it){
+
+					this->buildMapObjectBlueprint((*it), Vector2(i,j));
+
+				}
+
 			}
 		}
 	}
@@ -702,25 +710,25 @@ void Game::setupBlockBorder(int indexX, int indexY){
 	}
 
 	if(indexY > 0){
-		if(this->_backgroundBlocks[indexX + ((indexY - 1)*this->_numberBlocksLine)].getType() == NONE){
+		if((this->_backgroundBlocks[indexX + ((indexY - 1)*this->_numberBlocksLine)].getType() == NONE) || (this->_backgroundBlocks[indexX + ((indexY - 1)*this->_numberBlocksLine)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(UP);
 		}
 	}
 
 	if(indexY < this->_numberBlocksColumn - 1){
-		if(this->_backgroundBlocks[indexX + ((indexY + 1)*this->_numberBlocksLine)].getType() == NONE){
+		if((this->_backgroundBlocks[indexX + ((indexY + 1)*this->_numberBlocksLine)].getType() == NONE) || (this->_backgroundBlocks[indexX + ((indexY + 1)*this->_numberBlocksLine)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(DOWN);
 		}
 	}
 
 	if(indexX < this->_numberBlocksLine - 1){
-		if(this->_backgroundBlocks[(indexX + 1) + (indexY*this->_numberBlocksLine)].getType() == NONE){
+		if((this->_backgroundBlocks[(indexX + 1) + (indexY*this->_numberBlocksLine)].getType() == NONE) || (this->_backgroundBlocks[(indexX + 1) + (indexY*this->_numberBlocksLine)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(RIGHT);
 		}
 	}
 
 	if(indexX > 0){
-		if(this->_backgroundBlocks[indexX -1 + (indexY *this->_numberBlocksLine)].getType() == NONE){
+		if((this->_backgroundBlocks[indexX -1 + (indexY *this->_numberBlocksLine)].getType() == NONE) || (this->_backgroundBlocks[indexX -1 + (indexY *this->_numberBlocksLine)].getType() == BUBLE)){
 			this->_backgroundBlocks[indexX + (indexY*this->_numberBlocksLine)].addBorder(LEFT);
 		}
 	}
