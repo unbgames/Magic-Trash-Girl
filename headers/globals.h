@@ -87,6 +87,11 @@ enum BlockType{
 	OUTOFBONDS
 };
 
+enum MapObjectType{
+	PLAYER_START_POSITION, 		// 0
+	PORTAL_TO_NEXT_RANDOM_LEVEL,// 1
+
+};
 
 struct Vector2 {
 	int x, y;

@@ -413,19 +413,6 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 		}
 	}
 
-	for(int i = 0; i < sectorsByLine; i++){
-		for(int j = 0; j < sectorsByColumn; j++){
-
-			std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector().sectorInfo;
-
-			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
-				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
-					this->setBlockType(1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
-				}
-			}
-		}
-	}
-
 	/*
 	 * 	inicio da criação do caminho obrigatorio; falta setar as flags conforme vai criando
 	 */
@@ -560,6 +547,35 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 	/*
 	 * 	termino da criação do caminho obrigatorio;
+	 */
+
+	/*
+	 * 	inicio da criação dos setores filler
+	 */
+	for(int i = 0; i < sectorsByLine; i++){
+		for(int j = 0; j < sectorsByColumn; j++){
+
+			bool fillerSector = true;
+
+			for(int k = 0; k < (int)sectorWay.size(); k++){
+				if((sectorWay[k].x) == i && (sectorWay[k].y == j)){
+						fillerSector = false;
+				}
+			}
+
+			if(fillerSector == true){
+				std::vector<BlockType> auxsector = this->_backgroundSectorHandler.getRandomFillerSector().sectorInfo;
+
+				for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
+					for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
+						this->setBlockType(1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
+					}
+				}
+			}
+		}
+	}
+	/*
+	 * termino da criação dos setores filler
 	 */
 
 	for(int i = 0; i < this->_numberBlocksLine; i++){
