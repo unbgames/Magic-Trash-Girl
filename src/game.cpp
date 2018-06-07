@@ -276,7 +276,8 @@ void Game::gameLoop(){
 		fpsSampleCounter++;
 
 		if(fpsTimer > 1000){
-			//std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
+			std::cout << this->_spritesToDraw.size() << std::endl;
+			std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
 			fpsTimer = 0;
 			fps = 0;
 			fpsSampleCounter = 0;
@@ -291,6 +292,41 @@ void Game::gameLoop(){
 
 		this->draw(graphics);
 
+	}
+}
+
+void Game::checkColisionSpritesToPlayer(){
+	for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+		float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
+		int auxWidth, auxheigth;
+
+		this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
+		this->_player.getDes(&auxDesX, &auxDesY);
+
+		if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
+			(*it)->resolveColision("Player");
+			this->_player.resolveColision((*it)->getObjectType());
+		}
+
+	}
+}
+
+void Game::checkColisionSpritesToSprites(){
+	for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+		for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it_2 = it; it_2 != this->_spritesToDraw.end(); ++it_2) {
+
+			float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
+			int auxWidth, auxheigth;
+
+			(*it_2)->getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
+			(*it_2)->getDes(&auxDesX, &auxDesY);
+
+			if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
+				(*it)->resolveColision((*it_2)->getObjectType());
+				(*it_2)->resolveColision((*it)->getObjectType());
+			}
+
+		}
 	}
 }
 
@@ -340,6 +376,9 @@ void Game::update(float elapsedtime){
 		this->_player.update(elapsedtime);
 		this->_vaccumcleaner.update(elapsedtime);
 		this->_graphicsAssociated->camera.update(elapsedtime);
+
+		this->checkColisionSpritesToPlayer();
+		this->checkColisionSpritesToSprites();
 
 	}else{
 		this->_menuStack.top()->update(elapsedtime);

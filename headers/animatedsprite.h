@@ -48,6 +48,8 @@ public:
 
 	virtual void takeContextAction(std::string objectType);
 
+	virtual void resolveColision(std::string objectType);
+
 	float getPosX();
 	float getPosY();
 	float getW();

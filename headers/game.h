@@ -61,6 +61,10 @@ public:
 
 	void buildMapObjectBlueprint(MapObjectBlueprint blueprint, Vector2 sectorPosition);
 
+	void checkColisionSpritesToPlayer();
+
+	void checkColisionSpritesToSprites();
+
 private:
 
 	static Game* _instance;
