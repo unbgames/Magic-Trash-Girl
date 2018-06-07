@@ -70,10 +70,10 @@ constexpr SectorFlags W_RIGHT_LEFT(W_RIGHT_LEFT_VALUE);
 struct MapObjectBlueprint{
 
 	MapObjectType type;
-	Vector2 position;
+	Vector2 positionOffsetOnSector;
 
 	MapObjectBlueprint(MapObjectType type,	Vector2 position):
-		type(type), position(position)
+		type(type), positionOffsetOnSector(position)
 	{}
 };
 
@@ -82,12 +82,10 @@ struct BlockSector{
 	std::vector<BlockType> sectorInfo;
 	unsigned int sectorFlags;
 
-	Vector2 start_finishPos;
-
 	std::vector<MapObjectBlueprint> objectsToBuildVector;
 
-	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags, Vector2 start_finishPos = Vector2(-1,-1)):
-		sectorInfo(sectorInfo), sectorFlags(sectorFlags), start_finishPos(start_finishPos)
+	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags):
+		sectorInfo(sectorInfo), sectorFlags(sectorFlags)
 	{}
 };
 

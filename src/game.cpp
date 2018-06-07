@@ -43,6 +43,7 @@ Game::Game():
 	_graphicsAssociated(nullptr),
 	_menuToReplaceInStack(nullptr){
 	_instance = this;
+	std::cout << "passou aqui";
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
 	this->gameLoop();
@@ -520,7 +521,11 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				}
 			}
 
-			this->_player.setPosition((1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + auxsector.start_finishPos.y);
+			for(std::vector<MapObjectBlueprint>::iterator it = auxsector.objectsToBuildVector.begin(); it != auxsector.objectsToBuildVector.end(); ++it){
+
+				this->buildMapObjectBlueprint((*it), sectorWay.at(i));
+
+			}
 
 		}else if(i == (int)sectorWay.size() - 1){
 			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFinishSector(sectorWayFlags[i]);
@@ -531,7 +536,11 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				}
 			}
 
-			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + auxsector.start_finishPos.x, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + auxsector.start_finishPos.y) );
+			for(std::vector<MapObjectBlueprint>::iterator it = auxsector.objectsToBuildVector.begin(); it != auxsector.objectsToBuildVector.end(); ++it){
+
+				this->buildMapObjectBlueprint((*it), sectorWay.at(i));
+
+			}
 
 		}else{
 
@@ -578,10 +587,30 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	 * termino da criação dos setores filler
 	 */
 
+	/*
+	 * inicio do setup de borders
+	 */
+
 	for(int i = 0; i < this->_numberBlocksLine; i++){
 		for(int j = 0; j < this->_numberBlocksColumn; j++){
 			this->setupBlockBorder(i,j);
 		}
+	}
+
+	/*
+	 * termino do setup de borders
+	 */
+}
+
+void Game::buildMapObjectBlueprint(MapObjectBlueprint blueprint, Vector2 sectorPosition){
+	switch(blueprint.type){
+		case PLAYER_START_POSITION:
+			this->_player.setPosition((1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y);
+		break;
+
+		case PORTAL_TO_NEXT_RANDOM_LEVEL:
+			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
+		break;
 	}
 }
 

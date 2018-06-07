@@ -59,6 +59,8 @@ public:
 
 	void setMenuToReplaceInStack(Menu* menuToReplaceInStack);
 
+	void buildMapObjectBlueprint(MapObjectBlueprint blueprint, Vector2 sectorPosition);
+
 private:
 
 	static Game* _instance;

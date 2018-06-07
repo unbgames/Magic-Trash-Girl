@@ -12,6 +12,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	std::vector<BlockType> aux;
 	unsigned int auxFlags;
 
+	//------------------------------------------------------------------------
+
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == 0 || i == background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS - 1){
@@ -25,6 +27,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	auxFlags = (W_LEFT_RIGHT | W_RIGHT_LEFT);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	//------------------------------------------------------------------------
 
 	aux.clear();
 
@@ -42,6 +46,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
+	//------------------------------------------------------------------------
+
 	aux.clear();
 
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
@@ -57,6 +63,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	auxFlags = (W_TOP_RIGHT | W_BOT_LEFT | W_RIGHT_TOP | W_LEFT_BOT);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	//------------------------------------------------------------------------
 
 	aux.clear();
 
@@ -74,6 +82,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
+	//------------------------------------------------------------------------
+
 	aux.clear();
 
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
@@ -90,6 +100,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	auxFlags = (0);
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	//------------------------------------------------------------------------
 
 	aux.clear();
 
@@ -112,6 +124,8 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
+	//------------------------------------------------------------------------
+
 	aux.clear();
 
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
@@ -126,7 +140,11 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	auxFlags = (-1);
 
-	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags));
+
+	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+
+	//------------------------------------------------------------------------
 
 	aux.clear();
 
@@ -144,9 +162,9 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	auxFlags = (-1);
 
-	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags, Vector2(4*64, 4*64)));
+	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
-	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(4*64, 4*64)));
+	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
 
 }
 
@@ -203,7 +221,11 @@ BlockSector BackgroundSectorLibraryHandler::getRandomStartSector(unsigned int fl
 		}
 	}
 
-	return BlockSector(aux, 0, Vector2(background_blocks_constants::BLOCK_WIDTH,background_blocks_constants::BLOCK_HEIGTH));
+
+	BlockSector startSectorNull = BlockSector(aux, 0);
+	startSectorNull.objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+
+	return startSectorNull;
 }
 
 BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int flags){
@@ -231,7 +253,11 @@ BlockSector BackgroundSectorLibraryHandler::getRandomFinishSector(unsigned int f
 		}
 	}
 
-	return BlockSector(aux, 0, Vector2(background_blocks_constants::BLOCK_WIDTH,background_blocks_constants::BLOCK_HEIGTH));
+	BlockSector finishSectorNull = BlockSector(aux, 0);
+	finishSectorNull.objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+
+
+	return finishSectorNull;
 }
 
 /*
