@@ -19,10 +19,17 @@ public:
 	VacuumCleaner(Graphics &graphics, Player &player);
 	~VacuumCleaner();
 
+	void moveLeft();
+	void moveRight();
+	void moveUp();
+	void moveDown();
+	void stopMoving();
+
 	void activateVacuum();
 	void bubble();
 
 	bool getFolowingPlayer();
+	void toggleFolowingPlayer();
 
 	void update(float elapsedTime);
 	void draw(Graphics &graphics);
@@ -40,6 +47,8 @@ private:
 	Direction _facing;
 
 	VacuumCone _vCone;
+
+
 
 
 };

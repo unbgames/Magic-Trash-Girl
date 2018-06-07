@@ -40,6 +40,8 @@ namespace player_constants {
 namespace vacuum_constants{
 	const int VACUUM_WIDTH = 48;
 	const int VACUUM_HEIGTH = 24;
+
+	const float FLOAT_SPEED = 0.4f;
 }
 
 namespace globals{

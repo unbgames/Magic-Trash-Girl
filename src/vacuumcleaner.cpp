@@ -5,10 +5,10 @@
  *      Author: TMK
  */
 
-
 #include <vacuumcleaner.h>
 #include "game.h"
 #include "playerprojectile.h"
+#include <cmath>
 
 VacuumCleaner::VacuumCleaner(){ // @suppress("Class members should be properly initialized")
 
@@ -30,6 +30,31 @@ VacuumCleaner::~VacuumCleaner(){
 
 }
 
+void VacuumCleaner::moveLeft(){
+		this->_facing = LEFT;
+		this->_dx = -vacuum_constants::FLOAT_SPEED;
+
+}
+void VacuumCleaner::moveRight(){
+		this->_facing = RIGHT;
+		this->_dx = vacuum_constants::FLOAT_SPEED;
+}
+
+void VacuumCleaner::moveUp(){
+		this->_facing = UP;
+		this->_dy = -vacuum_constants::FLOAT_SPEED;
+
+}
+void VacuumCleaner::moveDown(){
+		this->_facing = DOWN;
+		this->_dy = vacuum_constants::FLOAT_SPEED;
+}
+
+void VacuumCleaner::stopMoving(){
+		this->_dx = 0.0f;
+		this->_dy = 0.0f;
+}
+
 void VacuumCleaner::update(float elapsedTime){
 
 	if(this->_folowingPlayer){
@@ -37,7 +62,25 @@ void VacuumCleaner::update(float elapsedTime){
 		this->_y = this->_playerAssociated->getPosY() + this->_playerAssociated->getH()/2 - this->_h/2;
 
 		this->_facing = this->_playerAssociated->getFacing();
+	}else{
+
+		this->_x += this->_dx * elapsedTime;
+		this->_y += this->_dy * elapsedTime;
+
+		if((this->_x + this->_w/2 - this->_playerAssociated->getPosX() - this->_playerAssociated->getW()/2) > 256){
+			this->_x = this->_playerAssociated->getPosX() + this->_playerAssociated->getW()/2 - this->_w/2 + 256;
+		}
+		if((this->_x + this->_w/2 - this->_playerAssociated->getPosX() - this->_playerAssociated->getW()/2) < -256){
+			this->_x = this->_playerAssociated->getPosX() + this->_playerAssociated->getW()/2 - this->_w/2 - 256;
+		}
+		if((this->_y + this->_h/2 - this->_playerAssociated->getPosY() - this->_playerAssociated->getH()/2) > 256){
+			this->_y = this->_playerAssociated->getPosY() + this->_playerAssociated->getH()/2 - this->_h/2 + 256;
+		}
+		if((this->_y + this->_h/2 - this->_playerAssociated->getPosY() - this->_playerAssociated->getH()/2) < -256){
+			this->_y = this->_playerAssociated->getPosY() + this->_playerAssociated->getH()/2 - this->_h/2 - 256;
+		}
 	}
+
 
 	switch(this->_facing){
 		case UP:
@@ -103,6 +146,14 @@ void VacuumCleaner::activateVacuum(){
 
 	this->_vCone.setActive(true);
 
+}
+
+void VacuumCleaner::toggleFolowingPlayer(){
+	this->_folowingPlayer = !this->_folowingPlayer;
+
+	if(!this->_folowingPlayer){
+		this->stopMoving();
+	}
 }
 
 void VacuumCleaner::bubble(){

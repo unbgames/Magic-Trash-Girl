@@ -176,6 +176,10 @@ void Game::gameLoop(){
 				this->_menuStack.emplace(new PauseMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
 			}
 
+			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::start)){
+				this->_vaccumcleaner.toggleFolowingPlayer();
+			}
+
 			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_LEFT)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
 				this->_player.moveLeft();
 			}else if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_RIGHT)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
@@ -188,12 +192,38 @@ void Game::gameLoop(){
 				this->_player.stopMoving();
 			}
 
+			if(!this->_vaccumcleaner.getFolowingPlayer()){
+				if(this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::directionalLeft)){
+					this->_vaccumcleaner.moveLeft();
+				}else if(this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::directionalRight)){
+					this->_vaccumcleaner.moveRight();
+				}else if((this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::directionalUp)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_DOWN)|| this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalDown))){
+					this->_vaccumcleaner.moveUp();
+				}else if((this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::directionalDown)) && !(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_UP) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::directionalUp))){
+					this->_vaccumcleaner.moveDown();
+				}else{
+					this->_vaccumcleaner.stopMoving();
+				}
+			}
+
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_SPACE) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::A)){
 				this->_player.jump();
 			}
 
-			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::A)){
-				std::cout << "botao a do segundo controle foi apetado" << std::endl;
+			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::B)){
+
+				if(!this->_vaccumcleaner.getFolowingPlayer()){
+					this->_vaccumcleaner.bubble();
+				}
+
+			}
+
+			if(this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::X)){
+
+				if(!this->_vaccumcleaner.getFolowingPlayer()){
+					this->_vaccumcleaner.activateVacuum();
+				}
+
 			}
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::B)){
