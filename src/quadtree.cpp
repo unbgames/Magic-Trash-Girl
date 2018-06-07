@@ -24,6 +24,21 @@ QuadTree::~QuadTree(){
 
 }
 
+void QuadTree::insert(ObjectQuadTree* objectToInsert){
+
+	if(_nodesVector.empty()){
+		_objectVector.push_back(objectToInsert);
+		if(_objectVector.size() > this->_maxObjectsInQuadrant){
+			if(this->_layer < this->_maxLayers - 1){
+				this->_split();
+			}
+		}
+	}else{
+		//parei aqui, tratar qual quadrante q manda o object
+	}
+
+}
+
 void QuadTree::clear(){
 
 	if(!this->_objectVector.empty()){
@@ -36,4 +51,8 @@ void QuadTree::clear(){
 		}
 		this->_nodesVector.clear();
 	}
+}
+
+void QuadTree::_split(){
+
 }

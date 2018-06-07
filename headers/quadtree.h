@@ -31,17 +31,17 @@ struct ObjectQuadTree {
 class QuadTree{
 public:
 
-	QuadTree(int layer, int maxLayers, int maxObjectsInQuadrant,float posX, float posY, int width, int height, QuadTree* fatherNode = nullptr);
+	QuadTree(unsigned int layer, unsigned int maxLayers, int maxObjectsInQuadrant,float posX, float posY, int width, int height, QuadTree* fatherNode = nullptr);
 
 	~QuadTree();
 
-	void insert(ObjectQuadTree objectToInsert);
+	void insert(ObjectQuadTree* objectToInsert); //nao implementado
 
 	void clear();
 
 private:
 
-	void _split();
+	void _split(); //nao implementado
 
 	QuadTree* _fatherNode;
 
@@ -50,9 +50,9 @@ private:
 	//utilizando raw vectors porque os objetos são Local variables e tem scope e tempo de vida delimitados
 	std::vector<ObjectQuadTree*> _objectVector;
 
-	int _layer;
-	int _maxLayers;
-	int _maxObjectsInQuadrant;
+	unsigned int _layer;
+	unsigned int _maxLayers;
+	unsigned int _maxObjectsInQuadrant;
 	float _posX, _posY;
 	int _w, _h;
 
