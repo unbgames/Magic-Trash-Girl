@@ -179,7 +179,7 @@ void AnimatedSprite::takeContextAction(std::string objectType){
 
 void AnimatedSprite::resolveColision(std::string objectType){
 
-	std::cout << "colision with   == " << objectType << std::endl;
+	//std::cout << "colision with   == " << objectType << std::endl;
 
 }
 
