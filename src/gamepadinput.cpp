@@ -57,11 +57,12 @@ void GamepadInput::closeGamepad(){
 			if(*it == this->_gamepadId){
 				_gamepadIdUseds.erase(it);
 				std::cout << "gamepad desconectado id: " << this->_gamepadId << std::endl;;
+				break;
 			}
 		}
 		SDL_GameControllerClose(this->_gamepad);
 		this->_gamepad = nullptr;
-		this->_gamepadId = -1;
+		this->_gamepadId = 50000;
 	}
 }
 
