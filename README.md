@@ -12,6 +12,8 @@ TITO:
 	coisas pra arrumar
 
 		o limite de movimento do player 2 está em um quadrado em volta do player 1, arrumar para um circulo
+		
+		implementar uma quadtree pra resolver colisões
 
 	
 prazos para entrega:
