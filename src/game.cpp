@@ -543,12 +543,18 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 		}else{
 
-			std::vector<BlockType> auxSectorInfo = this->_backgroundSectorHandler.getRandomFillerSector(sectorWayFlags[i]).sectorInfo;
+			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFillerSector(sectorWayFlags[i]);
 
 			for(int ix = 0; ix < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; ix++){
 				for(int jx = 0; jx < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; jx++){
-					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxSectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
+					this->setBlockType(1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix , 1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + jx, auxsector.sectorInfo[(jx*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + ix]);
 				}
+			}
+
+			for(std::vector<MapObjectBlueprint>::iterator it = auxsector.objectsToBuildVector.begin(); it != auxsector.objectsToBuildVector.end(); ++it){
+
+				this->buildMapObjectBlueprint((*it), sectorWay.at(i));
+
 			}
 		}
 	}
