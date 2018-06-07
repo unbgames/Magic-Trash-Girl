@@ -142,7 +142,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
-	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
 
 	//------------------------------------------------------------------------
 

@@ -43,7 +43,6 @@ Game::Game():
 	_graphicsAssociated(nullptr),
 	_menuToReplaceInStack(nullptr){
 	_instance = this;
-	std::cout << "passou aqui";
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
 	this->gameLoop();
