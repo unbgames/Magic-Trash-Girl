@@ -5,15 +5,11 @@ TITO:
 
 	falta implementar mas ja ta encaminhado
 
-		load de setores por arquivos
-		
-		verificar como vai popular o vetor de animated sprites do game para cada setor
-		
+		load de setores por arquivos // não é necessário, muito trabalho pra algo q nao vale a pena agora
+			
 	coisas pra arrumar
 
 		o limite de movimento do player 2 está em um quadrado em volta do player 1, arrumar para um circulo
-		
-		implementar uma quadtree pra resolver colisões
 
 	
 prazos para entrega:

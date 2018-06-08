@@ -300,23 +300,7 @@ void Game::gameLoop(){
 	}
 }
 
-void Game::checkColisionSpritesToPlayer(){
-	for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-		float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
-		int auxWidth, auxheigth;
-
-		this->_player.getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
-		this->_player.getDes(&auxDesX, &auxDesY);
-
-		if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
-			(*it)->resolveColision("Player");
-			this->_player.resolveColision((*it)->getObjectType());
-		}
-
-	}
-}
-
-void Game::checkColisionSpritesToSprites(){
+void Game::checkColisionFullMap(){
 
 	std::vector<ObjectQuadTree> objectQuadTreeVector;
 
@@ -325,6 +309,12 @@ void Game::checkColisionSpritesToSprites(){
 	}
 
 	QuadTree auxQuadTree = QuadTree(0, 8, 5, 0, 0, this->_mapWidth, this->_mapHeight);
+
+	std::shared_ptr<AnimatedSprite> auxPtrPlayer = std::make_shared<Player>(this->_player);
+
+	ObjectQuadTree playerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrPlayer), this->_player.getPosX(), this->_player.getPosY(), this->_player.getW(), this->_player.getH());
+
+	auxQuadTree.insert(&playerObject);
 
 	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
 		auxQuadTree.insert(&(*it));
@@ -383,8 +373,7 @@ void Game::update(float elapsedtime){
 		this->_vaccumcleaner.update(elapsedtime);
 		this->_graphicsAssociated->camera.update(elapsedtime);
 
-		this->checkColisionSpritesToPlayer();
-		this->checkColisionSpritesToSprites();
+		this->checkColisionFullMap();
 
 	}else{
 		this->_menuStack.top()->update(elapsedtime);
