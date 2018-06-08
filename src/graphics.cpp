@@ -88,6 +88,7 @@ void Graphics::updateDisplayInfo(){
 }
 
 void Graphics::toggleFullscreen(){
+	std::cout << "deu toggle em fullscreen" << std::endl;
 	if(this->_fullscreenState){
 		SDL_SetWindowFullscreen(this->_window, 0);
 		this->_fullscreenState = false;

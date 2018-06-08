@@ -35,6 +35,8 @@ public:
 
 	QuadTree(int layer, int maxLayers, int maxObjectsInQuadrant,float posX, float posY, int width, int height, QuadTree* fatherNode = nullptr);
 
+	QuadTree(const QuadTree &QuadTree2);
+
 	~QuadTree();
 
 	void insert(ObjectQuadTree* objectToInsert); //nao implementado
@@ -42,6 +44,8 @@ public:
 	void clear();
 
 	void runTreeCheckColisions(ObjectQuadTree* objectToCheck);
+
+	static int numberQuadtrees;
 
 private:
 

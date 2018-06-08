@@ -278,8 +278,11 @@ void Game::gameLoop(){
 		fpsSampleCounter++;
 
 		if(fpsTimer > 1000){
+
 			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
 			std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
+
+
 			fpsTimer = 0;
 			fps = 0;
 			fpsSampleCounter = 0;
@@ -321,7 +324,7 @@ void Game::checkColisionSpritesToSprites(){
 		objectQuadTreeVector.emplace_back(std::weak_ptr<AnimatedSprite>(*it), (*it)->getPosX(), (*it)->getPosY(), (*it)->getW(), (*it)->getH());
 	}
 
-	QuadTree auxQuadTree = QuadTree(0, 8, 20, 0, 0, this->_mapWidth, this->_mapHeight);
+	QuadTree auxQuadTree = QuadTree(0, 8, 5, 0, 0, this->_mapWidth, this->_mapHeight);
 
 	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
 		auxQuadTree.insert(&(*it));
@@ -330,6 +333,7 @@ void Game::checkColisionSpritesToSprites(){
 	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
 		(*it).nodeAssociated->runTreeCheckColisions(&(*it));
 	}
+
 }
 
 void Game::draw(Graphics &graphics){

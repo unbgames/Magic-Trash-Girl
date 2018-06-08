@@ -8,6 +8,20 @@
 #include "quadtree.h"
 #include "game.h"
 
+int QuadTree::numberQuadtrees = 0;
+
+QuadTree::QuadTree(const QuadTree &QuadTree2):
+					_fatherNode(QuadTree2._fatherNode),
+					_layer(QuadTree2._layer),
+					_maxLayers(QuadTree2._maxLayers),
+					_maxObjectsInQuadrant(QuadTree2._maxObjectsInQuadrant),
+					_posX(QuadTree2._posX),
+					_posY(QuadTree2._posY),
+					_w(QuadTree2._w),
+					_h(QuadTree2._h){
+	numberQuadtrees++;
+}
+
 QuadTree::QuadTree(int layer, int maxLayers, int maxObjectsInQuadrant,float posX, float posY, int width, int height, QuadTree* fatherNode):
 					_fatherNode(fatherNode),
 					_layer(layer),
@@ -18,10 +32,12 @@ QuadTree::QuadTree(int layer, int maxLayers, int maxObjectsInQuadrant,float posX
 					_w(width),
 					_h(height){
 	//std::cout << "quadtree criada layer:: " << this->_layer << "  posX :: " << this->_posX << "    posY:: " << this->_posY << std::endl;
+	numberQuadtrees++;
 }
 
 QuadTree::~QuadTree(){
 	//std::cout << "quadtree destructor" << std::endl;
+	numberQuadtrees--;
 }
 
 void QuadTree::insert(ObjectQuadTree* objectToInsert){
