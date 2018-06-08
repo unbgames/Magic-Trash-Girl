@@ -89,6 +89,8 @@ private:
 
 	std::vector<BackgroundBlock> _backgroundBlocks;
 
+	int _mapWidth, _mapHeight;
+
 	int _numberBlocksLine, _numberBlocksColumn;
 
 	bool _quitFlag;

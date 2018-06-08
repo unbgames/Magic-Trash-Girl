@@ -57,7 +57,7 @@ private:
 
 	std::vector<QuadTree> _nodesVector;
 
-	//utilizando raw vectors porque os objetos são Local variables e tem scope e tempo de vida delimitados
+	//utilizando raw vectors porque os objetos
 	std::vector<ObjectQuadTree*> _objectVector;
 
 	int _layer;

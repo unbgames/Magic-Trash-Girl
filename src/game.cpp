@@ -19,7 +19,7 @@
 #include "pausemenu.h"
 #include "mainmenu.h"
 #include "backgroundblock.h"
-
+#include "quadtree.h"
 
 
 
@@ -36,6 +36,8 @@ Game::Game():
 	_keyboardInput(),
 	_gamepadInputPlayer1(),
 	_gamepadInputPlayer2(),
+	_mapWidth(0),
+	_mapHeight(0),
 	_numberBlocksLine(background_blocks_constants::INITIAL_NUMBER_BLOCKS_LINE),
 	_numberBlocksColumn(background_blocks_constants::INITIAL_NUMBER_BLOCKS_COLUMN),
 	_quitFlag(false),
@@ -312,22 +314,21 @@ void Game::checkColisionSpritesToPlayer(){
 }
 
 void Game::checkColisionSpritesToSprites(){
-	//usar quadtree aqui, tenho q criar uma função que
-	for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-		for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it_2 = it+1; it_2 != this->_spritesToDraw.end(); ++it_2) {
 
-			float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
-			int auxWidth, auxheigth;
+	std::vector<ObjectQuadTree> objectQuadTreeVector;
 
-			(*it_2)->getPosSize(&auxPosX, &auxPosY, &auxWidth, &auxheigth);
-			(*it_2)->getDes(&auxDesX, &auxDesY);
+	for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it){
+		objectQuadTreeVector.emplace_back(std::weak_ptr<AnimatedSprite>(*it), (*it)->getPosX(), (*it)->getPosY(), (*it)->getW(), (*it)->getH());
+	}
 
-			if((*it)->checkColision(auxPosX, auxPosY, auxWidth, auxheigth, auxDesX, auxDesY)){
-				(*it)->resolveColision((*it_2)->getObjectType());
-				(*it_2)->resolveColision((*it)->getObjectType());
-			}
+	QuadTree auxQuadTree = QuadTree(0, 8, 20, 0, 0, this->_mapWidth, this->_mapHeight);
 
-		}
+	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
+		auxQuadTree.insert(&(*it));
+	}
+
+	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
+		(*it).nodeAssociated->runTreeCheckColisions(&(*it));
 	}
 }
 
@@ -439,6 +440,9 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	this->_spritesToDraw.clear();
 
 	this->_player.setPosition(-1100, -1100);
+
+	this->_mapWidth = ((sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2)*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = ((sectorsByColumn*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + 2)*background_blocks_constants::BLOCK_HEIGTH;
 
 	int auxX = (sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2;
 	int auxY = (sectorsByColumn*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + 2;

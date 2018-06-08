@@ -17,11 +17,11 @@ QuadTree::QuadTree(int layer, int maxLayers, int maxObjectsInQuadrant,float posX
 					_posY(posY),
 					_w(width),
 					_h(height){
-
+	//std::cout << "quadtree criada layer:: " << this->_layer << "  posX :: " << this->_posX << "    posY:: " << this->_posY << std::endl;
 }
 
 QuadTree::~QuadTree(){
-
+	//std::cout << "quadtree destructor" << std::endl;
 }
 
 void QuadTree::insert(ObjectQuadTree* objectToInsert){
@@ -105,10 +105,14 @@ void QuadTree::runTreeCheckColisions(ObjectQuadTree* objectToCheck){
 	objectToCheck->associatedSprite.lock()->getPosSize(&auxX,&auxY,&auxW,&auxH);
 
 	for( std::vector<ObjectQuadTree*>::iterator it = this->_objectVector.begin(); it != this->_objectVector.end(); ++it){
-		if((*it)->associatedSprite.lock()->checkColision(auxX, auxY, auxW, auxH, 0, 0)){
-			(*it)->associatedSprite.lock()->resolveColision(objectToCheck->associatedSprite.lock()->getObjectType());
-			objectToCheck->associatedSprite.lock()->resolveColision((*it)->associatedSprite.lock()->getObjectType());
+
+		if(!(objectToCheck->associatedSprite.lock() == (*it)->associatedSprite.lock())){
+			if((*it)->associatedSprite.lock()->checkColision(auxX, auxY, auxW, auxH, 0, 0)){
+				(*it)->associatedSprite.lock()->resolveColision(objectToCheck->associatedSprite.lock()->getObjectType());
+				objectToCheck->associatedSprite.lock()->resolveColision((*it)->associatedSprite.lock()->getObjectType());
+			}
 		}
+
 	}
 
 	if(this->_fatherNode){
