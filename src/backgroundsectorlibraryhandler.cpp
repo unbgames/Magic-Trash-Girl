@@ -167,7 +167,6 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags));
 
 	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
-
 }
 
 BlockSector BackgroundSectorLibraryHandler::getRandomFillerSector(unsigned int flags){

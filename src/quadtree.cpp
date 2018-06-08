@@ -26,15 +26,41 @@ QuadTree::~QuadTree(){
 
 void QuadTree::insert(ObjectQuadTree* objectToInsert){
 
-	if(_nodesVector.empty()){
-		_objectVector.push_back(objectToInsert);
-		if((int)_objectVector.size() > this->_maxObjectsInQuadrant){
+	if(this->_nodesVector.empty()){
+		this->_objectVector.push_back(objectToInsert);
+		objectToInsert->nodeAssociated = this;
+
+		if((int)this->_objectVector.size() > this->_maxObjectsInQuadrant){
 			if(this->_layer < this->_maxLayers - 1){
 				this->_split();
 			}
 		}
 	}else{
-		//parei aqui, tratar qual quadrante q manda o object
+
+		/*
+		 * 	quadrantes
+		 * 	 |0|1|
+		 * 	 |2|3|
+		 */
+		if((objectToInsert->posX + objectToInsert->width - 1 < this->_posX + this->_w/2) && (objectToInsert->posY + objectToInsert->height - 1 < this->_posY + this->_h/2) ){
+			this->_nodesVector[0].insert(objectToInsert);
+			return;
+		}
+		if((objectToInsert->posX >= this->_posX + this->_w/2) && (objectToInsert->posY + objectToInsert->height - 1 < this->_posY + this->_h/2) ){
+			this->_nodesVector[1].insert(objectToInsert);
+			return;
+		}
+		if((objectToInsert->posX + objectToInsert->width - 1 < this->_posX + this->_w/2) && (objectToInsert->posY >= this->_posY + this->_h/2) ){
+			this->_nodesVector[2].insert(objectToInsert);
+			return;
+		}
+		if((objectToInsert->posX >= this->_posX + this->_w/2) && (objectToInsert->posY >= this->_posY + this->_h/2) ){
+			this->_nodesVector[3].insert(objectToInsert);
+			return;
+		}
+		//objeto encontra-se entre 2 quadrantes
+		this->_objectVector.push_back(objectToInsert);
+		objectToInsert->nodeAssociated = this;
 	}
 
 }
@@ -54,5 +80,5 @@ void QuadTree::clear(){
 }
 
 void QuadTree::_split(){
-
+	//parei aqui, tratar split
 }

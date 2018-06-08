@@ -276,8 +276,8 @@ void Game::gameLoop(){
 		fpsSampleCounter++;
 
 		if(fpsTimer > 1000){
-			//std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
-			//std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
+			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
+			std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
 			fpsTimer = 0;
 			fps = 0;
 			fpsSampleCounter = 0;
