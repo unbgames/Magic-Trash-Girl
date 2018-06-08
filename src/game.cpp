@@ -20,6 +20,7 @@
 #include "mainmenu.h"
 #include "backgroundblock.h"
 #include "quadtree.h"
+#include "spider.h"
 
 
 
@@ -343,6 +344,11 @@ void Game::draw(Graphics &graphics){
 	}
 
 	this->_player.draw(graphics);
+
+	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
+		 it->drawBorder();
+	}
+
 	this->_vaccumcleaner.draw(graphics);
 
 	if(!this->_menuStack.empty()){
@@ -676,6 +682,10 @@ void Game::buildMapObjectBlueprint(MapObjectBlueprint blueprint, Vector2 sectorP
 
 		case PORTAL_TO_NEXT_RANDOM_LEVEL:
 			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
+		break;
+
+		case SPIDER:
+			this->addNewSpriteToDraw( new Spider(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
 		break;
 	}
 }

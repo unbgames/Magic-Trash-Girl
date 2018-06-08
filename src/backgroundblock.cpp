@@ -115,8 +115,6 @@ void BackgroundBlock::draw(Graphics &graphics){
 
 	AnimatedSprite::draw(graphics);
 
-	this->drawBorder();
-
 }
 
 void BackgroundBlock::setupAnimations(){

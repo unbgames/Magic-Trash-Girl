@@ -71,6 +71,12 @@ namespace background_blocks_constants {
 	const int BLOCK_BORDER_RIGHT_LEFT_SIZE = BLOCK_HEIGTH/4;
 }
 
+namespace enemy_constants {
+	const int SPYDER_WIDTH = 48;
+	const int SPYDER_HEIGHT = 32;
+	const int SPIDER_HP = 50;
+}
+
 enum Direction{
 	LEFT,
 	RIGHT,
@@ -90,6 +96,7 @@ enum BlockType{
 enum MapObjectType{
 	PLAYER_START_POSITION, 		// 0
 	PORTAL_TO_NEXT_RANDOM_LEVEL,// 1
+	SPIDER, 					// 2
 
 };
 

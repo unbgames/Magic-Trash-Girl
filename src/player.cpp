@@ -41,8 +41,8 @@ void Player::setupAnimations(){
 	this->addAnimation(8, 0, 0, "IdleLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "MoveRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(5, 0, player_constants::PLAYER_HEIGTH, "MoveLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(8, 0, 0, "LookUp", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0),ExVariables(270, nullptr, SDL_FLIP_NONE));
-	this->addAnimation(8, 0, 0, "LookDown", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(90, nullptr, SDL_FLIP_NONE));
+	this->addAnimation(8, 0, 0, "LookUp", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
+	this->addAnimation(8, 0, 0, "LookDown", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(3, 0, player_constants::PLAYER_HEIGTH*2, "Jump", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingRight", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0));
 	this->addAnimation(5, player_constants::PLAYER_WIDTH*3, player_constants::PLAYER_HEIGTH*2, "FallingLeft", player_constants::PLAYER_WIDTH,player_constants::PLAYER_HEIGTH, Vector2 (0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
