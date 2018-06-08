@@ -75,6 +75,8 @@ private:
 
 	std::vector<std::shared_ptr<AnimatedSprite>> _spritesToDraw;
 
+	std::vector<SectorBackground> _sectorsBackgrounds;
+
 	Player _player;
 
 	VacuumCleaner _vaccumcleaner;

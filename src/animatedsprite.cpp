@@ -173,13 +173,13 @@ void AnimatedSprite::getDes(float* dx, float *dy){
 
 void AnimatedSprite::takeContextAction(std::string objectType){
 
-	std::cout << "context action   == " << objectType << std::endl;
+	//std::cout << "context action   == " << objectType << std::endl;
 
 }
 
 void AnimatedSprite::resolveColision(std::string objectType){
 
-	std::cout << "colision with   == " << objectType << std::endl;
+	//std::cout << "colision with   == " << objectType << std::endl;
 
 }
 

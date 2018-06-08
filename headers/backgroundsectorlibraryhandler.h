@@ -12,6 +12,7 @@
 #include "animatedsprite.h"
 #include <memory>
 #include <vector>
+#include "sectorbackground.h"
 
 /*
  * inicio da declaração de SectorFlags
@@ -80,12 +81,15 @@ struct MapObjectBlueprint{
 struct BlockSector{
 
 	std::vector<BlockType> sectorInfo;
+
 	unsigned int sectorFlags;
 
 	std::vector<MapObjectBlueprint> objectsToBuildVector;
 
-	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags):
-		sectorInfo(sectorInfo), sectorFlags(sectorFlags)
+	std::string backgroundPath;
+
+	BlockSector(std::vector<BlockType> sectorInfo, unsigned int sectorFlags, std::string backgroundPath):
+		sectorInfo(sectorInfo), sectorFlags(sectorFlags), backgroundPath(backgroundPath)
 	{}
 };
 

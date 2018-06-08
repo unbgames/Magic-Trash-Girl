@@ -48,7 +48,7 @@ void MenuBackground::update(float elapsedTime){
 }
 
 void MenuBackground::setupAnimations(){
-	this->addAnimation(1, 0, 0, "IDLE", _defaultWidth, _defaultHeight, Vector2(0,0));
+	this->addAnimation(1, 0, 0, "IDLE", this->_defaultWidth, this->_defaultHeight, Vector2(0,0));
 }
 
 std::string MenuBackground::getObjectType(){

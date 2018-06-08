@@ -330,7 +330,9 @@ void Game::draw(Graphics &graphics){
 
 	graphics.clear();
 
-	//quando arrumar o background para somente colocar o lado q precisa retirar esse draw daqui e descomentar o do proprio bloco
+	for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
+		 it->draw(graphics);
+	}
 
 	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 		 it->draw(graphics);
@@ -355,6 +357,10 @@ void Game::update(float elapsedtime){
 	//checkar aqui colisão do player com todos os do sprite to draw e logo em seguida tratar;
 
 	if(this->_menuStack.empty()){
+		for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
+			 it->update(elapsedtime);
+		}
+
 		for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 			 it->update(elapsedtime);
 		}
@@ -431,6 +437,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	this->_gamepadInputPlayer2.clearInputs();
 
 	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
 
 	this->_player.setPosition(-1100, -1100);
 
@@ -563,6 +570,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 			}
 
+			this->_sectorsBackgrounds.emplace_back(*this->_graphicsAssociated, auxsector.backgroundPath, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS)) * 64, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS)) * 64);
+
 		}else if(i == (int)sectorWay.size() - 1){
 			BlockSector auxsector = this->_backgroundSectorHandler.getRandomFinishSector(sectorWayFlags[i]);
 
@@ -577,6 +586,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				this->buildMapObjectBlueprint((*it), sectorWay.at(i));
 
 			}
+
+			this->_sectorsBackgrounds.emplace_back(*this->_graphicsAssociated, auxsector.backgroundPath, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS)) * 64, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS)) * 64);
 
 		}else{
 
@@ -593,6 +604,9 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 				this->buildMapObjectBlueprint((*it), sectorWay.at(i));
 
 			}
+
+			this->_sectorsBackgrounds.emplace_back(*this->_graphicsAssociated, auxsector.backgroundPath, (1 + (sectorWay[i].x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS)) * 64, (1 + (sectorWay[i].y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS)) * 64);
+
 		}
 	}
 
@@ -629,6 +643,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 					this->buildMapObjectBlueprint((*it), Vector2(i,j));
 
 				}
+
+				this->_sectorsBackgrounds.emplace_back(*this->_graphicsAssociated, auxsector.backgroundPath, (1 + (i*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS)) * 64, (1 + (j*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS)) * 64);
 
 			}
 		}

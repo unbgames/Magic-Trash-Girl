@@ -6,6 +6,10 @@ TITO:
 	falta implementar mas ja ta encaminhado
 
 		load de setores por arquivos // não é necessário, muito trabalho pra algo q nao vale a pena agora
+		
+		inimigos
+		
+		boss
 			
 	coisas pra arrumar
 
