@@ -244,7 +244,7 @@ void Game::gameLoop(){
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_C) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::Y)){
 
-				for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+				for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
 					float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
 					int auxWidth, auxheigth;
 
@@ -296,7 +296,7 @@ void Game::gameLoop(){
 }
 
 void Game::checkColisionSpritesToPlayer(){
-	for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+	for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
 		float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
 		int auxWidth, auxheigth;
 
@@ -312,8 +312,9 @@ void Game::checkColisionSpritesToPlayer(){
 }
 
 void Game::checkColisionSpritesToSprites(){
-	for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
-		for(std::vector<std::unique_ptr<AnimatedSprite>>::iterator it_2 = it+1; it_2 != this->_spritesToDraw.end(); ++it_2) {
+	//usar quadtree aqui, tenho q criar uma função que
+	for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin(); it != this->_spritesToDraw.end(); ++it) {
+		for(std::vector<std::shared_ptr<AnimatedSprite>>::iterator it_2 = it+1; it_2 != this->_spritesToDraw.end(); ++it_2) {
 
 			float auxPosX,auxPosY, auxDesX = 0, auxDesY = 0;
 			int auxWidth, auxheigth;
@@ -340,7 +341,7 @@ void Game::draw(Graphics &graphics){
 		 it->draw(graphics);
 	}
 
-	for (std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
+	for (std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin() ; it != this->_spritesToDraw.end(); ++it){
 		 (*it)->draw(graphics);
 	}
 
@@ -368,7 +369,7 @@ void Game::update(float elapsedtime){
 			this->_spritesToDraw[i]->update(elapsedtime);
 
 			if(this->_spritesToDraw[i]->getToBeDeleted()){
-				std::vector<std::unique_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin();
+				std::vector<std::shared_ptr<AnimatedSprite>>::iterator it = this->_spritesToDraw.begin();
 				this->_spritesToDraw.erase(it + i);
 			}
 		}
@@ -399,7 +400,7 @@ void Game::update(float elapsedtime){
 
 void Game::addNewSpriteToDraw(AnimatedSprite* sprite){
 
-	std::unique_ptr<AnimatedSprite> auxPtr(sprite);
+	std::shared_ptr<AnimatedSprite> auxPtr(sprite);
 
 	this->_spritesToDraw.push_back(std::move(auxPtr));
 

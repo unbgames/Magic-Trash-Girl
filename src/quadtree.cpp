@@ -94,3 +94,7 @@ void QuadTree::_split(){
 	}
 
 }
+
+void QuadTree::runCheckColisions(){
+//parei de implementar aqui
+}

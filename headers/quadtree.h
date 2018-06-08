@@ -10,12 +10,14 @@
 
 #include "globals.h"
 #include <vector>
+#include "animatedsprite.h"
+#include <memory>
 
 class QuadTree;
 
 struct ObjectQuadTree {
 	// não sei se index eh melhor que iterator aqui, estou usando index, mas iterators seriam melhores pois eu sei que o tamanho do vetor não será modificado
-	int vectorIndex;
+	std::weak_ptr<AnimatedSprite> associatedSprite;
 
 	float posX, posY;
 
@@ -23,8 +25,8 @@ struct ObjectQuadTree {
 
 	QuadTree* nodeAssociated;
 
-	ObjectQuadTree(int vectorIndex, float posX, float posY, int width, int height ):
-		vectorIndex(vectorIndex), posX(posX), posY(posY), width(width), height(height), nodeAssociated(nullptr)
+	ObjectQuadTree(std::weak_ptr<AnimatedSprite> associatedSprite, float posX, float posY, int width, int height ):
+		associatedSprite(associatedSprite), posX(posX), posY(posY), width(width), height(height), nodeAssociated(nullptr)
 	{}
 };
 
@@ -38,6 +40,8 @@ public:
 	void insert(ObjectQuadTree* objectToInsert); //nao implementado
 
 	void clear();
+
+	void runCheckColisions();
 
 private:
 

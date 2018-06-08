@@ -75,7 +75,7 @@ private:
 
 	void update(float elapsedtime);
 
-	std::vector<std::unique_ptr<AnimatedSprite>> _spritesToDraw;
+	std::vector<std::shared_ptr<AnimatedSprite>> _spritesToDraw;
 
 	Player _player;
 
@@ -97,7 +97,7 @@ private:
 
 	Graphics* _graphicsAssociated;
 
-	std::stack<std::unique_ptr<Menu>> _menuStack;
+	std::stack<std::shared_ptr<Menu>> _menuStack;
 
 	Menu* _menuToReplaceInStack;
 
