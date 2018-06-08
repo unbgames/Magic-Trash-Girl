@@ -41,7 +41,7 @@ public:
 
 	void clear();
 
-	void runCheckColisions();
+	void runTreeCheckColisions(ObjectQuadTree* objectToCheck);
 
 private:
 

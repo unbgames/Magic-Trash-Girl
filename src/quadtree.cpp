@@ -95,6 +95,23 @@ void QuadTree::_split(){
 
 }
 
-void QuadTree::runCheckColisions(){
-//parei de implementar aqui
+
+
+void QuadTree::runTreeCheckColisions(ObjectQuadTree* objectToCheck){
+
+	float auxX,auxY;
+	int auxW,auxH;
+
+	objectToCheck->associatedSprite.lock()->getPosSize(&auxX,&auxY,&auxW,&auxH);
+
+	for( std::vector<ObjectQuadTree*>::iterator it = this->_objectVector.begin(); it != this->_objectVector.end(); ++it){
+		if((*it)->associatedSprite.lock()->checkColision(auxX, auxY, auxW, auxH, 0, 0)){
+			(*it)->associatedSprite.lock()->resolveColision(objectToCheck->associatedSprite.lock()->getObjectType());
+			objectToCheck->associatedSprite.lock()->resolveColision((*it)->associatedSprite.lock()->getObjectType());
+		}
+	}
+
+	if(this->_fatherNode){
+		this->_fatherNode->runTreeCheckColisions(objectToCheck);
+	}
 }
