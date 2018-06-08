@@ -16,10 +16,11 @@ VacuumCleaner::VacuumCleaner(){ // @suppress("Class members should be properly i
 
 VacuumCleaner::VacuumCleaner(Graphics &graphics, Player &player):
 		AnimatedSprite(graphics, "assets/aspirador.png", 0, 0, vacuum_constants::VACUUM_WIDTH, vacuum_constants::VACUUM_HEIGTH, -1000, -1000, 300),
+		vCone(graphics),
 		_folowingPlayer(true),
 		_playerAssociated(&player),
-		_facing(RIGHT),
-		_vCone(graphics){
+		_facing(RIGHT)
+		{
 
 		this->setupAnimations();
 		this->playAnimation("IdleRight");
@@ -102,28 +103,28 @@ void VacuumCleaner::update(float elapsedTime){
 	 */
 
 	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui
-	if(this->_vCone.getActive()){
+	if(this->vCone.getActive()){
 		switch(this->_facing){
 			case UP:
 				//depois arrumar esses valores aqui quando tiver as animaçoes corretas
-				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - this->_w*3/4 - 8);
-				this->_vCone.playAnimation("facingUp");
+				this->vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - this->_w*3/4 - 8);
+				this->vCone.playAnimation("facingUp");
 			break;
 			case DOWN:
-				this->_vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2, this->_y + this->_w*3/4);
-				this->_vCone.playAnimation("facingDown");
+				this->vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2, this->_y + this->_w*3/4);
+				this->vCone.playAnimation("facingDown");
 			break;
 			case LEFT:
-				this->_vCone.setPosition(this->_x - player_constants::CONE_WIDTH, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
-				this->_vCone.playAnimation("facingLeft");
+				this->vCone.setPosition(this->_x - player_constants::CONE_WIDTH, this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
+				this->vCone.playAnimation("facingLeft");
 			break;
 			case RIGHT:
-				this->_vCone.setPosition(this->_x + this->_w , this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
-				this->_vCone.playAnimation("facingRight");
+				this->vCone.setPosition(this->_x + this->_w , this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
+				this->vCone.playAnimation("facingRight");
 			break;
 		}
 	}
-	this->_vCone.update(elapsedTime);
+	this->vCone.update(elapsedTime);
 
 
 	AnimatedSprite::update(elapsedTime);
@@ -144,7 +145,7 @@ void VacuumCleaner::setupAnimations(){
 
 void VacuumCleaner::activateVacuum(){
 
-	this->_vCone.setActive(true);
+	this->vCone.setActive(true);
 
 }
 
@@ -170,6 +171,6 @@ bool VacuumCleaner::getFolowingPlayer(){
 
 void VacuumCleaner::draw(Graphics &graphics){
 	AnimatedSprite::draw(graphics);
-	this->_vCone.draw(graphics);
+	this->vCone.draw(graphics);
 }
 

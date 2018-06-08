@@ -22,6 +22,8 @@ public:
 
 	std::string getObjectType();
 
+	void resolveColision(std::string objectType);
+
 private:
 
 	Direction _facing;

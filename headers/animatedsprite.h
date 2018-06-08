@@ -54,6 +54,8 @@ public:
 	float getPosY();
 	float getW();
 	float getH();
+	float getCenterX();
+	float getCenterY();
 
 protected:
 

@@ -63,6 +63,7 @@ public:
 
 	void checkColisionFullMap();
 
+	float getPlayerVaccumDps();
 private:
 
 	static Game* _instance;

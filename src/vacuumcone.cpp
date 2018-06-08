@@ -58,7 +58,7 @@ void VacuumCone::update(float elapsedTime){
 
 	}else{
 		this->setVisible(false);
-		this->setPosition(-1000, -1000);
+		this->setPosition(-1300, -1300);
 	}
 
 	AnimatedSprite::update(elapsedTime);
@@ -85,4 +85,8 @@ void VacuumCone::setActive(bool status){
 
 bool VacuumCone::getActive(){
 	return this->_isActive;
+}
+
+float VacuumCone::getDps(){
+	return this->_dps;
 }

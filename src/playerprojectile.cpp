@@ -129,3 +129,11 @@ void PlayerProjectile::setupAnimations(){
 std::string PlayerProjectile::getObjectType(){
 	return "PlayerProjectile";
 }
+
+void PlayerProjectile::resolveColision(std::string objectType){
+
+	if(objectType == "Enemy"){
+		this->setToBeDeleted(true);
+	}
+
+}

@@ -195,4 +195,10 @@ float AnimatedSprite::getW(){
 float AnimatedSprite::getH(){
 	return this->_h;
 }
+float AnimatedSprite::getCenterX(){
+	return this->_x + this->_w/2;
+}
+float AnimatedSprite::getCenterY(){
+	return this->_y + this->_h/2;
+}
 

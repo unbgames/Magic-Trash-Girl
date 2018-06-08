@@ -29,6 +29,8 @@ public:
 
 	bool getActive();
 
+	float getDps();
+
 private:
 
 	Direction _facing;

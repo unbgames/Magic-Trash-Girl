@@ -74,7 +74,7 @@ namespace background_blocks_constants {
 namespace enemy_constants {
 	const int SPYDER_WIDTH = 48;
 	const int SPYDER_HEIGHT = 32;
-	const int SPIDER_HP = 50;
+	const int SPIDER_HP = 100;
 }
 
 enum Direction{

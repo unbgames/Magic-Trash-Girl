@@ -38,6 +38,8 @@ public:
 
 	void setupAnimations();
 
+	VacuumCone vCone;
+
 private:
 
 	bool _folowingPlayer;
@@ -45,11 +47,6 @@ private:
 	Player* _playerAssociated;
 
 	Direction _facing;
-
-	VacuumCone _vCone;
-
-
-
 
 };
 

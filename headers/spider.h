@@ -21,11 +21,22 @@ public:
 
 	std::string getEnemyType();
 
+	void resolveColision(std::string objectType);
+
 	void setupAnimations();
+
+	void encaseInBubble();
+
+	void freeFromBubble();
+
 
 private:
 
+	bool _stuckInBubble;
 
+	float _bubbleTimer;
+
+	bool _takingDamageFromPlayerVaccum;
 };
 
 #endif /* SOURCE_HEADERS_SPIDER_H_ */

@@ -310,12 +310,38 @@ void Game::checkColisionFullMap(){
 	}
 
 	QuadTree auxQuadTree = QuadTree(0, 8, 5, 0, 0, this->_mapWidth, this->_mapHeight);
-
+	/*
+	 * 	inserindo player
+	 */
 	std::shared_ptr<AnimatedSprite> auxPtrPlayer = std::make_shared<Player>(this->_player);
 
 	ObjectQuadTree playerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrPlayer), this->_player.getPosX(), this->_player.getPosY(), this->_player.getW(), this->_player.getH());
 
 	auxQuadTree.insert(&playerObject);
+	/*
+	 * 	inserindo vaccumcleaner
+	 */
+
+	std::shared_ptr<AnimatedSprite> auxPtrVaccumCleaner = std::make_shared<VacuumCleaner>(this->_vaccumcleaner);
+
+	ObjectQuadTree vaccumCleanerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrVaccumCleaner), this->_vaccumcleaner.getPosX(), this->_vaccumcleaner.getPosY(), this->_vaccumcleaner.getW(), this->_vaccumcleaner.getH());
+
+	auxQuadTree.insert(&vaccumCleanerObject);
+
+	/*
+	 * 	inserindo vaccumcone
+	 */
+
+	std::shared_ptr<AnimatedSprite> auxPtrVaccumCone = std::make_shared<VacuumCone>(this->_vaccumcleaner.vCone);
+
+	ObjectQuadTree vaccumConeObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrVaccumCone), this->_vaccumcleaner.vCone.getPosX(), this->_vaccumcleaner.vCone.getPosY(), this->_vaccumcleaner.vCone.getW(), this->_vaccumcleaner.vCone.getH());
+
+	auxQuadTree.insert(&vaccumConeObject);
+
+
+	/*
+	 * 	inserindo o resto
+	 */
 
 	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
 		auxQuadTree.insert(&(*it));
@@ -812,5 +838,9 @@ int Game::getCurrentNumberBlocksColumn(){
 
 void Game::setMenuToReplaceInStack(Menu* menuToReplaceInStack){
 	this->_menuToReplaceInStack = menuToReplaceInStack;
+}
+
+float Game::getPlayerVaccumDps(){
+	return this->_vaccumcleaner.vCone.getDps();
 }
 
