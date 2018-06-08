@@ -80,5 +80,17 @@ void QuadTree::clear(){
 }
 
 void QuadTree::_split(){
-	//parei aqui, tratar split
+	this->_nodesVector.emplace_back(QuadTree(this->_layer+1, this->_maxLayers, this->_maxObjectsInQuadrant, this->_posX, this->_posY, this->_w/2, this->_h/2, this));
+	this->_nodesVector.emplace_back(QuadTree(this->_layer+1, this->_maxLayers, this->_maxObjectsInQuadrant, this->_posX + this->_w/2, this->_posY, this->_w/2, this->_h/2, this));
+	this->_nodesVector.emplace_back(QuadTree(this->_layer+1, this->_maxLayers, this->_maxObjectsInQuadrant, this->_posX, this->_posY + this->_h/2, this->_w/2, this->_h/2, this));
+	this->_nodesVector.emplace_back(QuadTree(this->_layer+1, this->_maxLayers, this->_maxObjectsInQuadrant, this->_posX + this->_w/2, this->_posY + this->_h/2, this->_w/2, this->_h/2, this));
+
+	std::vector<ObjectQuadTree*> auxVector = this->_objectVector;
+
+	this->_objectVector.clear();
+
+	for( std::vector<ObjectQuadTree*>::iterator it = auxVector.begin(); it != auxVector.end(); ++it){
+		this->insert(*it);
+	}
+
 }
