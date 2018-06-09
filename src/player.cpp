@@ -200,6 +200,26 @@ void Player::update(float elapsedTime){
 		this->_isSwiming = false;
 	}
 
+	this->_checkBackgroundColision(elapsedTime);
+
+	this->_x += this->_dx * elapsedTime;
+	this->_y += this->_dy * elapsedTime;
+
+	this->_correctionBackgroundColision();
+
+	/*
+	 * update da camera
+	 */
+	if(this->_graphicsAssociated->camera.folowPlayer){
+		this->_graphicsAssociated->camera.smoothSetX(this->_x + this->_w/2 - this->_graphicsAssociated->windowWidth/2);
+		this->_graphicsAssociated->camera.smoothSetY(this->_y + this->_h/2 - this->_graphicsAssociated->windowHeight/2);
+	}
+
+	AnimatedSprite::update(elapsedTime);
+}
+
+void Player::_checkBackgroundColision(float elapsedTime){
+
 	/*
 	 * check de colision
 	 */
@@ -367,9 +387,9 @@ void Player::update(float elapsedTime){
 			}
 		}
 	}
+}
 
-	this->_x += this->_dx * elapsedTime;
-	this->_y += this->_dy * elapsedTime;
+void Player::_correctionBackgroundColision(){
 
 	/*
 	 * correção caso haja colisão;
@@ -478,17 +498,8 @@ void Player::update(float elapsedTime){
 	/*
 	 * termino da correção
 	 */
-
-	/*
-	 * update da camera
-	 */
-	if(this->_graphicsAssociated->camera.folowPlayer){
-		this->_graphicsAssociated->camera.smoothSetX(this->_x + this->_w/2 - this->_graphicsAssociated->windowWidth/2);
-		this->_graphicsAssociated->camera.smoothSetY(this->_y + this->_h/2 - this->_graphicsAssociated->windowHeight/2);
-	}
-
-	AnimatedSprite::update(elapsedTime);
 }
+
 
 void Player::setPosition(float x, float y){
 

@@ -33,10 +33,16 @@ public:
 private:
 
 	bool _stuckInBubble;
+	float _storedDx;
+	float _storedDy;
 
 	float _bubbleTimer;
 
 	bool _takingDamageFromPlayerVaccum;
+
+	bool _isAirborne;
+
+	Direction _facing;
 };
 
 #endif /* SOURCE_HEADERS_SPIDER_H_ */

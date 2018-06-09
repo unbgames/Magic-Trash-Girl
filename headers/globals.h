@@ -52,6 +52,9 @@ namespace globals{
 
 	const float SMOOTH_CAMERA_VELOCITY = 0.3f;
 	const float SMOOTH_CAMERA_TIMER_MAX = 200;
+
+	const float FALL_ACELERATION = 0.002f;
+	const float MAX_FALL_SPEED = 1.2f;
 }
 
 namespace background_blocks_constants {

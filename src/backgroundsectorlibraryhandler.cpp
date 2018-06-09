@@ -153,7 +153,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_WIDTH, 4*background_blocks_constants::BLOCK_HEIGTH)));
 
-	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(SPIDER, Vector2(8*background_blocks_constants::BLOCK_WIDTH + 10, 4*background_blocks_constants::BLOCK_HEIGTH + 20)));
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(SPIDER, Vector2(8*background_blocks_constants::BLOCK_WIDTH + 10, 4*background_blocks_constants::BLOCK_HEIGTH + 20 )));
 
 	//------------------------------------------------------------------------
 

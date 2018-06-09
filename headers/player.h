@@ -48,6 +48,10 @@ public:
 
 private:
 
+	void _checkBackgroundColision(float elapsedTime);
+
+	void _correctionBackgroundColision();
+
 	Direction _facing;
 	Direction _idleFacing;
 	bool _isAirborne;
