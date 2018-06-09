@@ -535,3 +535,11 @@ Direction Player::getFacing(){
 bool Player::getIsSwiming(){
 	return this->_isSwiming;
 }
+
+void Player::resolveColision(std::string objectType){
+
+	if(objectType == "Enemy"){
+		std::cout << "Player tomou dano" << std::endl;
+	}
+
+}

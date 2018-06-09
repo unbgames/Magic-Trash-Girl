@@ -46,6 +46,8 @@ public:
 
 	bool getIsSwiming();
 
+	void resolveColision(std::string objectType);
+
 private:
 
 	void _checkBackgroundColision(float elapsedTime);

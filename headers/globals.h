@@ -99,7 +99,7 @@ enum BlockType{
 enum MapObjectType{
 	PLAYER_START_POSITION, 		// 0
 	PORTAL_TO_NEXT_RANDOM_LEVEL,// 1
-	SPIDER, 					// 2
+	RAT, 					// 2
 
 };
 

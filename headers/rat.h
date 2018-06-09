@@ -1,21 +1,21 @@
 /*
- * spider.h
+ * rat.h
  *
  *  Created on: Jun 8, 2018
  *      Author: TMK
  */
 
-#ifndef SOURCE_HEADERS_SPIDER_H_
-#define SOURCE_HEADERS_SPIDER_H_
+#ifndef SOURCE_HEADERS_RAT_H_
+#define SOURCE_HEADERS_RAT_H_
 
 #include "enemy.h"
 
-class Spider:public Enemy{
+class Rat:public Enemy{
 public:
 
-	Spider(Graphics &graphics, float posX, float posY);
+	Rat(Graphics &graphics, float posX, float posY);
 
-	~Spider();
+	~Rat();
 
 	void update(float elpasedTime);
 
@@ -33,10 +33,13 @@ public:
 private:
 
 	bool _stuckInBubble;
-	float _storedDx;
-	float _storedDy;
+	float _storedDxBubble;
+	float _storedDyBubble;
 
 	float _bubbleTimer;
+
+	float _storedDxColision;
+	float _storedDyColision;
 
 	bool _takingDamageFromPlayerVaccum;
 
@@ -45,4 +48,4 @@ private:
 	Direction _facing;
 };
 
-#endif /* SOURCE_HEADERS_SPIDER_H_ */
+#endif /* SOURCE_HEADERS_RAT_H_ */

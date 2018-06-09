@@ -5,6 +5,7 @@
  *      Author: TMK
  */
 
+#include <rat.h>
 #include <SDL2/SDL.h>
 
 #include "game.h"
@@ -20,7 +21,6 @@
 #include "mainmenu.h"
 #include "backgroundblock.h"
 #include "quadtree.h"
-#include "spider.h"
 
 
 
@@ -710,8 +710,8 @@ void Game::buildMapObjectBlueprint(MapObjectBlueprint blueprint, Vector2 sectorP
 			this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
 		break;
 
-		case SPIDER:
-			this->addNewSpriteToDraw( new Spider(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
+		case RAT:
+			this->addNewSpriteToDraw( new Rat(*this->_graphicsAssociated, (1 + (sectorPosition.x*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS))*background_blocks_constants::BLOCK_WIDTH + blueprint.positionOffsetOnSector.x, (1 + (sectorPosition.y*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS))*background_blocks_constants::BLOCK_HEIGTH + blueprint.positionOffsetOnSector.y) );
 		break;
 	}
 }

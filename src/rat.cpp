@@ -1,19 +1,21 @@
 /*
- * spider.cpp
+ * rat.cpp
  *
  *  Created on: Jun 8, 2018
  *      Author: TMK
  */
 
-#include "spider.h"
+#include <rat.h>
 #include "game.h"
 
-Spider::Spider(Graphics &graphics, float posX, float posY):
-				Enemy(graphics, "assets/spider.png", enemy_constants::SPYDER_WIDTH, enemy_constants::SPYDER_HEIGHT, posX, posY, 300, enemy_constants::SPIDER_HP),
+Rat::Rat(Graphics &graphics, float posX, float posY):
+				Enemy(graphics, "assets/rat.png", enemy_constants::SPYDER_WIDTH, enemy_constants::SPYDER_HEIGHT, posX, posY, 300, enemy_constants::SPIDER_HP),
 				_stuckInBubble(false),
-				_storedDx(0),
-				_storedDy(0),
+				_storedDxBubble(0),
+				_storedDyBubble(0),
 				_bubbleTimer(0),
+				_storedDxColision(0),
+				_storedDyColision(0),
 				_takingDamageFromPlayerVaccum(false),
 				_isAirborne(false),
 				_facing(RIGHT)
@@ -24,11 +26,11 @@ Spider::Spider(Graphics &graphics, float posX, float posY):
 				this->_dx = -0.1f;
 }
 
-Spider::~Spider(){
+Rat::~Rat(){
 
 }
 
-void Spider::update(float elapsedTime){
+void Rat::update(float elapsedTime){
 
 	bool changeDirections = false;
 
@@ -38,10 +40,6 @@ void Spider::update(float elapsedTime){
 	}
 
 	if(this->_stuckInBubble){
-		this->_storedDx = this->_dx;
-		this->_storedDy = this->_dy;
-		this->_dx = 0;
-		this->_dy = 0;
 		_bubbleTimer += elapsedTime;
 		if(_bubbleTimer > 3000){
 			this->freeFromBubble();
@@ -147,7 +145,7 @@ void Spider::update(float elapsedTime){
 					if((((Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != NONE) && (Game::getInstance().getBlockType(auxCheckRightColision[0].x, auxCheckRightColision[0].y)) != WATER)
 						|| (((Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != NONE) && (Game::getInstance().getBlockType(auxCheckRightColision[1].x, auxCheckRightColision[1].y)) != WATER)){
 					this->_x += i - 1;
-						this->_storedDx = _dx;
+						this->_storedDxColision = _dx;
 						this->_dx = 0;
 						changeDirections = true;
 						break;
@@ -171,7 +169,7 @@ void Spider::update(float elapsedTime){
 				if((((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != NONE) && ((Game::getInstance().getBlockType(auxCheckLeftColision[0].x, auxCheckLeftColision[0].y)) != WATER))
 						|| (((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != WATER) && ((Game::getInstance().getBlockType(auxCheckLeftColision[1].x, auxCheckLeftColision[1].y)) != NONE))){
 					this->_x += i + 1;
-					this->_storedDx = _dx;
+					this->_storedDxColision = _dx;
 					this->_dx = 0;
 					changeDirections = true;
 					break;
@@ -293,23 +291,23 @@ void Spider::update(float elapsedTime){
 				}
 
 				if(correctTop){ //top
-					//std::cout << "spider top correction" << std::endl;
+					//std::cout << "rat top correction" << std::endl;
 					noColision = false;
 					this->_y ++;
 				}
 				if(correctBot){ //bot
-					//std::cout << "spider bot correction" << std::endl;
+					//std::cout << "rat bot correction" << std::endl;
 					checkAirborne = true;
 					noColision = false;
 					this->_y --;
 				}
 				if(correctLeft){ //left
-					//std::cout << "spider left correction" << std::endl;
+					//std::cout << "rat left correction" << std::endl;
 					noColision = false;
 					this->_x ++;
 				}
 				if(correctRight){ //right
-					//std::cout << "spider right correction" << std::endl;
+					//std::cout << "rat right correction" << std::endl;
 					noColision = false;
 					this->_x --;
 				}
@@ -376,22 +374,22 @@ void Spider::update(float elapsedTime){
 
 
 	if(changeDirections){
-		if(this->_storedDx < 0){
-			this->_dx = this->_storedDx * -1;
-		}else if(this->_storedDx > 0){
-			this->_dx = this->_storedDx * -1;
+		if(this->_storedDxColision < 0){
+			this->_dx = this->_storedDxColision * -1;
+		}else if(this->_storedDxColision > 0){
+			this->_dx = this->_storedDxColision * -1;
 		}
-		this->_storedDx = 0;
+		this->_storedDxColision = 0;
 	}
 
 	AnimatedSprite::update(elapsedTime);
 }
 
-std::string Spider::getEnemyType(){
-	return "Spider";
+std::string Rat::getEnemyType(){
+	return "Rat";
 }
 
-void Spider::resolveColision(std::string objectType){
+void Rat::resolveColision(std::string objectType){
 
 	if(objectType == "PlayerProjectile"){
 		this->encaseInBubble();
@@ -403,25 +401,37 @@ void Spider::resolveColision(std::string objectType){
 
 }
 
-void Spider::encaseInBubble(){
-	this->_stuckInBubble = true;
-	this->playAnimation("StuckInBubble");
+void Rat::encaseInBubble(){
+	if(!this->_stuckInBubble){
+		this->_storedDxBubble = this->_dx;
+		this->_storedDyBubble = this->_dy;
+		this->_dx = 0;
+		this->_dy = 0;
+		this->_stuckInBubble = true;
+		if(this->_facing == RIGHT){
+			this->playAnimation("StuckInBubbleRight");
+		}
+		if(this->_facing == LEFT){
+			this->playAnimation("StuckInBubbleLeft");
+		}
+	}
 }
 
-void Spider::freeFromBubble(){
-	this->_dx = this->_storedDx;
-	this->_dy = this->_storedDy;
-	this->_storedDx = 0;
-	this->_storedDy = 0;
+void Rat::freeFromBubble(){
+	this->_dx = this->_storedDxBubble;
+	this->_dy = this->_storedDyBubble;
+	this->_storedDxBubble = 0;
+	this->_storedDyBubble = 0;
 	this->_stuckInBubble = false;
 	this->playAnimation("IDLE");
 	this->_bubbleTimer = 0;
 }
 
-void Spider::setupAnimations(){
+void Rat::setupAnimations(){
 
 	this->addAnimation(1, 0, 0, "IDLE", this->_w, this->_h, Vector2(0,0));
-	this->addAnimation(1, 0, this->_h, "StuckInBubble", this->_w, this->_h, Vector2(0,0));
+	this->addAnimation(1, 0, this->_h, "StuckInBubbleRight", this->_w, this->_h, Vector2(0,0));
+	this->addAnimation(1, 0, this->_h, "StuckInBubbleLeft", this->_w, this->_h, Vector2(0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 	this->addAnimation(1, 0, 0, "MovingRight", this->_w, this->_h, Vector2(0,0));
 	this->addAnimation(1, 0, 0, "MovingLeft", this->_w, this->_h, Vector2(0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 
