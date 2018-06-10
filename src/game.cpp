@@ -80,8 +80,13 @@ void Game::gameLoop(){
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
+	this->_sharedPtrPlayer.reset(&this->_player);
 
 	this->_vaccumcleaner = VacuumCleaner(graphics, this->_player);
+	this->_sharedPtrVaccumCleaner.reset(&this->_vaccumcleaner);
+	this->_sharedPtrVaccumCone.reset(&this->_vaccumcleaner.vCone);
+
+
 
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
@@ -313,18 +318,15 @@ void Game::checkColisionFullMap(){
 	/*
 	 * 	inserindo player
 	 */
-	std::shared_ptr<AnimatedSprite> auxPtrPlayer = std::make_shared<Player>(this->_player);
 
-	ObjectQuadTree playerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrPlayer), this->_player.getPosX(), this->_player.getPosY(), this->_player.getW(), this->_player.getH());
+	ObjectQuadTree playerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(this->_sharedPtrPlayer), this->_player.getPosX(), this->_player.getPosY(), this->_player.getW(), this->_player.getH());
 
 	auxQuadTree.insert(&playerObject);
 	/*
 	 * 	inserindo vaccumcleaner
 	 */
 
-	std::shared_ptr<AnimatedSprite> auxPtrVaccumCleaner = std::make_shared<VacuumCleaner>(this->_vaccumcleaner);
-
-	ObjectQuadTree vaccumCleanerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrVaccumCleaner), this->_vaccumcleaner.getPosX(), this->_vaccumcleaner.getPosY(), this->_vaccumcleaner.getW(), this->_vaccumcleaner.getH());
+	ObjectQuadTree vaccumCleanerObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(this->_sharedPtrVaccumCleaner), this->_vaccumcleaner.getPosX(), this->_vaccumcleaner.getPosY(), this->_vaccumcleaner.getW(), this->_vaccumcleaner.getH());
 
 	auxQuadTree.insert(&vaccumCleanerObject);
 
@@ -332,9 +334,7 @@ void Game::checkColisionFullMap(){
 	 * 	inserindo vaccumcone
 	 */
 
-	std::shared_ptr<AnimatedSprite> auxPtrVaccumCone = std::make_shared<VacuumCone>(this->_vaccumcleaner.vCone);
-
-	ObjectQuadTree vaccumConeObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(auxPtrVaccumCone), this->_vaccumcleaner.vCone.getPosX(), this->_vaccumcleaner.vCone.getPosY(), this->_vaccumcleaner.vCone.getW(), this->_vaccumcleaner.vCone.getH());
+	ObjectQuadTree vaccumConeObject = ObjectQuadTree(std::weak_ptr<AnimatedSprite>(this->_sharedPtrVaccumCone), this->_vaccumcleaner.vCone.getPosX(), this->_vaccumcleaner.vCone.getPosY(), this->_vaccumcleaner.vCone.getW(), this->_vaccumcleaner.vCone.getH());
 
 	auxQuadTree.insert(&vaccumConeObject);
 

@@ -50,6 +50,8 @@ public:
 
 private:
 
+	static int playercount;
+
 	void _checkBackgroundColision(float elapsedTime);
 
 	void _correctionBackgroundColision();
@@ -60,6 +62,12 @@ private:
 	bool _isSwiming;
 
 	bool _startJump;
+
+	bool _invulnerable;
+	float _invulnerableTimer;
+	float _invulnerableBlinkTimer;
+
+	int _hp;
 
 };
 

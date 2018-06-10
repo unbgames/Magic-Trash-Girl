@@ -11,6 +11,8 @@
 #include "Game.h"
 #include "playerprojectile.h"
 
+int Player::playercount = 0;
+
 Player::Player(){ // @suppress("Class members should be properly initialized")
 
 }
@@ -21,7 +23,15 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_idleFacing(RIGHT),
 		_isAirborne(false),
 		_isSwiming(false),
-		_startJump(false){
+		_startJump(false),
+		_invulnerable(false),
+		_invulnerableTimer(0),
+		_invulnerableBlinkTimer(0),
+		_hp(4){
+
+		playercount++;
+
+		//std::cout << playercount << std::endl;
 
 		this->setupAnimations();
 		this->playAnimation("IdleRight");
@@ -140,6 +150,23 @@ void Player::takeContextAction(std::string objectType){
 
 
 void Player::update(float elapsedTime){
+
+
+//	std::cout << "Player update, hp : " << this->_hp << "    invulnerable flag: " << this->_invulnerable << "  instance: " << this << std::endl;
+
+	if(this->_invulnerable){
+		this->_invulnerableTimer += elapsedTime;
+		this->_invulnerableBlinkTimer += elapsedTime;
+		if(_invulnerableBlinkTimer >= player_constants::INVULNERABILITY_BLINK_TIME){
+			this->setVisible(!this->getVisible());
+		}
+		if(this->_invulnerableTimer >= player_constants::INVULNERABILITY_TIME){
+			this->_invulnerableTimer = 0;
+			this->_invulnerable = false;
+			this->_invulnerableBlinkTimer = 0;
+			this->setVisible(true);
+		}
+	}
 
 	if(this->_isAirborne){
 
@@ -539,7 +566,11 @@ bool Player::getIsSwiming(){
 void Player::resolveColision(std::string objectType){
 
 	if(objectType == "Enemy"){
-		std::cout << "Player tomou dano" << std::endl;
+		if(this->_invulnerable == false){
+		this->_invulnerable = true;
+			this->_hp --;
+//			std::cout << "Player resolve colision, hp : " << this->_hp << "    invulnerable flag: " << this->_invulnerable << "  instance: " << this << std::endl;
+		}
 	}
 
 }

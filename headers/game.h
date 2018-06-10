@@ -79,8 +79,12 @@ private:
 	std::vector<SectorBackground> _sectorsBackgrounds;
 
 	Player _player;
+	std::shared_ptr<AnimatedSprite> _sharedPtrPlayer;
 
 	VacuumCleaner _vaccumcleaner;
+	std::shared_ptr<AnimatedSprite> _sharedPtrVaccumCleaner;
+	std::shared_ptr<AnimatedSprite> _sharedPtrVaccumCone;
+
 
 	KeyboardInput _keyboardInput;
 
