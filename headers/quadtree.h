@@ -43,7 +43,9 @@ public:
 
 	void clear();
 
-	void runTreeCheckColisions(ObjectQuadTree* objectToCheck);
+	void runTreeCheckColisionsForOneNode(ObjectQuadTree* objectToCheck);
+
+	void runTreeCheckColisionsFull();
 
 	static int numberQuadtrees;
 

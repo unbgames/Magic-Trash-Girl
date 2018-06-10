@@ -111,9 +111,38 @@ void QuadTree::_split(){
 
 }
 
+void QuadTree::runTreeCheckColisionsFull(){
 
+	float auxX,auxY;
+	int auxW,auxH;
 
-void QuadTree::runTreeCheckColisions(ObjectQuadTree* objectToCheck){
+	for( std::vector<ObjectQuadTree*>::iterator it = this->_objectVector.begin(); it != this->_objectVector.end(); ++it){
+
+		(*it)->associatedSprite.lock()->getPosSize(&auxX,&auxY,&auxW,&auxH);
+
+		for( std::vector<ObjectQuadTree*>::iterator it2 = it; it2 != this->_objectVector.end(); ++it2){
+
+			if(!((*it)->associatedSprite.lock() == (*it2)->associatedSprite.lock())){
+				if((*it2)->associatedSprite.lock()->checkColision(auxX, auxY, auxW, auxH, 0, 0)){
+					(*it2)->associatedSprite.lock()->resolveColision((*it)->associatedSprite.lock()->getObjectType());
+					(*it)->associatedSprite.lock()->resolveColision((*it2)->associatedSprite.lock()->getObjectType());
+				}
+			}
+
+		}
+
+		if(this->_fatherNode){
+			this->_fatherNode->runTreeCheckColisionsForOneNode((*it));
+		}
+
+	}
+
+	for(std::vector<QuadTree>::iterator it3 = this->_nodesVector.begin(); it3 != this->_nodesVector.end(); ++it3){
+		(it3)->runTreeCheckColisionsFull();
+	}
+}
+
+void QuadTree::runTreeCheckColisionsForOneNode(ObjectQuadTree* objectToCheck){
 
 	float auxX,auxY;
 	int auxW,auxH;
@@ -132,6 +161,6 @@ void QuadTree::runTreeCheckColisions(ObjectQuadTree* objectToCheck){
 	}
 
 	if(this->_fatherNode){
-		this->_fatherNode->runTreeCheckColisions(objectToCheck);
+		this->_fatherNode->runTreeCheckColisionsForOneNode(objectToCheck);
 	}
 }

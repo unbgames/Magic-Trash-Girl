@@ -103,7 +103,7 @@ void Game::gameLoop(){
 
 	while(true){
 
-		//std::cout << " ======= new frame on game loop ======== " << std::endl;
+//		std::cout << " ======= new frame on game loop ======== " << std::endl;
 
 		graphics.updateDisplayInfo();
 
@@ -347,9 +347,7 @@ void Game::checkColisionFullMap(){
 		auxQuadTree.insert(&(*it));
 	}
 
-	for(std::vector<ObjectQuadTree>::iterator it = objectQuadTreeVector.begin(); it != objectQuadTreeVector.end(); ++it){
-		(*it).nodeAssociated->runTreeCheckColisions(&(*it));
-	}
+	auxQuadTree.runTreeCheckColisionsFull();
 
 }
 
