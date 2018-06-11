@@ -16,7 +16,7 @@ public:
 
 	HUDElement();
 
-	HUDElement(Graphics &graphics, float posRelX, float posRelY, float width, float height, std::string filePath);
+	HUDElement(Graphics &graphics, float posRelX, float posRelY, float relWidth, float relHeight, std::string filePath);
 	~HUDElement();
 
 	virtual void update(float elapsedTime);
@@ -26,6 +26,8 @@ public:
 protected:
 
 	virtual void setupAnimations() = 0;
+
+	float _posRelX, _posRelY, _relWidth, _relHeight;
 
 private:
 

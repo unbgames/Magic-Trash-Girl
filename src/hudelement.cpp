@@ -11,13 +11,17 @@
 #include "graphics.h"
 
 
-HUDElement::HUDElement(){
+HUDElement::HUDElement(){ // @suppress("Class members should be properly initialized")
 
 }
 
-HUDElement::HUDElement(Graphics &graphics, float posRelX, float posRelY, float width, float height, std::string filePath):
-		AnimatedSprite(graphics, filePath, 0, 0, width, height, graphics.windowWidth * posRelX, graphics.windowHeight* posRelY, 300)
-					{
+HUDElement::HUDElement(Graphics &graphics, float posRelX, float posRelY, float relWidth, float relHeight, std::string filePath):
+		AnimatedSprite(graphics, filePath, 0, 0, graphics.windowWidth * relWidth, graphics.windowHeight * relHeight, (graphics.windowWidth * posRelX) + graphics.camera.getx(), (graphics.windowHeight* posRelY) + graphics.camera.gety(), 300),
+		_posRelX(posRelX),
+		_posRelY(posRelY),
+		_relWidth(relWidth),
+		_relHeight(relHeight)
+		{
 
 }
 

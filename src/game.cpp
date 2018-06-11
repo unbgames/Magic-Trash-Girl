@@ -21,6 +21,7 @@
 #include "mainmenu.h"
 #include "backgroundblock.h"
 #include "quadtree.h"
+#include "hudplayerhp.h"
 
 
 
@@ -53,6 +54,7 @@ Game::Game():
 
 Game::~Game(){
 	this->_spritesToDraw.clear();
+	this->_hudElements.clear();
 }
 
 Game& Game::getInstance(){
@@ -377,6 +379,10 @@ void Game::draw(Graphics &graphics){
 
 	if(!this->_menuStack.empty()){
 		this->_menuStack.top()->draw();
+	}else{
+		for (std::vector<std::shared_ptr<HUDElement>>::iterator it = this->_hudElements.begin() ; it != this->_hudElements.end(); ++it){
+			 (*it)->draw(graphics);
+		}
 	}
 
 	graphics.flip();
@@ -393,6 +399,10 @@ void Game::update(float elapsedtime){
 
 		for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
 			 it->update(elapsedtime);
+		}
+
+		for (std::vector<std::shared_ptr<HUDElement>>::iterator it = this->_hudElements.begin() ; it != this->_hudElements.end(); ++it){
+			 (*it)->update(elapsedtime);
 		}
 
 		for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
@@ -468,6 +478,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 	this->_spritesToDraw.clear();
 	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
 
 	this->_player.setPosition(-1100, -1100);
 
@@ -695,6 +706,16 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 
 	/*
 	 * termino do setup de borders
+	 */
+
+	/*
+	 * inicio do setup do HUD
+	 */
+
+		this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated));
+
+	/*
+	 * termino do setup do HUD
 	 */
 }
 

@@ -20,6 +20,7 @@
 #include "gamepadinput.h"
 #include <stack>
 #include "menu.h"
+#include "hudelement.h"
 
 
 class Graphics;
@@ -75,6 +76,8 @@ private:
 	void update(float elapsedtime);
 
 	std::vector<std::shared_ptr<AnimatedSprite>> _spritesToDraw;
+
+	std::vector<std::shared_ptr<HUDElement>> _hudElements;
 
 	std::vector<SectorBackground> _sectorsBackgrounds;
 
