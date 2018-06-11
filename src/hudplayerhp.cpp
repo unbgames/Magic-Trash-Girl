@@ -8,12 +8,12 @@
 #include "hudplayerhp.h"
 #include "graphics.h"
 
-HUDPlayerHp::HUDPlayerHp(){
+HUDPlayerHp::HUDPlayerHp(){ // @suppress("Class members should be properly initialized")
 
 }
 
 HUDPlayerHp::HUDPlayerHp(Graphics &graphics, Player* associatedPlayer):
-		HUDElement(graphics, 0.1f, 0.1f, 0.1f, 0.1f, "assets/hudplayerhp.png"),
+		HUDElement(graphics, 0.1f, 0.1f, 128, 131, "assets/hudplayerhp.png"),
 		_associatedPlayer(associatedPlayer)
 		{
 		this->setupAnimations();
@@ -26,8 +26,8 @@ HUDPlayerHp::~HUDPlayerHp(){
 
 void HUDPlayerHp::update(float elapsedTime){
 
-	this->_w = this->_graphicsAssociated->windowWidth * this->_relWidth;
-	this->_h = this->_graphicsAssociated->windowHeight * this->_relHeight;
+	this->_w = ((float)this->_graphicsAssociated->windowWidth/1920) * this->_fullHDWidth;
+	this->_h = ((float)this->_graphicsAssociated->windowHeight/1080) * this->_fullHDHeight;
 
 	this->_x = (this->_graphicsAssociated->windowWidth * this->_posRelX) + this->_graphicsAssociated->camera.getx();
 	this->_y = (this->_graphicsAssociated->windowHeight * this->_posRelY) + this->_graphicsAssociated->camera.gety();

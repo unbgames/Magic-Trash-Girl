@@ -19,8 +19,8 @@ HUDElement::HUDElement(Graphics &graphics, float posRelX, float posRelY, float r
 		AnimatedSprite(graphics, filePath, 0, 0, graphics.windowWidth * relWidth, graphics.windowHeight * relHeight, (graphics.windowWidth * posRelX) + graphics.camera.getx(), (graphics.windowHeight* posRelY) + graphics.camera.gety(), 300),
 		_posRelX(posRelX),
 		_posRelY(posRelY),
-		_relWidth(relWidth),
-		_relHeight(relHeight)
+		_fullHDWidth(relWidth),
+		_fullHDHeight(relHeight)
 		{
 
 }

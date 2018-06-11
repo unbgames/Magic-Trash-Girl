@@ -37,7 +37,7 @@ namespace player_constants {
 	const int CONE_HEIGTH = 32;
 
 	const int INVULNERABILITY_TIME = 2000;
-	const int INVULNERABILITY_BLINK_TIME = 300;
+	const int INVULNERABILITY_BLINK_TIME = 100;
 }
 
 namespace vacuum_constants{

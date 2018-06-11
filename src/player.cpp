@@ -157,8 +157,9 @@ void Player::update(float elapsedTime){
 	if(this->_invulnerable){
 		this->_invulnerableTimer += elapsedTime;
 		this->_invulnerableBlinkTimer += elapsedTime;
-		if(_invulnerableBlinkTimer >= player_constants::INVULNERABILITY_BLINK_TIME){
+		if(this->_invulnerableBlinkTimer >= player_constants::INVULNERABILITY_BLINK_TIME){
 			this->setVisible(!this->getVisible());
+			this->_invulnerableBlinkTimer = 0;
 		}
 		if(this->_invulnerableTimer >= player_constants::INVULNERABILITY_TIME){
 			this->_invulnerableTimer = 0;
@@ -567,7 +568,8 @@ void Player::resolveColision(std::string objectType){
 
 	if(objectType == "Enemy"){
 		if(this->_invulnerable == false){
-		this->_invulnerable = true;
+			this->_invulnerable = true;
+			this->setVisible(false);
 			this->_hp --;
 //			std::cout << "Player resolve colision, hp : " << this->_hp << "    invulnerable flag: " << this->_invulnerable << "  instance: " << this << std::endl;
 		}
