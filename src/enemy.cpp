@@ -7,7 +7,7 @@
 
 #include "enemy.h"
 
-Enemy::Enemy(){
+Enemy::Enemy(){ // @suppress("Class members should be properly initialized")
 
 }
 
@@ -19,7 +19,7 @@ Enemy::Enemy(Graphics &graphics, std::string filePath, int width, int height, fl
 }
 
 void Enemy::update(float elapsedTime){
-
+	AnimatedSprite::update(elapsedTime);
 }
 
 std::string Enemy::getObjectType(){
