@@ -48,6 +48,8 @@ public:
 
 	void resolveColision(std::string objectType);
 
+	int getHp();
+
 private:
 
 	static int playercount;

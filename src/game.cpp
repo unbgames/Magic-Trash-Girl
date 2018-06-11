@@ -401,10 +401,6 @@ void Game::update(float elapsedtime){
 			 it->update(elapsedtime);
 		}
 
-		for (std::vector<std::shared_ptr<HUDElement>>::iterator it = this->_hudElements.begin() ; it != this->_hudElements.end(); ++it){
-			 (*it)->update(elapsedtime);
-		}
-
 		for(unsigned int i = 0; i < this->_spritesToDraw.size(); i++){
 
 			this->_spritesToDraw[i]->update(elapsedtime);
@@ -420,6 +416,10 @@ void Game::update(float elapsedtime){
 		this->_graphicsAssociated->camera.update(elapsedtime);
 
 		this->checkColisionFullMap();
+
+		for (std::vector<std::shared_ptr<HUDElement>>::iterator it = this->_hudElements.begin() ; it != this->_hudElements.end(); ++it){
+			 (*it)->update(elapsedtime);
+		}
 
 	}else{
 		this->_menuStack.top()->update(elapsedtime);
@@ -712,7 +712,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	 * inicio do setup do HUD
 	 */
 
-		this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated));
+		this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated, &this->_player));
 
 	/*
 	 * termino do setup do HUD

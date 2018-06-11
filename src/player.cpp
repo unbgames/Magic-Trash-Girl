@@ -574,3 +574,7 @@ void Player::resolveColision(std::string objectType){
 	}
 
 }
+
+int Player::getHp(){
+	return this->_hp;
+}

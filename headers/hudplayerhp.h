@@ -9,13 +9,14 @@
 #define SOURCE_HEADERS_HUDPLAYERHP_H_
 
 #include "hudelement.h"
+#include "player.h"
 
 class HUDPlayerHp: public HUDElement{
 public:
 
 	HUDPlayerHp();
 
-	HUDPlayerHp(Graphics &graphics);
+	HUDPlayerHp(Graphics &graphics, Player* associatedPlayer);
 	~HUDPlayerHp();
 
 	void update(float elapsedTime);
@@ -25,6 +26,8 @@ public:
 private:
 
 	void setupAnimations();
+
+	Player* _associatedPlayer;
 
 };
 
