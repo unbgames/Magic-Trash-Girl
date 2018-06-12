@@ -28,9 +28,9 @@
 
 namespace {
 	const int MINFPS = 33;
-	const int MAX_FRAME_TIME = 1000/MINFPS;
+	const float MAX_FRAME_TIME = 1000/MINFPS;
 	const int MAXFPS = 60;
-	const int MIN_FRAME_TIME = 1000/MAXFPS;
+	const float MIN_FRAME_TIME = 1000/MAXFPS;
 }
 
 Game* Game::_instance = nullptr;
@@ -47,8 +47,11 @@ Game::Game():
 	_backgroundSectorHandler(),
 	_graphicsAssociated(nullptr),
 	_menuToReplaceInStack(nullptr),
-	_showFpsFlag(true),
-	_fps(0){
+	_showFpsFlag(false),
+	_fps(0),
+	_fpsFont(nullptr),
+	_vSincFlag(true),
+	_minFrameTime(0){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	if(TTF_Init() != 0){
@@ -94,7 +97,17 @@ void Game::gameLoop(){
 	this->_sharedPtrVaccumCleaner.reset(&this->_vaccumcleaner);
 	this->_sharedPtrVaccumCone.reset(&this->_vaccumcleaner.vCone);
 
+	float fpsTimer = 0;
 
+	float fps = 0;
+
+	int fpsSampleCounter = 0;
+
+	this->_fpsFont = TTF_OpenFont("assets/impact.ttf", 22);
+
+	if(this->_fpsFont == nullptr){
+		std::cout << "deu erro Openfont: " << TTF_GetError() << std::endl;
+	}
 
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
@@ -104,17 +117,38 @@ void Game::gameLoop(){
 
 	this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
 
-
-
-	float fpsTimer = 0;
-
-	float fps = 0;
-
-	int fpsSampleCounter = 0;
-
-
-
 	while(true){
+
+
+		const int CURRENT_TIME_MS = SDL_GetTicks();
+		float ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+
+		if(this->_vSincFlag){
+			this->_minFrameTime = 1000/this->_graphicsAssociated->displayInfo.refresh_rate;
+			if(ELAPSED_TIME_MS < this->_minFrameTime){
+				//arrumar isso aqui depois
+				SDL_Delay(std::max(0.0f,(this->_minFrameTime - ELAPSED_TIME_MS)));
+				const int CURRENT_TIME_MS = SDL_GetTicks();
+				ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+			}
+		}
+
+		LAST_UPDATE_TIME = CURRENT_TIME_MS;
+
+		fpsTimer += ELAPSED_TIME_MS;
+		fps += 1000/ELAPSED_TIME_MS;
+		fpsSampleCounter++;
+
+		if(fpsTimer > 1000){
+
+			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
+			std::cout << "fps depois da correção:   " << fps/fpsSampleCounter << std::endl;
+			this->_fps = fps/fpsSampleCounter;
+			fpsTimer = 0;
+			fps = 0;
+			fpsSampleCounter = 0;
+		}
+
 
 //		std::cout << " ======= new frame on game loop ======== " << std::endl;
 
@@ -188,6 +222,10 @@ void Game::gameLoop(){
 
 		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_O)){
 			this->_showFpsFlag = !this->_showFpsFlag;
+		}
+
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_I)){
+			this->_vSincFlag = !this->_vSincFlag;
 		}
 
 		if(this->_menuStack.empty()){
@@ -288,29 +326,7 @@ void Game::gameLoop(){
 			this->_menuStack.top()->handleEvents();
 		}
 
-		const int CURRENT_TIME_MS = SDL_GetTicks();
-		int ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-
-		fpsTimer += ELAPSED_TIME_MS;
-		fps += 1000/ELAPSED_TIME_MS;
-		fpsSampleCounter++;
-
-		if(fpsTimer > 1000){
-
-			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
-			std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
-			this->_fps = fps/fpsSampleCounter;
-			fpsTimer = 0;
-			fps = 0;
-			fpsSampleCounter = 0;
-		}
-		if(ELAPSED_TIME_MS < MIN_FRAME_TIME){
-			SDL_Delay(MIN_FRAME_TIME - ELAPSED_TIME_MS);
-			const int CURRENT_TIME_MS = SDL_GetTicks();
-			ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
-		}
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
-		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
 		this->draw(graphics);
 
@@ -410,18 +426,17 @@ void Game::draw(Graphics &graphics){
 
 	if(this->_showFpsFlag){
 
-		TTF_Font* font = TTF_OpenFont("assets/impact.ttf", 22);
-
-		if(font == nullptr){
-			std::cout << "deu erro Openfont: " << TTF_GetError() << std::endl;
-		}
-
 		SDL_Color color = {255, 0, 0};
 
 		std::string text = std::to_string(this->_fps);
 
-		this->_graphicsAssociated->BlitText(font, text, color, this->_graphicsAssociated->windowWidth - 32, 0, 32, 32);
+		this->_graphicsAssociated->BlitText(this->_fpsFont, text, color, this->_graphicsAssociated->windowWidth - 32, 0, 32, 32);
 
+		if(this->_vSincFlag){
+			this->_graphicsAssociated->BlitText(this->_fpsFont, "Vsinc ON", color, this->_graphicsAssociated->windowWidth - 63, 32, 64, 32);
+		}else{
+			this->_graphicsAssociated->BlitText(this->_fpsFont, "Vsinc OFF", color, this->_graphicsAssociated->windowWidth - 63, 32, 64, 32);
+		}
 	}
 
 

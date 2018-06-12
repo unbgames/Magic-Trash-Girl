@@ -114,7 +114,10 @@ private:
 	bool _showFpsFlag;
 
 	int _fps;
+	TTF_Font* _fpsFont;
 
+	bool _vSincFlag;
+	float _minFrameTime;
 };
 
 
