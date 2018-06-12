@@ -49,8 +49,7 @@ Game::Game():
 	_menuToReplaceInStack(nullptr),
 	_showFpsFlag(false),
 	_fps(0),
-	_fpsFont(nullptr),
-	_vSincFlag(true),
+	_vSyncFlag(true),
 	_minFrameTime(0){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -88,6 +87,8 @@ void Game::gameLoop(){
 
 	SDL_Event event;
 
+	this->_textCaches = TextCaches(graphics);
+
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 
 	this->_player = Player(graphics, player_constants::PLAYER_START_X, player_constants::PLAYER_START_Y);
@@ -103,12 +104,6 @@ void Game::gameLoop(){
 
 	int fpsSampleCounter = 0;
 
-	this->_fpsFont = TTF_OpenFont("assets/impact.ttf", 22);
-
-	if(this->_fpsFont == nullptr){
-		std::cout << "deu erro Openfont: " << TTF_GetError() << std::endl;
-	}
-
 	this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 
 	this->update(MAX_FRAME_TIME);
@@ -123,7 +118,7 @@ void Game::gameLoop(){
 		const int CURRENT_TIME_MS = SDL_GetTicks();
 		float ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 
-		if(this->_vSincFlag){
+		if(this->_vSyncFlag){
 			this->_minFrameTime = 1000/this->_graphicsAssociated->displayInfo.refresh_rate;
 			if(ELAPSED_TIME_MS < this->_minFrameTime){
 				//arrumar isso aqui depois
@@ -225,7 +220,7 @@ void Game::gameLoop(){
 		}
 
 		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_I)){
-			this->_vSincFlag = !this->_vSincFlag;
+			this->_vSyncFlag = !this->_vSyncFlag;
 		}
 
 		if(this->_menuStack.empty()){
@@ -426,17 +421,25 @@ void Game::draw(Graphics &graphics){
 
 	if(this->_showFpsFlag){
 
-		SDL_Color color = {255, 0, 0};
+		SDL_Rect textRect;
+		textRect.x = this->_graphicsAssociated->camera.getx() + this->_graphicsAssociated->windowWidth -32;
+		textRect.y = this->_graphicsAssociated->camera.gety() ;
+		textRect.w = 32;
+		textRect.h = 32;
 
-		std::string text = std::to_string(this->_fps);
+		this->_graphicsAssociated->blitSurface(this->_textCaches.getFpsTexture(std::to_string(this->_fps)), nullptr, &textRect);
 
-		this->_graphicsAssociated->BlitText(this->_fpsFont, text, color, this->_graphicsAssociated->windowWidth - 32, 0, 32, 32);
+		textRect.x = this->_graphicsAssociated->camera.getx() + this->_graphicsAssociated->windowWidth -64;
+		textRect.y = this->_graphicsAssociated->camera.gety() + 32;
+		textRect.w = 64;
+		textRect.h = 32;
 
-		if(this->_vSincFlag){
-			this->_graphicsAssociated->BlitText(this->_fpsFont, "Vsinc ON", color, this->_graphicsAssociated->windowWidth - 63, 32, 64, 32);
+		if(this->_vSyncFlag){
+			this->_graphicsAssociated->blitSurface(this->_textCaches.getFpsTexture("Vsync ON"), nullptr, &textRect);
 		}else{
-			this->_graphicsAssociated->BlitText(this->_fpsFont, "Vsinc OFF", color, this->_graphicsAssociated->windowWidth - 63, 32, 64, 32);
+			this->_graphicsAssociated->blitSurface(this->_textCaches.getFpsTexture("Vsync OFF"), nullptr, &textRect);
 		}
+
 	}
 
 

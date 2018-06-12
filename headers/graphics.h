@@ -52,8 +52,6 @@ public:
 
 	SDL_Renderer* getRenderer() const;
 
-	void BlitText(TTF_Font* font, std::string textToPrint, SDL_Color color, int x, int y, int w, int h);
-
 	Camera camera;
 
 	SDL_DisplayMode displayInfo;

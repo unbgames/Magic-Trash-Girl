@@ -21,6 +21,7 @@
 #include <stack>
 #include "menu.h"
 #include "hudelement.h"
+#include "textcaches.h"
 
 
 class Graphics;
@@ -112,12 +113,13 @@ private:
 	Menu* _menuToReplaceInStack;
 
 	bool _showFpsFlag;
-
 	int _fps;
-	TTF_Font* _fpsFont;
 
-	bool _vSincFlag;
+	bool _vSyncFlag;
 	float _minFrameTime;
+
+	TextCaches _textCaches;
+
 };
 
 
