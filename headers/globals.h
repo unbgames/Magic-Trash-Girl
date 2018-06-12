@@ -14,6 +14,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_gamecontroller.h>
+#include <SDL2/SDL_ttf.h>
 
 namespace player_constants {
 	const float WALK_SPEED = 0.4f;

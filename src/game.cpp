@@ -22,6 +22,7 @@
 #include "backgroundblock.h"
 #include "quadtree.h"
 #include "hudplayerhp.h"
+#include <SDL2/SDL_ttf.h>
 
 
 
@@ -45,9 +46,14 @@ Game::Game():
 	_quitFlag(false),
 	_backgroundSectorHandler(),
 	_graphicsAssociated(nullptr),
-	_menuToReplaceInStack(nullptr){
+	_menuToReplaceInStack(nullptr),
+	_showFpsFlag(true),
+	_fps(0){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
+	if(TTF_Init() != 0){
+		std::cout << "TTF_Init error: " << TTF_GetError() << std::endl;
+	}
 	srand(time(NULL));
 	this->gameLoop();
 }
@@ -180,6 +186,10 @@ void Game::gameLoop(){
 			graphics.toggleFullscreen();
 		}
 
+		if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_O)){
+			this->_showFpsFlag = !this->_showFpsFlag;
+		}
+
 		if(this->_menuStack.empty()){
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_ESCAPE) || this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::start)){
@@ -289,8 +299,7 @@ void Game::gameLoop(){
 
 			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
 			std::cout << "fps antes da correção:   " << fps/fpsSampleCounter << std::endl;
-
-
+			this->_fps = fps/fpsSampleCounter;
 			fpsTimer = 0;
 			fps = 0;
 			fpsSampleCounter = 0;
@@ -369,10 +378,24 @@ void Game::draw(Graphics &graphics){
 		 (*it)->draw(graphics);
 	}
 
+	/*
+	 * bordas q devem aparecer embaixo do player depois tem q arrumar como vai botar isso
+	 */
+	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
+		if(it->getType() == WATER){
+			it->drawBorder();
+		}
+	}
+
 	this->_player.draw(graphics);
 
+	/*
+	 * bordas q devem aparecer acima do player depois tem q arrumar como vai botar isso
+	 */
 	for (std::vector<BackgroundBlock>::iterator it = this->_backgroundBlocks.begin() ; it != this->_backgroundBlocks.end(); ++it){
-		 it->drawBorder();
+		if(it->getType() != WATER){
+			it->drawBorder();
+		}
 	}
 
 	this->_vaccumcleaner.draw(graphics);
@@ -384,6 +407,23 @@ void Game::draw(Graphics &graphics){
 			 (*it)->draw(graphics);
 		}
 	}
+
+	if(this->_showFpsFlag){
+
+		TTF_Font* font = TTF_OpenFont("assets/impact.ttf", 22);
+
+		if(font == nullptr){
+			std::cout << "deu erro Openfont: " << TTF_GetError() << std::endl;
+		}
+
+		SDL_Color color = {255, 0, 0};
+
+		std::string text = std::to_string(this->_fps);
+
+		this->_graphicsAssociated->BlitText(font, text, color, this->_graphicsAssociated->windowWidth - 32, 0, 32, 32);
+
+	}
+
 
 	graphics.flip();
 }

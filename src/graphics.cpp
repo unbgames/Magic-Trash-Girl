@@ -101,3 +101,28 @@ void Graphics::toggleFullscreen(){
 Game* Graphics::getGameAssociated(){
 	return this->_gameAssociated;
 }
+
+void Graphics::BlitText(TTF_Font* font, std::string textToPrint, SDL_Color color, int x, int y, int w, int h){
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textToPrint.c_str(), color);
+
+	if(textSurface == nullptr){
+		std::cout << "deu erro no blittext textSurface: " << TTF_GetError() << std::endl;
+	}
+
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(this->_renderer, textSurface);
+
+	if(textTexture == nullptr){
+		std::cout << "deu erro no blittext textTexture: " << TTF_GetError() << std::endl;
+	}
+
+	SDL_Rect textRect;
+	textRect.x = x;
+	textRect.y = y;
+	textRect.w = w;
+	textRect.h = h;
+
+	SDL_RenderCopy(this->_renderer, textTexture, NULL, &textRect);
+
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+}

@@ -111,6 +111,10 @@ private:
 
 	Menu* _menuToReplaceInStack;
 
+	bool _showFpsFlag;
+
+	int _fps;
+
 };
 
 
