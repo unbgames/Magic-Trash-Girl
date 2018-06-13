@@ -115,20 +115,16 @@ void Game::gameLoop(){
 	while(true){
 
 
-		const int CURRENT_TIME_MS = SDL_GetTicks();
-		float ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+		int CURRENT_TIME_MS = SDL_GetTicks();
+
+		this->_minFrameTime = (this->_graphicsAssociated->displayInfo.refresh_rate != 0)? 1000/this->_graphicsAssociated->displayInfo.refresh_rate : 1000/60;
 
 		if(this->_vSyncFlag){
-
-			this->_minFrameTime = (this->_graphicsAssociated->displayInfo.refresh_rate != 0)? 1000/this->_graphicsAssociated->displayInfo.refresh_rate : 1000/60;
-			if(ELAPSED_TIME_MS < this->_minFrameTime){
-				//arrumar isso aqui depois
-				SDL_Delay(std::max(0.0f,(this->_minFrameTime - ELAPSED_TIME_MS)));
-				const int CURRENT_TIME_MS = SDL_GetTicks();
-				ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
+			while((CURRENT_TIME_MS = SDL_GetTicks()) < LAST_UPDATE_TIME + this->_minFrameTime){
 			}
 		}
 
+		float ELAPSED_TIME_MS = CURRENT_TIME_MS - LAST_UPDATE_TIME;
 		LAST_UPDATE_TIME = CURRENT_TIME_MS;
 
 		fpsTimer += ELAPSED_TIME_MS;
