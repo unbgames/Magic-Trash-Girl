@@ -165,10 +165,11 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
 		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
-			if(j == 0 && i == 15){
-				aux.push_back(WATER);
-			}else if(j == 4 && i >= 0){
-				std::cout << j << " ===== " << i << std::endl;
+			if(j == 4 && (i >= 1) && (i<= 7)){
+				aux.push_back(UNBREAKABLE);
+			}else if(j == 5 && (i >= 1) && (i<= 8)){
+				aux.push_back(UNBREAKABLE);
+			}else if(j == 6 && (i >= 10) && (i<= 15)){
 				aux.push_back(BREAKABLE);
 			}else{
 				aux.push_back(NONE);
@@ -182,10 +183,49 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_WIDTH, 3*background_blocks_constants::BLOCK_HEIGTH)));
 
-	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(15*background_blocks_constants::BLOCK_WIDTH + 10, 2*background_blocks_constants::BLOCK_HEIGTH + 20 )));
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(15*background_blocks_constants::BLOCK_WIDTH + 10, 5	*background_blocks_constants::BLOCK_HEIGTH + 20 )));
 
 	// ----------------- start sector 2 ----------------------
 
+	aux.clear();
+
+	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+			if((j + i) >= 18 && i < 13){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (-1);
+
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(7*background_blocks_constants::BLOCK_WIDTH, 10*background_blocks_constants::BLOCK_HEIGTH)));
+
+	// ----------------- start sector 3 ----------------------
+
+	aux.clear();
+
+	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+			if((j + i) <= 10 && i > 3){
+				aux.push_back(UNBREAKABLE);
+			}else if((j + i) >= 15 && i < 14){
+				aux.push_back(UNBREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (-1);
+
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(8*background_blocks_constants::BLOCK_WIDTH, 6*background_blocks_constants::BLOCK_HEIGTH)));
 
 }
 
