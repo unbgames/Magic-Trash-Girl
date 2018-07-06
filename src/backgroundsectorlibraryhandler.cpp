@@ -139,28 +139,6 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
-			if(i == 4 || j == 5){
-				aux.push_back(NONE);
-			}else{
-				aux.push_back(BREAKABLE);
-			}
-		}
-	}
-
-	auxFlags = (-1);
-
-	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
-
-	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_WIDTH, 4*background_blocks_constants::BLOCK_HEIGTH)));
-
-	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(8*background_blocks_constants::BLOCK_WIDTH + 10, 4*background_blocks_constants::BLOCK_HEIGTH + 20 )));
-
-	//------------------------------------------------------------------------
-
-	aux.clear();
-
-	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
-		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if(i == 4 && j == 4){
 				aux.push_back(NONE);
 			}else if(i == 5 && j == 4){
@@ -176,6 +154,39 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	this->_finishSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
 
 	this->_finishSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(4*background_blocks_constants::BLOCK_HEIGTH, 4*background_blocks_constants::BLOCK_WIDTH)));
+
+	/*
+	 * start sectors
+	 */
+
+	// ----------------- start sector 1 ----------------------
+
+	aux.clear();
+
+	for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+		for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+			if(j == 0 && i == 15){
+				aux.push_back(WATER);
+			}else if(j == 4 && i >= 0){
+				std::cout << j << " ===== " << i << std::endl;
+				aux.push_back(BREAKABLE);
+			}else{
+				aux.push_back(NONE);
+			}
+		}
+	}
+
+	auxFlags = (-1);
+
+	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(4*background_blocks_constants::BLOCK_WIDTH, 3*background_blocks_constants::BLOCK_HEIGTH)));
+
+	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(15*background_blocks_constants::BLOCK_WIDTH + 10, 2*background_blocks_constants::BLOCK_HEIGTH + 20 )));
+
+	// ----------------- start sector 2 ----------------------
+
+
 }
 
 BlockSector BackgroundSectorLibraryHandler::getRandomFillerSector(unsigned int flags){
