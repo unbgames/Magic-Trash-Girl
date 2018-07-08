@@ -612,9 +612,24 @@ void Game::setupTutorialMap(){
 	 * inico setup enemy tutorial
 	 */
 
+		this->setBlockType(60,10,BREAKABLE);
+
+		this->addNewSpriteToDraw( new Rat(*this->_graphicsAssociated, (63)*background_blocks_constants::BLOCK_WIDTH , (8)*background_blocks_constants::BLOCK_HEIGTH) );
+
+		this->setBlockType(70,10,BREAKABLE);
 
 	/*
 	 * termino setup enemy tutorial
+	 */
+
+	/*
+	 * inico setup portal tutorial
+	 */
+
+		this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (79)*background_blocks_constants::BLOCK_WIDTH , (10)*background_blocks_constants::BLOCK_HEIGTH) );
+
+	/*
+	 * termino setup portal tutorial
 	 */
 
 	/*
