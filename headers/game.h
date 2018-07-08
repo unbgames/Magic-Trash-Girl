@@ -53,6 +53,8 @@ public:
 
 	void requestQuit();
 
+	void setupTutorialMap();
+
 	void createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn);
 
 	int getCurrentNumberBlocksLine();

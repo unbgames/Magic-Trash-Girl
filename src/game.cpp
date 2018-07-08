@@ -314,6 +314,12 @@ void Game::gameLoop(){
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
 				this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 			}
+
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_T)){
+				this->setupTutorialMap();
+			}
+
+
 		}else{
 			this->_menuStack.top()->handleEvents();
 		}
@@ -520,6 +526,123 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 			this->_backgroundBlocks.push_back(BackgroundBlock(graphics, i, j, NONE));
 		}
 	}
+
+}
+
+void Game::setupTutorialMap(){
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	int auxX = 82;
+	int auxY = 12;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	/*
+	 * inico setup jump tutorial
+	 */
+
+		this->setBlockType(10,9,UNBREAKABLE);
+		this->setBlockType(10,10,UNBREAKABLE);
+
+	/*
+	 *	termino do setup jump tutorial
+	 */
+
+	/*
+	 * inico setup vaccum tutorial
+	 */
+
+		for(int i = 1; i < 11; i++){
+			this->setBlockType(20,i,BREAKABLE);
+		}
+
+	/*
+	 *	termino do setup vaccum tutorial
+	 */
+
+	/*
+	 * inico setup bublejump and water tutorial
+	 */
+
+
+		for(int i = 5; i < 11; i++){
+			this->setBlockType(40,i,UNBREAKABLE);
+		}
+
+
+		for(int i = 41; i < 50; i++){
+			for(int j = 6; j < 11; j++){
+				this->setBlockType(i,j,WATER);
+			}
+		}
+
+
+		for(int i = 5; i < 11; i++){
+			this->setBlockType(50,i,UNBREAKABLE);
+		}
+
+	/*
+	 *	termino do setup bublejump and water tutorial
+	 */
+
+
+	/*
+	 * inico setup enemy tutorial
+	 */
+
+
+	/*
+	 * termino setup enemy tutorial
+	 */
+
+	/*
+	 *  inicio do setup de borders
+	 */
+
+	for(int i = 0; i < this->_numberBlocksLine; i++){
+		for(int j = 0; j < this->_numberBlocksColumn; j++){
+			this->setupBlockBorder(i,j);
+		}
+	}
+
+	/*
+	 * termino do setup de borders
+	 */
+
+	/*
+	 * inicio do setup do HUD
+	 */
+
+		this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated, &this->_player));
+
+	/*
+	 * termino do setup do HUD
+	 */
+
+	this->_player.setPosition(128, 128);
+
 
 }
 
