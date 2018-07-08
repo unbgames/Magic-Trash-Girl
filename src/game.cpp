@@ -50,7 +50,8 @@ Game::Game():
 	_showFpsFlag(false),
 	_fps(0),
 	_vSyncFlag(true),
-	_minFrameTime(0){
+	_minFrameTime(0),
+	_mapBackgroundFlag(false){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	if(TTF_Init() != 0){
@@ -380,6 +381,10 @@ void Game::draw(Graphics &graphics){
 
 	graphics.clear();
 
+	if(this->_mapBackgroundFlag){
+		this->_mapBackground.draw(graphics);
+	}
+
 	for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
 		 it->draw(graphics);
 	}
@@ -454,6 +459,11 @@ void Game::update(float elapsedtime){
 	//checkar aqui colisão do player com todos os do sprite to draw e logo em seguida tratar;
 
 	if(this->_menuStack.empty()){
+
+		if(this->_mapBackgroundFlag){
+			this->_mapBackground.update(elapsedtime);
+		}
+
 		for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
 			 it->update(elapsedtime);
 		}
@@ -548,6 +558,11 @@ void Game::setupTutorialMap(){
 
 	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
 	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "tutorialbackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
 
 	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
 
@@ -650,7 +665,7 @@ void Game::setupTutorialMap(){
 	 * inicio do setup do HUD
 	 */
 
-		this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated, &this->_player));
+	this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated, &this->_player));
 
 	/*
 	 * termino do setup do HUD

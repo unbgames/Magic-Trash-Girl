@@ -22,6 +22,7 @@
 #include "menu.h"
 #include "hudelement.h"
 #include "textcaches.h"
+#include "fullmapbackground.h"
 
 
 class Graphics;
@@ -121,6 +122,9 @@ private:
 	float _minFrameTime;
 
 	TextCaches _textCaches;
+
+	FullMapBackground _mapBackground;
+	bool _mapBackgroundFlag;
 
 };
 
