@@ -151,4 +151,37 @@ enum xbox360GamepadMaping{
 	start = 6
 };
 
+namespace music_paths{
+	const std::string MUSICA1 = "assets/music/Teste1.wav";
+	const std::string MUSICA2 = "assets/music/Teste2.wav";
+
+	const std::string AventuraSubterranea 		= "assets/music/Aventura_Subterranea.wav";
+	const std::string AventuraSubterraneaAgua 	= "assets/music/Aventura_Subterranea_Versao_Agua.wav";
+}
+
+namespace sound_paths{
+	const std::string PLAYERAGUA = "assets/sounds/Entrando_na_agua.wav";
+}
+
+namespace sound_constants{
+	const int MAXSOUNDVOLUME = 128;
+}
+
+enum FadeTypes{
+	LINEAR,
+	SQUARE,
+	EXPONENTIAL,
+	INVERSESQUARE,			// A/((R+B)^2);
+};
+
+namespace music_constants{
+	const FadeTypes STDFADE = INVERSESQUARE;
+
+	const float EXP_CONST = 1000;
+
+	const float MAXDEPTH	 = 128; 	// profundidade a partir da qual a musica não muda mais
+	const float MAXVOLUME	 = 128;
+	const float MINVOLUME	 = 0.99; 	// não podemos dividir por 0 não é mesmo?
+}
+
 #endif /* SOURCE_HEADERS_GLOBALS_H_ */
