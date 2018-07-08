@@ -32,7 +32,7 @@ Sprite::Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int
 	this->_spriteSheet = this->_graphicsAssociated->loadTexture(filePath);
 
 	if(this->_spriteSheet == NULL){
-		std::cout<<"\nError: Nao conseguiu carregar imagem :: " <<  SDL_GetError();
+		std::cout<<"\nError: Nao conseguiu carregar imagem :: " <<  SDL_GetError() << std::endl;
 	}
 }
 

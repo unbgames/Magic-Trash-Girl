@@ -553,6 +553,8 @@ void Game::setupTutorialMap(){
 
 	this->_player.setPosition(-1100, -1100);
 
+	this->_player.setHp(4);
+
 	int auxX = 82;
 	int auxY = 12;
 
@@ -561,7 +563,7 @@ void Game::setupTutorialMap(){
 
 	this->_mapBackgroundFlag = true;
 
-	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "tutorialbackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/tutorialbackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
 
 
 	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
@@ -590,7 +592,7 @@ void Game::setupTutorialMap(){
 	 */
 
 		for(int i = 1; i < 11; i++){
-			this->setBlockType(20,i,BREAKABLE);
+			this->setBlockType(17,i,BREAKABLE);
 		}
 
 	/*
@@ -671,7 +673,7 @@ void Game::setupTutorialMap(){
 	 * termino do setup do HUD
 	 */
 
-	this->_player.setPosition(128, 128);
+	this->_player.setPosition(2*64, 10*64);
 
 
 }
@@ -689,6 +691,8 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	this->_hudElements.clear();
 
 	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
 
 	this->_mapWidth = ((sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2)*background_blocks_constants::BLOCK_WIDTH;
 	this->_mapHeight = ((sectorsByColumn*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + 2)*background_blocks_constants::BLOCK_HEIGTH;

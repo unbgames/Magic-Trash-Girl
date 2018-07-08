@@ -580,3 +580,7 @@ void Player::resolveColision(std::string objectType){
 int Player::getHp(){
 	return this->_hp;
 }
+
+void Player::setHp(int hp){
+	this->_hp = hp;
+}
