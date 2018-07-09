@@ -9,6 +9,7 @@
 #define SOURCE_HEADERS_PAUSEMENU_H_
 
 #include "menu.h"
+#include "Sound.h"
 
 class PauseMenu:public Menu{
 public:
@@ -27,6 +28,7 @@ public:
 
 private:
 
+	Sound *click;
 	void activateButton();
 
 };

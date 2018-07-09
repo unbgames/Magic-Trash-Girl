@@ -8,7 +8,8 @@
 #ifndef SOURCE_HEADERS_MAINMENU_H_
 #define SOURCE_HEADERS_MAINMENU_H_
 
-#include "Menu.h"
+#include "menu.h"
+#include "Sound.h"
 
 class MainMenu:public Menu{
 public:
@@ -30,6 +31,7 @@ private:
 
 	float _camDesX, _camDesY;
 
+	Sound *click;
 
 };
 

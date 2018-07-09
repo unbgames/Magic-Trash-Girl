@@ -9,6 +9,7 @@
 #include "game.h"
 #include "playerprojectile.h"
 #include <cmath>
+#include <SDL2/SDL_mixer.h>
 
 VacuumCleaner::VacuumCleaner(){ // @suppress("Class members should be properly initialized")
 
@@ -24,6 +25,16 @@ VacuumCleaner::VacuumCleaner(Graphics &graphics, Player &player):
 
 		this->setupAnimations();
 		this->playAnimation("IdleRight");
+
+		flag=1;
+
+		on = new Sound(sound_paths::A_ON, (unsigned int)16);
+		off = new Sound(sound_paths::A_OFF, (unsigned int)17);
+		loop = new Sound(sound_paths::A_LOOP, (unsigned int)18);
+
+		if (on==nullptr) 	printf 	("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::A_ON.c_str());
+		if (off==nullptr) 	printf 	("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::A_OFF.c_str());
+		if (loop==nullptr) printf 	("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::A_LOOP.c_str());
 
 }
 
@@ -57,7 +68,6 @@ void VacuumCleaner::stopMoving(){
 }
 
 void VacuumCleaner::update(float elapsedTime){
-
 	if(this->_folowingPlayer){
 		this->_x = this->_playerAssociated->getPosX() + this->_playerAssociated->getW()/2 - this->_w/2;
 		this->_y = this->_playerAssociated->getPosY() + this->_playerAssociated->getH()/2 - this->_h/2;
@@ -99,14 +109,17 @@ void VacuumCleaner::update(float elapsedTime){
 	}
 
 	/*
-	 *  calculo de posição do cone
+	 *  calculo de posiï¿½ï¿½o do cone
 	 */
 
-	// é uma boa passar o calculo da posição do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posição aqui
+	// ï¿½ uma boa passar o calculo da posiï¿½ï¿½o do cone para o update dele, fazer isso depois, nem sei pq coloquei o calculo de posiï¿½ï¿½o aqui
 	if(this->vCone.getActive()){
+		if (flag == 1) on->Play(1);
+		if (!on->IsPlaying() && !loop->IsPlaying()) loop->Play(0);
+		flag=0;
 		switch(this->_facing){
 			case UP:
-				//depois arrumar esses valores aqui quando tiver as animaçoes corretas
+				//depois arrumar esses valores aqui quando tiver as animaï¿½oes corretas
 				this->vCone.setPosition(this->_x + this->_w/2 - player_constants::CONE_WIDTH/2 , this->_y - this->_w*3/4 - 8);
 				this->vCone.playAnimation("facingUp");
 			break;
@@ -122,6 +135,14 @@ void VacuumCleaner::update(float elapsedTime){
 				this->vCone.setPosition(this->_x + this->_w , this->_y + this->_h/2 - player_constants::CONE_HEIGTH/2);
 				this->vCone.playAnimation("facingRight");
 			break;
+		}
+	}
+	else {
+		if (flag==0){
+			on->Stop();
+			loop->Stop();
+			off->Play(1);
+			flag=1;
 		}
 	}
 	this->vCone.update(elapsedTime);
@@ -146,7 +167,6 @@ void VacuumCleaner::setupAnimations(){
 void VacuumCleaner::activateVacuum(){
 
 	this->vCone.setActive(true);
-
 }
 
 void VacuumCleaner::toggleFolowingPlayer(){

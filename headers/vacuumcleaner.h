@@ -10,6 +10,7 @@
 
 #include "animatedsprite.h"
 #include "player.h"
+#include "Sound.h"
 
 class VacuumCleaner: public AnimatedSprite{
 public:
@@ -41,7 +42,8 @@ public:
 	VacuumCone vCone;
 
 private:
-
+	int flag;
+	Sound *on, *off, *loop;
 	bool _folowingPlayer;
 
 	Player* _playerAssociated;

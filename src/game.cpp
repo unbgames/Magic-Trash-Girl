@@ -7,6 +7,7 @@
 
 #include <rat.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "game.h"
 #include "graphics.h"
@@ -23,6 +24,7 @@
 #include "quadtree.h"
 #include "hudplayerhp.h"
 #include <SDL2/SDL_ttf.h>
+#include "Musics.h"
 
 
 
@@ -56,6 +58,14 @@ Game::Game():
 	if(TTF_Init() != 0){
 		std::cout << "TTF_Init error: " << TTF_GetError() << std::endl;
 	}
+	if (!(Mix_Init (MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLUIDSYNTH)) || (Mix_OpenAudio (MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE))){
+		printf ("Erro na inicialização do áudio\n");
+
+		IMG_Quit();
+		SDL_Quit();
+		abort();
+	}
+	Mix_AllocateChannels(64);
 	srand(time(NULL));
 	this->gameLoop();
 }
@@ -72,8 +82,43 @@ Game& Game::getInstance(){
 	return *_instance;
 }
 
+void Game::initMusic(){
+	// Menu
+	if (musics.AddMusicV(music_paths::MENU_INTRO))  printf ("Não foi possível carregar o som em %s\n", music_paths::MENU_INTRO.c_str());
+	if (musics.AddMusicV(music_paths::MENU_GRANOLA))  printf ("Não foi possível carregar o som em %s\n", music_paths::MENU_GRANOLA.c_str());
+
+	// HUB
+	if (musics.AddMusicV(music_paths::HUB))  printf ("Não foi possível carregar o som em %s\n", music_paths::HUB.c_str());
+
+	// FASE
+	if (musics.AddMusicV(music_paths::AVSUB))  printf ("Não foi possível carregar o som em %s\n", music_paths::AVSUB.c_str());
+	if (musics.AddMusicV(music_paths::AVSUB_W))  printf ("Não foi possível carregar o som em %s\n", music_paths::AVSUB_W.c_str());
+
+	// BOSS
+	if (musics.AddMusicV(music_paths::BOSS_INTRO))  printf ("Não foi possível carregar o som em %s\n", music_paths::BOSS_INTRO.c_str());
+	if (musics.AddMusicV(music_paths::BOSS))  printf ("Não foi possível carregar o som em %s\n", music_paths::BOSS.c_str());
+	if (musics.AddMusicV(music_paths::VICTORY))  printf ("Não foi possível carregar o som em %s\n", music_paths::VICTORY.c_str());
+
+
+
+
+	// ARRUMAR ESSES SONS
+	if (sounds.AddMusicV(sound_paths::PORTA)) printf ("Não foi possível carregar o som em %s\n", sound_paths::PORTA.c_str());
+
+	// Rato
+	if (sounds.AddMusicV(sound_paths::RATO)) printf ("Não foi possível carregar o som em %s\n", sound_paths::K_PULO.c_str());
+	if (sounds.AddMusicV(sound_paths::RATO_MORTE)) printf ("Não foi possível carregar o som em %s\n", sound_paths::K_PULO.c_str());
+
+
+}
 
 void Game::gameLoop(){
+	initMusic();
+	musics.Play(0, (float)21000);
+//	musics.Play(0, (int) 1);
+//	musics.Play(1, 0);
+//	musics.SetMusicVolume(1, 0);
+//	musics.FadeMusicTo(1, 21000, 128);
 
 	this->_gamepadInputPlayer1.initGamepad();
 
@@ -134,7 +179,7 @@ void Game::gameLoop(){
 		if(fpsTimer > 1000){
 
 			std::cout << "quantidade de objetos no mapa:   " << this->_spritesToDraw.size() << std::endl;
-			std::cout << "fps depois da corre��o:   " << fps/fpsSampleCounter << std::endl;
+			std::cout << "fps depois da corre��o:   " << fps/fpsSampleCounter << std::endl;
 			this->_fps = fps/fpsSampleCounter;
 			fpsTimer = 0;
 			fps = 0;
@@ -444,8 +489,8 @@ void Game::draw(Graphics &graphics){
 }
 
 void Game::update(float elapsedtime){
-
-	//checkar aqui colis�o do player com todos os do sprite to draw e logo em seguida tratar;
+	musics.Update(elapsedtime);
+	//checkar aqui colis�o do player com todos os do sprite to draw e logo em seguida tratar;
 
 	if(this->_menuStack.empty()){
 		for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
@@ -554,7 +599,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	}
 
 	/*
-	 * 	inicio da cria��o do caminho obrigatorio; falta setar as flags conforme vai criando
+	 * 	inicio da cria��o do caminho obrigatorio; falta setar as flags conforme vai criando
 	 */
 
 	std::vector<Vector2> sectorWay;
@@ -707,11 +752,11 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	}
 
 	/*
-	 * 	termino da cria��o do caminho obrigatorio;
+	 * 	termino da cria��o do caminho obrigatorio;
 	 */
 
 	/*
-	 * 	inicio da cria��o dos setores filler
+	 * 	inicio da cria��o dos setores filler
 	 */
 	for(int i = 0; i < sectorsByLine; i++){
 		for(int j = 0; j < sectorsByColumn; j++){
@@ -746,7 +791,7 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 		}
 	}
 	/*
-	 * termino da cria��o dos setores filler
+	 * termino da cria��o dos setores filler
 	 */
 
 	/*
@@ -918,3 +963,12 @@ float Game::getPlayerVaccumDps(){
 	return this->_vaccumcleaner.vCone.getDps();
 }
 
+void Game::CheckMenuIntro(){
+	if (!musics.GetPlayStatus(0) && !musics.GetPlayStatus(1)) musics.Play(1, (int) 0);
+
+}
+
+void Game::FadeOutMenuMusic(){
+	musics.FadeMusicTo(0, 1000, 0);
+	musics.FadeMusicTo(1, 1000, 0);
+}

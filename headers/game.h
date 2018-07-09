@@ -22,6 +22,7 @@
 #include "menu.h"
 #include "hudelement.h"
 #include "textcaches.h"
+#include "Musics.h"
 
 
 class Graphics;
@@ -66,6 +67,10 @@ public:
 	void checkColisionFullMap();
 
 	float getPlayerVaccumDps();
+
+	void CheckMenuIntro();
+	void FadeOutMenuMusic();
+	void initMusic();
 private:
 
 	static Game* _instance;
@@ -119,6 +124,9 @@ private:
 	float _minFrameTime;
 
 	TextCaches _textCaches;
+
+	Musics musics;
+	Musics sounds;
 
 };
 

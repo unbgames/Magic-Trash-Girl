@@ -4,6 +4,41 @@
  *  Created on: Mar 29, 2018
  *      Author: TMK
  */
+// Canais:
+
+//MÃºsicas:
+// Menu:
+// 0- Intro
+// 1- Granola
+
+// HUB
+// 2- HUB
+
+// FASE
+// 3- Aventura Subterranea
+// 4- Aventura Subterranea na Ã¡gua
+
+// BOSS
+// 5- BOSS INTRO
+// 6- BOSS
+// 7- VICTORY
+
+
+//SFX:
+// 16 - Aspirador On
+// 17 - Aspirador Off
+// 18 - Aspirador Loop
+
+// 19 - Karen Andando
+// 20 - Karen Dano
+// 21 - Karen Mergulho		(a implementar)
+// 22 - Karen Morreu
+// 23 - Karen Pulo
+
+// 24 - HUD click
+
+//
+
 
 #ifndef SOURCE_HEADERS_GLOBALS_H_
 #define SOURCE_HEADERS_GLOBALS_H_
@@ -15,6 +50,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_gamecontroller.h>
 #include <SDL2/SDL_ttf.h>
+
+#define CHUNKSIZE 256
 
 namespace player_constants {
 	const float WALK_SPEED = 0.4f;
@@ -79,9 +116,15 @@ namespace background_blocks_constants {
 }
 
 namespace enemy_constants {
+	const int SOUNDMAXDIST = 512;
+
 	const int SPYDER_WIDTH = 48;
 	const int SPYDER_HEIGHT = 32;
 	const int SPIDER_HP = 100;
+
+	const int BOSS_WIDTH = 144;
+	const int BOSS_HEIGHT = 144;
+	const int BOSS_HP = 1000;
 }
 
 enum Direction{
@@ -152,15 +195,52 @@ enum xbox360GamepadMaping{
 };
 
 namespace music_paths{
-	const std::string MUSICA1 = "assets/music/Teste1.wav";
-	const std::string MUSICA2 = "assets/music/Teste2.wav";
+	const std::string MUSICA = "assets/MUSICA/";
 
-	const std::string AventuraSubterranea 		= "assets/music/Aventura_Subterranea.wav";
-	const std::string AventuraSubterraneaAgua 	= "assets/music/Aventura_Subterranea_Versao_Agua.wav";
+	const std::string MENU 			= MUSICA + "0_menu/";
+	const std::string MENU_INTRO 	= MENU + "1_intro.wav";
+	const std::string MENU_GRANOLA 	= MENU + "2_granola.wav";
+
+	const std::string HUB_PATH 		= MUSICA + "1_hub/";
+	const std::string HUB 			= HUB_PATH + "hub.wav";
+
+	const std::string FASE 			= MUSICA + "2_fase/";
+	const std::string AVSUB 		= FASE + "avsub.wav";
+	const std::string AVSUB_W 		= FASE + "avsub_w.wav";
+
+	const std::string BOSS_PATH 	= MUSICA +"3_boss/";
+	const std::string BOSS_INTRO 	= BOSS_PATH + "boss_intro.wav";
+	const std::string BOSS 			= BOSS_PATH + "boss.wav";
+	const std::string VICTORY	 	= BOSS_PATH + "victory_theme.wav";
 }
 
 namespace sound_paths{
-	const std::string PLAYERAGUA = "assets/sounds/Entrando_na_agua.wav";
+	const std::string SFX 		= "assets/SFX/";
+	const std::string PORTA 	= SFX + "porta.wav";
+
+	const std::string ASPIRADOR	= SFX + "Aspirador/";
+	const std::string A_ON		= ASPIRADOR + "on.wav";
+	const std::string A_OFF		= ASPIRADOR + "off.wav";
+	const std::string A_LOOP	= ASPIRADOR + "loop.wav";
+
+	const std::string HUD_PATH	= SFX + "HUD/";
+	const std::string HUD		= HUD_PATH + "clique.wav";
+
+	const std::string KAREN		= SFX + "Karen/";
+	const std::string K_ANDANDO = KAREN + "andando.wav";
+	const std::string K_DANO 	= KAREN + "dano.wav";
+	const std::string K_MERGULHO= KAREN + "mergulho.wav";
+	const std::string K_MORREU	= KAREN + "morreu.wav";
+	const std::string K_PULO	= KAREN + "pulo.wav";
+
+	const std::string MOSCA		= SFX + "Mosca/";
+
+	const std::string RATO_PATH	= SFX + "Rato/";
+	const std::string RATO		= RATO_PATH + "rato.wav";
+	const std::string RATO_MORTE= RATO_PATH + "rato_morte.wav";
+
+
+
 }
 
 namespace sound_constants{
@@ -175,13 +255,13 @@ enum FadeTypes{
 };
 
 namespace music_constants{
-	const FadeTypes STDFADE = INVERSESQUARE;
+	const FadeTypes STDFADE = SQUARE;
 
 	const float EXP_CONST = 1000;
 
-	const float MAXDEPTH	 = 128; 	// profundidade a partir da qual a musica não muda mais
+	const float MAXDEPTH	 = 128; 	// profundidade a partir da qual a musica nï¿½o muda mais
 	const float MAXVOLUME	 = 128;
-	const float MINVOLUME	 = 0.99; 	// não podemos dividir por 0 não é mesmo?
+	const float MINVOLUME	 = 0.99; 	// nï¿½o podemos dividir por 0 nï¿½o ï¿½ mesmo?
 }
 
 #endif /* SOURCE_HEADERS_GLOBALS_H_ */

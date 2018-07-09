@@ -17,16 +17,21 @@ MainMenu::MainMenu(Graphics &graphics, KeyboardInput &keyboardInput, GamepadInpu
 	this->_background = MenuBackground(graphics, globals::INITIAL_SCREEN_WIDTH, globals::INITIAL_SCREEN_HEIGTH, "assets/backgroundmenu.png");
 	this->setupButtons();
 	this->_graphicsAssociated->camera.folowPlayer = false;
+
+	click = new Sound(sound_paths::HUD,(unsigned int)24);
+	if (click == nullptr) printf ("Não foi possível carregar o som em %s\n", sound_paths::HUD.c_str());
+
 }
 
 MainMenu::~MainMenu(){
 
 	this->_graphicsAssociated->camera.folowPlayer = true;
+	delete click;
 
 }
 
 void MainMenu::update(float elapsedTime){
-
+	Game::getInstance().CheckMenuIntro();
 	if((this->_graphicsAssociated->camera.getx() == 0) || (this->_graphicsAssociated->camera.getx() == (this->_graphicsAssociated->getGameAssociated()->getCurrentNumberBlocksLine() * background_blocks_constants::BLOCK_WIDTH) - this->_graphicsAssociated->windowWidth)){
 		this->_camDesX = -1 * this->_camDesX;
 	}
@@ -45,10 +50,12 @@ void MainMenu::update(float elapsedTime){
 void MainMenu::handleEvents(){
 
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_ESCAPE) ||this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_P) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::start)){
+		click->Play(1);
 		Game::getInstance().requestQuit();
 	}
 
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_UP) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::directionalUp)){
+		click->Play(1);
 		if(this->_activeButton == 0){
 			this->_activeButton = this->_buttonsVector.size() - 1;
 		}else{
@@ -56,6 +63,7 @@ void MainMenu::handleEvents(){
 		}
 	}
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_DOWN) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::directionalDown)){
+		click->Play(1);
 		if(this->_activeButton >= this->_buttonsVector.size() - 1){
 			this->_activeButton = 0;
 		}else{
@@ -64,6 +72,7 @@ void MainMenu::handleEvents(){
 	}
 
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_RIGHT) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::directionalRight)){
+		click->Play(1);
 		if(this->_activeButton == 0){
 			this->_activeButton = this->_buttonsVector.size() - 1;
 		}else{
@@ -71,6 +80,7 @@ void MainMenu::handleEvents(){
 		}
 	}
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_LEFT) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::directionalLeft)){
+		click->Play(1);
 		if(this->_activeButton >= this->_buttonsVector.size() - 1){
 			this->_activeButton = 0;
 		}else{
@@ -79,6 +89,7 @@ void MainMenu::handleEvents(){
 	}
 
 	if(this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_RETURN) || this->_keyboardInput->wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInput->wasbuttonPressed(xbox360GamepadMaping::A)){
+		click->Play(1);
 		this->activateButton();
 	}
 
@@ -107,6 +118,7 @@ void MainMenu::setupButtons(){
 void MainMenu::activateButton(){
 
 	if(this->_buttonsVector[this->_activeButton].getName() == "startGame"){
+		Game::getInstance().FadeOutMenuMusic();
 		Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 		this->_requestPop = true;
 	}else if(this->_buttonsVector[this->_activeButton].getName() == "quitGame"){

@@ -10,6 +10,7 @@
 
 #include "animatedsprite.h"
 #include "vacuumcone.h"
+#include "Sound.h"
 
 class Player : public AnimatedSprite{
 public:
@@ -70,6 +71,8 @@ private:
 	float _invulnerableBlinkTimer;
 
 	int _hp;
+
+	Sound *sAndando, *sDano, *sMergulho, *sMorreu, *sPulo;
 
 };
 

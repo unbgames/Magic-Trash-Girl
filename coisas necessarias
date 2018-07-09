@@ -1,0 +1,9 @@
+sudo apt-get install linux-lowlatency
+
+sudo apt-get install fluidsynth
+
+sudo apt-get install fluid-soundfont-gm
+
+sudo apt-get install timgm6mb-soundfont 
+
+sudo apt-get install libmikmod3

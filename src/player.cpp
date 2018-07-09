@@ -8,7 +8,7 @@
 #include "player.h"
 #include "graphics.h"
 #include <iostream>
-#include "Game.h"
+#include "game.h"
 #include "playerprojectile.h"
 
 int Player::playercount = 0;
@@ -30,6 +30,20 @@ Player::Player(Graphics &graphics, float posX, float posY):
 		_hp(4){
 
 		playercount++;
+
+		// Karen
+		sAndando 	= new Sound (sound_paths::K_ANDANDO, (unsigned int) 19);
+		sDano 		= new Sound (sound_paths::K_DANO, (unsigned int) 20);
+		sMergulho 	= new Sound (sound_paths::K_MERGULHO, (unsigned int) 21);
+		sMorreu 	= new Sound (sound_paths::K_MORREU, (unsigned int) 22);
+		sPulo		= new Sound (sound_paths::K_PULO, (unsigned int) 23);
+
+
+		if (sAndando == nullptr) 		printf ("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::K_ANDANDO.c_str());
+		if (sDano== nullptr) 			printf ("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::K_DANO.c_str());
+		if (sMergulho== nullptr) 		printf ("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::K_MERGULHO.c_str());
+		if (sMorreu == nullptr) 		printf ("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::K_MORREU.c_str());
+		if (sPulo== nullptr) 			printf ("NÃ£o foi possÃ­vel carregar o som em %s\n", sound_paths::K_PULO.c_str());
 
 		//std::cout << playercount << std::endl;
 
@@ -64,6 +78,7 @@ void Player::setupAnimations(){
 }
 
 void Player::moveLeft(){
+		if (!this->_isAirborne && !this->_isSwiming && !sAndando->IsPlaying()) sAndando->Play(1);
 		this->_facing = LEFT;
 		this->_idleFacing = LEFT;
 		this->_dx = -player_constants::WALK_SPEED;
@@ -75,6 +90,7 @@ void Player::moveLeft(){
 }
 
 void Player::moveRight(){
+		if (!this->_isAirborne && !this->_isSwiming && !sAndando->IsPlaying()) sAndando->Play(1);
 		this->_facing = RIGHT;
 		this->_idleFacing = RIGHT;
 		this->_dx = player_constants::WALK_SPEED;
@@ -86,6 +102,7 @@ void Player::moveRight(){
 }
 
 void Player::stopMoving(){
+		sAndando->Stop();
 		this->_dx = 0.0f;
 		if((this->_facing == UP) || (this->_facing == DOWN)){
 			this->_facing = this->_idleFacing;
@@ -95,7 +112,7 @@ void Player::stopMoving(){
 
 void Player::jump(){
 	if(!this->_isAirborne){
-
+		sPulo->Play(1);
 		//this->playAnimation("Jump", true);
 
 		if(this->_isSwiming){
@@ -420,7 +437,7 @@ void Player::_checkBackgroundColision(float elapsedTime){
 void Player::_correctionBackgroundColision(){
 
 	/*
-	 * correção caso haja colisão;
+	 * correï¿½ï¿½o caso haja colisï¿½o;
 	 */
 
 	bool noColision = true;
@@ -456,7 +473,7 @@ void Player::_correctionBackgroundColision(){
 			bool correctRight = false;
 			bool correctLeft = false;
 
-			//essas correçoes não sao perfeitas, arrumar depois
+			//essas correï¿½oes nï¿½o sao perfeitas, arrumar depois
 
 			if(colisionArray[0]){ //top left colision
 				//std::cout << "0 correction" << std::endl;
@@ -524,7 +541,7 @@ void Player::_correctionBackgroundColision(){
 	}
 
 	/*
-	 * termino da correção
+	 * termino da correï¿½ï¿½o
 	 */
 }
 
@@ -568,9 +585,11 @@ void Player::resolveColision(std::string objectType){
 
 	if(objectType == "Enemy"){
 		if(this->_invulnerable == false){
+			sDano->Play(1);
 			this->_invulnerable = true;
 			this->setVisible(false);
 			this->_hp --;
+			if (this->_hp ==0) sMorreu->Play(1);
 //			std::cout << "Player resolve colision, hp : " << this->_hp << "    invulnerable flag: " << this->_invulnerable << "  instance: " << this << std::endl;
 		}
 	}
