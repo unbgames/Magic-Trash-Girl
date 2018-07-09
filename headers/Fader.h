@@ -8,6 +8,7 @@
 #ifndef FADER_H_
 #define FADER_H_
 #include "globals.h"
+#include <math.h>
 
 class Fader{
 public:

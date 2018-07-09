@@ -106,7 +106,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if((i%2 == 1) && (j%2 == 1)){
-				this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(i*background_blocks_constants::BLOCK_HEIGTH, j*background_blocks_constants::BLOCK_WIDTH)));
+				this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(i*background_blocks_constants::BLOCK_HEIGTH, j*background_blocks_constants::BLOCK_WIDTH)));
 			}
 		}
 	}
@@ -226,6 +226,412 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	this->_startSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
 
 	this->_startSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PLAYER_START_POSITION, Vector2(8*background_blocks_constants::BLOCK_WIDTH, 6*background_blocks_constants::BLOCK_HEIGTH)));
+
+
+	// ----------------- filler sector 1 ----------------------
+
+	aux.clear();
+
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+			for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+				switch (j){
+				case 0:
+					if (i==15) aux.push_back(NONE);
+					else aux.push_back(UNBREAKABLE);
+				break;
+
+				case 1:
+					if (i==0 || i==10) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 2:
+					if (i==0) aux.push_back(UNBREAKABLE);
+					else if (i==10) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 3:
+					if (i==0) aux.push_back(UNBREAKABLE);
+					else if (i==10) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 4:
+					if (i==4 || i==8 || i==9 || i==15) aux.push_back(NONE);
+					else aux.push_back(UNBREAKABLE);
+				break;
+
+				case 5:
+					if (i==0 || i==7 || i==10) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 6:
+					if (i==0 || i==7 || i==10) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 7:
+					if (i==7 || i==10) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 8:
+					if (i==0 || i==3 || i==4 || i==5 || i==7 || i==10 || i==11 || i==14) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 9:
+					if (i==0 || i==7) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 10:
+					if (i==0 || i==2 || i==7) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 11:
+					if (i==0) aux.push_back(UNBREAKABLE);
+					else if (i==12) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 12:
+					if (i==0 || i==5 || i==10 || i==12 || i==13 || i==14) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 13:
+					if (i==5 || i==12) aux.push_back(UNBREAKABLE);
+					else if (i==0 || i==7 || i==8) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 14:
+					if (i==5) aux.push_back(UNBREAKABLE);
+					else if (i==0 || i==6 || i==7 || i==8) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 15:
+					if (i==15) aux.push_back(NONE);
+					else aux.push_back(UNBREAKABLE);
+				break;
+
+				}
+			}
+		}
+
+	auxFlags = (W_RIGHT_LEFT);
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+// ----------------- filler sector 2 ----------------------
+
+	aux.clear();
+
+		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+			for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+				switch (j){
+				case 0:
+					aux.push_back(UNBREAKABLE);
+				break;
+
+				case 1:
+					if (i==0 || i==8 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 2:
+					if (i==0 || i==8 || i==10) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 3:
+					if (i==0 || i==8) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 4:
+					if (i==0|| i==11) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 5:
+					if (i==0 || i==3 || i==4 || i==5 || i==13 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 6:
+					if (i==0 || i==8 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 7:
+					if (i==0 || i==2 || i==6 || i==8 || i==10 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 8:
+					if (i==0 || i==8 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 9:
+					if (i==0 || i==8 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 10:
+					if (i==0 || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 11:
+					if (i==0 || i==13 || i==15) aux.push_back(UNBREAKABLE);
+					else if (i==2) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 12:
+					if (i<=4 ||  i==15) aux.push_back(UNBREAKABLE);
+					else if (i==11) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 13:
+					if (i==0 || i==15) aux.push_back(UNBREAKABLE);
+					else if (i==6) aux.push_back(BREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 14:
+					if (i==0 || (i>=6 && i<=10) || i==15) aux.push_back(UNBREAKABLE);
+					else aux.push_back(NONE);
+				break;
+
+				case 15:
+					aux.push_back(NONE);
+				break;
+
+				}
+			}
+		}
+
+	auxFlags = (W_BOT_RIGHT);
+
+	this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+// ----------------- filler sector 3 ----------------------
+
+		aux.clear();
+
+			for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+				for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+					switch (j){
+					case 0:
+						if (i==0) aux.push_back(NONE);
+						else aux.push_back(UNBREAKABLE);
+					break;
+
+					case 1:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 2:
+						aux.push_back(NONE);
+					break;
+
+					case 3:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 4:
+						if (i==0 || i==1 || i==5 || i==6) aux.push_back(NONE);
+						else aux.push_back(UNBREAKABLE);
+					break;
+
+					case 5:
+						if (i==5) aux.push_back(UNBREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 6:
+						aux.push_back(NONE);
+					break;
+
+					case 7:
+						if (i==6 || i==7 || i==8 || i==11 || i==12 || i==13 ||  i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 8:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 9:
+						if (i==10 || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+
+					break;
+
+					case 10:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==12) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+
+					break;
+
+					case 11:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==12) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 12:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==12) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 13:
+						if (i>=10) aux.push_back(UNBREAKABLE);
+						else if (i==1) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 14:
+						if (i==1) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 15:
+						if (i==0) aux.push_back(NONE);
+						else aux.push_back(UNBREAKABLE);
+					break;
+
+					}
+				}
+			}
+
+		auxFlags = (W_LEFT_RIGHT);
+
+		this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
+
+// ----------------- filler sector 4 ----------------------
+
+		aux.clear();
+
+			for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; j++){
+				for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; i ++){
+					switch (j){
+					case 0:
+						aux.push_back(NONE);
+					break;
+
+					case 1:
+						if (i==0 || i==3 || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 2:
+						if (i==0 || i==3 || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 3:
+						if (i==0 || i==3 || (i>=6 && i<=9) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 4:
+						if (i==0 || i==3 || (i>=6 && i<=9) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 5:
+						if (i==0 || i==3 || (i>=6 && i<=12) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 6:
+						if (i==0 || i==3 || (i>=6 && i<=9) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 7:
+						if (i==0 || i==3 || (i>=6 && i<=9) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 8:
+						if (i==0 || i==3 || (i>=6 && i<=9) || i>=12) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+					break;
+
+					case 9:
+						if (i==0 || (i>=6 && i<=9 && i!=3) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==3 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+
+					break;
+
+					case 10:
+						if (i==0 || (i>=6 && i<=9) || i==15) aux.push_back(UNBREAKABLE);
+						else if (i==1 || i==2 || i==3 || i==4 || i==5) aux.push_back(WATER);
+						else aux.push_back(NONE);
+
+					break;
+
+					case 11:
+						if (i==14 || i==13) aux.push_back(NONE);
+						else aux.push_back(UNBREAKABLE);
+					break;
+
+					case 12:
+						if (i==0 || i==15) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 13:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==8 || i==9) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 14:
+						if (i==15) aux.push_back(UNBREAKABLE);
+						else if (i==8 || i==9) aux.push_back(BREAKABLE);
+						else aux.push_back(NONE);
+					break;
+
+					case 15:
+						aux.push_back(UNBREAKABLE);
+					break;
+
+					}
+				}
+			}
+
+		auxFlags = (W_LEFT_TOP);
+
+		this->_fillerSectorLibrary.push_back(BlockSector(aux, auxFlags, "assets/sectorbackground.png"));
 
 }
 

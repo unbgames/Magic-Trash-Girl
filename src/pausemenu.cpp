@@ -84,17 +84,17 @@ std::string PauseMenu::getMenuType(){
 
 void PauseMenu::setupButtons(){
 
-	this->_buttonsVector.emplace_back(MenuButton("continue", *this->_graphicsAssociated, 1/3.f, 1/5.f, "assets/PauseMenuButtons.png", 1/3.f, 1/5.f, *this));
+	this->_buttonsVector.emplace_back(MenuButton("continue", *this->_graphicsAssociated, 1/3.f, 3/8.f, "assets/PauseMenuButtons.png", 1/3.f, 1/6.f, *this));
 
 	this->_buttonsVector.back().setupIdleAnimation(1, 0, 0, 128, 32, Vector2(0,0));
 
 	this->_buttonsVector.back().setupActiveAnimation(2, 128, 0, 128, 32, Vector2(0,0));
 
-	this->_buttonsVector.emplace_back(MenuButton("backToMainMenu", *this->_graphicsAssociated, 1/6.f, 3/5.f, "assets/PauseMenuButtons.png", 2/3.f, 1/5.f, *this));
+	this->_buttonsVector.emplace_back(MenuButton("backToMainMenu", *this->_graphicsAssociated, 1/3.f, 5/8.f, "assets/PauseMenuButtons.png", 1/3.f, 1/6.f, *this));
 
-	this->_buttonsVector.back().setupIdleAnimation(1, 0, 32, 256, 32, Vector2(0,0));
+	this->_buttonsVector.back().setupIdleAnimation(1, 0, 32, 128, 32, Vector2(0,0));
 
-	this->_buttonsVector.back().setupActiveAnimation(2, 0, 32, 256, 32, Vector2(0,0));
+	this->_buttonsVector.back().setupActiveAnimation(2, 128, 32, 128, 32, Vector2(0,0));
 
 }
 

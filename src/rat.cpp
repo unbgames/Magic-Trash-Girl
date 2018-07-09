@@ -9,7 +9,7 @@
 #include "game.h"
 
 Rat::Rat(Graphics &graphics, float posX, float posY):
-				Enemy(graphics, "assets/rat.png", enemy_constants::SPYDER_WIDTH, enemy_constants::SPYDER_HEIGHT, posX, posY, 300, enemy_constants::SPIDER_HP),
+				Enemy(graphics, "assets/rat.png", enemy_constants::RAT_WIDTH, enemy_constants::RAT_HEIGHT, posX, posY, 300, enemy_constants::RAT_HP),
 				_stuckInBubble(false),
 				_storedDxBubble(0),
 				_storedDyBubble(0),
@@ -432,7 +432,7 @@ void Rat::setupAnimations(){
 	this->addAnimation(1, 0, 0, "IDLE", this->_w, this->_h, Vector2(0,0));
 	this->addAnimation(1, 0, this->_h, "StuckInBubbleRight", this->_w, this->_h, Vector2(0,0));
 	this->addAnimation(1, 0, this->_h, "StuckInBubbleLeft", this->_w, this->_h, Vector2(0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
-	this->addAnimation(1, 0, 0, "MovingRight", this->_w, this->_h, Vector2(0,0));
-	this->addAnimation(1, 0, 0, "MovingLeft", this->_w, this->_h, Vector2(0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
+	this->addAnimation(2, 0, 0, "MovingRight", this->_w, this->_h, Vector2(0,0));
+	this->addAnimation(2, 0, 0, "MovingLeft", this->_w, this->_h, Vector2(0,0), ExVariables(0, nullptr, SDL_FLIP_HORIZONTAL));
 
 }

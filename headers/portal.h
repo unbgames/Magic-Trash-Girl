@@ -13,7 +13,7 @@
 class Portal: public AnimatedSprite{
 public:
 
-	Portal(Graphics &graphics, float posX, float posY);
+	Portal(Graphics &graphics, float posX, float posY, std::string type = "pseudoRandomLevel", std::string local = "none");
 	~Portal();
 
 	void update(float elapsedTime);
@@ -27,6 +27,10 @@ public:
 	void animationDone(std::string currentAnimation);
 
 private:
+
+	std::string _type;
+
+	std::string _local;
 
 	void _loadAssociatedLevel();
 

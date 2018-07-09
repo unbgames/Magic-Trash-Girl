@@ -52,19 +52,22 @@ Game::Game():
 	_showFpsFlag(false),
 	_fps(0),
 	_vSyncFlag(true),
-	_minFrameTime(0){
+	_minFrameTime(0),
+	_mapBackgroundFlag(false),
+	_hubFlag(false){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	if(TTF_Init() != 0){
 		std::cout << "TTF_Init error: " << TTF_GetError() << std::endl;
 	}
-	if (!(Mix_Init (MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLUIDSYNTH)) || (Mix_OpenAudio (MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, CHUNKSIZE))){
-		printf ("Erro na inicialização do áudio\n");
-
-		IMG_Quit();
-		SDL_Quit();
-		abort();
+	if( Mix_Init(0) != (0)){
+		std::cout << "Mix_Init error: " << Mix_GetError() << std::endl; //Mix_GetError is a macro for SDL_GetError
 	}
+
+	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0 ){
+		std::cout << "Mix_OpenAudio error: " << Mix_GetError() << std::endl; //Mix_GetError is a macro for SDL_GetError
+	}
+
 	Mix_AllocateChannels(64);
 	srand(time(NULL));
 	this->gameLoop();
@@ -85,6 +88,8 @@ Game& Game::getInstance(){
 void Game::initMusic(){
 	// Menu
 	if (musics.AddMusicV(music_paths::MENU_INTRO))  printf ("Não foi possível carregar o som em %s\n", music_paths::MENU_INTRO.c_str());
+	std::cout << "Mix_OpenAudio error: " << Mix_GetError() << std::endl; //Mix_GetError is a macro for SDL_GetError
+
 	if (musics.AddMusicV(music_paths::MENU_GRANOLA))  printf ("Não foi possível carregar o som em %s\n", music_paths::MENU_GRANOLA.c_str());
 
 	// HUB
@@ -114,6 +119,7 @@ void Game::initMusic(){
 
 void Game::gameLoop(){
 	initMusic();
+
 	musics.Play(0, (float)21000);
 //	musics.Play(0, (int) 1);
 //	musics.Play(1, 0);
@@ -306,11 +312,11 @@ void Game::gameLoop(){
 			}
 
 			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::B)){
-
-				if(!this->_vaccumcleaner.getFolowingPlayer()){
-					this->_vaccumcleaner.bubble();
+				if(!this->_hubFlag){
+					if(!this->_vaccumcleaner.getFolowingPlayer()){
+						this->_vaccumcleaner.bubble();
+					}
 				}
-
 			}
 
 			if(this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::X)){
@@ -322,11 +328,11 @@ void Game::gameLoop(){
 			}
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::B)){
-
-				if(this->_vaccumcleaner.getFolowingPlayer()){
-					this->_vaccumcleaner.bubble();
+				if(!this->_hubFlag){
+					if(this->_vaccumcleaner.getFolowingPlayer()){
+						this->_vaccumcleaner.bubble();
+					}
 				}
-
 			}
 
 			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::X)){
@@ -359,6 +365,12 @@ void Game::gameLoop(){
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_R)){
 				this->createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
 			}
+
+			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_T)){
+				this->setupTutorialMap();
+			}
+
+
 		}else{
 			this->_menuStack.top()->handleEvents();
 		}
@@ -366,6 +378,12 @@ void Game::gameLoop(){
 		this->update(std::min(ELAPSED_TIME_MS, MAX_FRAME_TIME));
 
 		this->draw(graphics);
+
+		//arrumar isso depois
+		if(this->_player.getHp() <= 0){
+			this->_player.setHp(4);
+			this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
+		}
 
 	}
 }
@@ -418,6 +436,10 @@ void Game::checkColisionFullMap(){
 void Game::draw(Graphics &graphics){
 
 	graphics.clear();
+
+	if(this->_mapBackgroundFlag){
+		this->_mapBackground.draw(graphics);
+	}
 
 	for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
 		 it->draw(graphics);
@@ -493,6 +515,11 @@ void Game::update(float elapsedtime){
 	//checkar aqui colis�o do player com todos os do sprite to draw e logo em seguida tratar;
 
 	if(this->_menuStack.empty()){
+
+		if(this->_mapBackgroundFlag){
+			this->_mapBackground.update(elapsedtime);
+		}
+
 		for (std::vector<SectorBackground>::iterator it = this->_sectorsBackgrounds.begin() ; it != this->_sectorsBackgrounds.end(); ++it){
 			 it->update(elapsedtime);
 		}
@@ -568,7 +595,9 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 
 }
 
-void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
+void Game::setupBathroomMap(){
+
+	this->_hubFlag = true;
 
 	this->_graphicsAssociated->camera.folowPlayer = true;
 
@@ -581,6 +610,238 @@ void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByCol
 	this->_hudElements.clear();
 
 	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
+
+	int auxX = 6;
+	int auxY = 4;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/banheiroBackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	this->_player.setPosition(4*64, 2*64);
+
+	this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1)*background_blocks_constants::BLOCK_WIDTH , (2)*background_blocks_constants::BLOCK_HEIGTH, "pseudoRandomLevel", "bathroom") );
+
+}
+
+
+void Game::setupRoomMap(){
+
+	this->_hubFlag = true;
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
+
+	int auxX = 8;
+	int auxY = 5;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/quartoBackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1)*background_blocks_constants::BLOCK_WIDTH , (3)*background_blocks_constants::BLOCK_HEIGTH, "bathroom") );
+
+	this->_player.setPosition(4*64, 3*64);
+
+}
+
+void Game::setupTutorialMap(){
+
+	this->_hubFlag = false;
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
+
+	int auxX = 82;
+	int auxY = 12;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/tutorialbackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	/*
+	 * inico setup jump tutorial
+	 */
+
+		this->setBlockType(10,9,UNBREAKABLE);
+		this->setBlockType(10,10,UNBREAKABLE);
+
+	/*
+	 *	termino do setup jump tutorial
+	 */
+
+	/*
+	 * inico setup vaccum tutorial
+	 */
+
+		for(int i = 1; i < 11; i++){
+			this->setBlockType(17,i,BREAKABLE);
+		}
+
+	/*
+	 *	termino do setup vaccum tutorial
+	 */
+
+	/*
+	 * inico setup bublejump and water tutorial
+	 */
+
+
+		for(int i = 5; i < 11; i++){
+			this->setBlockType(40,i,UNBREAKABLE);
+		}
+
+
+		for(int i = 41; i < 50; i++){
+			for(int j = 6; j < 11; j++){
+				this->setBlockType(i,j,WATER);
+			}
+		}
+
+
+		for(int i = 5; i < 11; i++){
+			this->setBlockType(50,i,UNBREAKABLE);
+		}
+
+	/*
+	 *	termino do setup bublejump and water tutorial
+	 */
+
+
+	/*
+	 * inico setup enemy tutorial
+	 */
+
+		this->setBlockType(60,10,BREAKABLE);
+
+		this->addNewSpriteToDraw( new Rat(*this->_graphicsAssociated, (63)*background_blocks_constants::BLOCK_WIDTH , (8)*background_blocks_constants::BLOCK_HEIGTH) );
+
+		this->setBlockType(70,10,BREAKABLE);
+
+	/*
+	 * termino setup enemy tutorial
+	 */
+
+	/*
+	 * inico setup portal tutorial
+	 */
+
+		this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (79)*background_blocks_constants::BLOCK_WIDTH , (10)*background_blocks_constants::BLOCK_HEIGTH, "room") );
+
+	/*
+	 * termino setup portal tutorial
+	 */
+
+	/*
+	 *  inicio do setup de borders
+	 */
+
+	for(int i = 0; i < this->_numberBlocksLine; i++){
+		for(int j = 0; j < this->_numberBlocksColumn; j++){
+			this->setupBlockBorder(i,j);
+		}
+	}
+
+	/*
+	 * termino do setup de borders
+	 */
+
+	/*
+	 * inicio do setup do HUD
+	 */
+
+	this->_hudElements.emplace_back( new HUDPlayerHp(*this->_graphicsAssociated, &this->_player));
+
+	/*
+	 * termino do setup do HUD
+	 */
+
+	this->_player.setPosition(2*64, 10*64);
+
+
+}
+
+void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
+
+	this->_hubFlag = false;
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
 
 	this->_mapWidth = ((sectorsByLine*background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS) + 2)*background_blocks_constants::BLOCK_WIDTH;
 	this->_mapHeight = ((sectorsByColumn*background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS) + 2)*background_blocks_constants::BLOCK_HEIGTH;

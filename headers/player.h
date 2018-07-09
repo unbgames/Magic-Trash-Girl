@@ -51,6 +51,8 @@ public:
 
 	int getHp();
 
+	void setHp(int hp);
+
 private:
 
 	static int playercount;

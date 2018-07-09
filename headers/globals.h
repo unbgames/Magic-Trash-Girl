@@ -118,13 +118,9 @@ namespace background_blocks_constants {
 namespace enemy_constants {
 	const int SOUNDMAXDIST = 512;
 
-	const int SPYDER_WIDTH = 48;
-	const int SPYDER_HEIGHT = 32;
-	const int SPIDER_HP = 100;
-
-	const int BOSS_WIDTH = 144;
-	const int BOSS_HEIGHT = 144;
-	const int BOSS_HP = 1000;
+	const int RAT_WIDTH = 63;
+	const int RAT_HEIGHT = 52;
+	const int RAT_HP = 100;
 }
 
 enum Direction{

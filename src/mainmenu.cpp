@@ -101,17 +101,23 @@ std::string MainMenu::getMenuType(){
 
 void MainMenu::setupButtons(){
 
-	this->_buttonsVector.emplace_back(MenuButton("startGame", *this->_graphicsAssociated, 1/3.f, 1/5.f, "assets/MainMenuButtons.png", 1/3.f, 1/5.f, *this));
+	this->_buttonsVector.emplace_back(MenuButton("startGame", *this->_graphicsAssociated, 1/3.f, 3/8.f, "assets/MainMenuButtons.png", 1/3.f, 1/8.f, *this));
 
 	this->_buttonsVector.back().setupIdleAnimation(1, 0, 0, 128, 32, Vector2(0,0));
 
 	this->_buttonsVector.back().setupActiveAnimation(2, 128, 0, 128, 32, Vector2(0,0));
 
-	this->_buttonsVector.emplace_back(MenuButton("quitGame", *this->_graphicsAssociated, 1/3.f, 3/5.f, "assets/MainMenuButtons.png", 1/3.f, 1/5.f, *this));
+	this->_buttonsVector.emplace_back(MenuButton("quitGame", *this->_graphicsAssociated, 1/3.f, 4/8.f, "assets/MainMenuButtons.png", 1/3.f, 1/8.f, *this));
 
 	this->_buttonsVector.back().setupIdleAnimation(1, 0, 32, 128, 32, Vector2(0,0));
 
-	this->_buttonsVector.back().setupActiveAnimation(2, 0, 32, 128, 32, Vector2(0,0));
+	this->_buttonsVector.back().setupActiveAnimation(2, 128, 32, 128, 32, Vector2(0,0));
+
+	this->_buttonsVector.emplace_back(MenuButton("tutorial", *this->_graphicsAssociated, 1/3.f, 5 	/8.f, "assets/MainMenuButtons.png", 1/3.f, 1/8.f, *this));
+
+	this->_buttonsVector.back().setupIdleAnimation(1, 0, 64, 128, 32, Vector2(0,0));
+
+	this->_buttonsVector.back().setupActiveAnimation(2, 128, 64, 128, 32, Vector2(0,0));
 
 }
 
@@ -119,10 +125,13 @@ void MainMenu::activateButton(){
 
 	if(this->_buttonsVector[this->_activeButton].getName() == "startGame"){
 		Game::getInstance().FadeOutMenuMusic();
-		Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
+		Game::getInstance().setupRoomMap();
 		this->_requestPop = true;
 	}else if(this->_buttonsVector[this->_activeButton].getName() == "quitGame"){
 		Game::getInstance().requestQuit();
+	}else if(this->_buttonsVector[this->_activeButton].getName() == "tutorial"){
+		Game::getInstance().setupTutorialMap();
+		this->_requestPop = true;
 	}
 
 }

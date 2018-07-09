@@ -23,7 +23,7 @@
 #include "hudelement.h"
 #include "textcaches.h"
 #include "Musics.h"
-
+#include "fullmapbackground.h"
 
 class Graphics;
 
@@ -53,6 +53,12 @@ public:
 	void redoAdjacentsBlocksBorders(int x, int y);
 
 	void requestQuit();
+
+	void setupBathroomMap();
+
+	void setupRoomMap();
+
+	void setupTutorialMap();
 
 	void createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn);
 
@@ -127,6 +133,11 @@ private:
 
 	Musics musics;
 	Musics sounds;
+
+	FullMapBackground _mapBackground;
+	bool _mapBackgroundFlag;
+
+	bool _hubFlag;
 
 };
 
