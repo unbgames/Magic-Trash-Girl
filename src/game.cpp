@@ -51,7 +51,8 @@ Game::Game():
 	_fps(0),
 	_vSyncFlag(true),
 	_minFrameTime(0),
-	_mapBackgroundFlag(false){
+	_mapBackgroundFlag(false),
+	_hubFlag(false){
 	_instance = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	if(TTF_Init() != 0){
@@ -262,11 +263,11 @@ void Game::gameLoop(){
 			}
 
 			if(this->_gamepadInputPlayer2.wasbuttonPressed(xbox360GamepadMaping::B)){
-
-				if(!this->_vaccumcleaner.getFolowingPlayer()){
-					this->_vaccumcleaner.bubble();
+				if(!this->_hubFlag){
+					if(!this->_vaccumcleaner.getFolowingPlayer()){
+						this->_vaccumcleaner.bubble();
+					}
 				}
-
 			}
 
 			if(this->_gamepadInputPlayer2.isbuttonHeld(xbox360GamepadMaping::X)){
@@ -278,11 +279,11 @@ void Game::gameLoop(){
 			}
 
 			if(this->_keyboardInput.wasKeyPressed(SDL_SCANCODE_Z) || this->_gamepadInputPlayer1.wasbuttonPressed(xbox360GamepadMaping::B)){
-
-				if(this->_vaccumcleaner.getFolowingPlayer()){
-					this->_vaccumcleaner.bubble();
+				if(!this->_hubFlag){
+					if(this->_vaccumcleaner.getFolowingPlayer()){
+						this->_vaccumcleaner.bubble();
+					}
 				}
-
 			}
 
 			if(this->_keyboardInput.isKeyHeld(SDL_SCANCODE_X) || this->_gamepadInputPlayer1.isbuttonHeld(xbox360GamepadMaping::X)){
@@ -545,7 +546,98 @@ void Game::setupBackgroundBlocks(Graphics &graphics, int lines, int columns){
 
 }
 
+void Game::setupBathroomMap(){
+
+	this->_hubFlag = true;
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
+
+	int auxX = 6;
+	int auxY = 4;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/banheiroBackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	this->_player.setPosition(4*64, 2*64);
+
+	this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1)*background_blocks_constants::BLOCK_WIDTH , (2)*background_blocks_constants::BLOCK_HEIGTH, "pseudoRandomLevel", "bathroom") );
+
+}
+
+
+void Game::setupRoomMap(){
+
+	this->_hubFlag = true;
+
+	this->_graphicsAssociated->camera.folowPlayer = true;
+
+	this->_keyboardInput.clearInputs();
+	this->_gamepadInputPlayer1.clearInputs();
+	this->_gamepadInputPlayer2.clearInputs();
+
+	this->_spritesToDraw.clear();
+	this->_sectorsBackgrounds.clear();
+	this->_hudElements.clear();
+
+	this->_player.setPosition(-1100, -1100);
+
+	this->_player.setHp(4);
+
+	int auxX = 8;
+	int auxY = 5;
+
+	this->_mapWidth = auxX*background_blocks_constants::BLOCK_WIDTH;
+	this->_mapHeight = auxY*background_blocks_constants::BLOCK_HEIGTH;
+
+	this->_mapBackgroundFlag = true;
+
+	this->_mapBackground = FullMapBackground(*this->_graphicsAssociated, "assets/quartoBackground.png" , this->_mapWidth, this->_mapHeight, 0, 0);
+
+	this->setupBackgroundBlocks(*this->_graphicsAssociated, auxX, auxY);
+
+	for(int j = 0; j < auxY; j++){
+		for(int i = 0; i < auxX; i++){
+			if((i == 0) || (j==0) || (i == auxX-1) || (j == auxY-1)){
+				this->setBlockType(i,j,OUTOFBONDS);
+			}
+		}
+	}
+
+	this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (1)*background_blocks_constants::BLOCK_WIDTH , (3)*background_blocks_constants::BLOCK_HEIGTH, "bathroom") );
+
+	this->_player.setPosition(4*64, 3*64);
+
+}
+
 void Game::setupTutorialMap(){
+
+	this->_hubFlag = false;
 
 	this->_graphicsAssociated->camera.folowPlayer = true;
 
@@ -649,7 +741,7 @@ void Game::setupTutorialMap(){
 	 * inico setup portal tutorial
 	 */
 
-		this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (79)*background_blocks_constants::BLOCK_WIDTH , (10)*background_blocks_constants::BLOCK_HEIGTH) );
+		this->addNewSpriteToDraw( new Portal(*this->_graphicsAssociated, (79)*background_blocks_constants::BLOCK_WIDTH , (10)*background_blocks_constants::BLOCK_HEIGTH, "room") );
 
 	/*
 	 * termino setup portal tutorial
@@ -685,6 +777,8 @@ void Game::setupTutorialMap(){
 }
 
 void Game::createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn){
+
+	this->_hubFlag = false;
 
 	this->_graphicsAssociated->camera.folowPlayer = true;
 

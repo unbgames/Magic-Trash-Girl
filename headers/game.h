@@ -54,6 +54,10 @@ public:
 
 	void requestQuit();
 
+	void setupBathroomMap();
+
+	void setupRoomMap();
+
 	void setupTutorialMap();
 
 	void createNewPseudoRandomBlocksVector(int sectorsByLine, int sectorsByColumn);
@@ -125,6 +129,8 @@ private:
 
 	FullMapBackground _mapBackground;
 	bool _mapBackgroundFlag;
+
+	bool _hubFlag;
 
 };
 

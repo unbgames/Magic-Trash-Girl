@@ -9,9 +9,10 @@
 #include "portal.h"
 #include "game.h"
 
-Portal::Portal(Graphics &graphics, float posX, float posY):
-		AnimatedSprite(graphics, "assets/portal.png", 0, 0, background_blocks_constants::BLOCK_WIDTH, background_blocks_constants::BLOCK_HEIGTH, posX, posY, 300)
-		{
+Portal::Portal(Graphics &graphics, float posX, float posY, std::string type, std::string local):
+		AnimatedSprite(graphics, "assets/portal.png", 0, 0, background_blocks_constants::BLOCK_WIDTH, background_blocks_constants::BLOCK_HEIGTH, posX, posY, 300),
+		_type(type),
+		_local(local){
 		this->setupAnimations();
 		this->playAnimation("IDLE");
 }
@@ -25,8 +26,13 @@ void Portal::update(float elapsedTime){
 }
 
 void Portal::setupAnimations(){
-	this->addAnimation(1, 0, 0, "IDLE", 64, 64, Vector2(0,0));
-	this->addAnimation(4, 0, 0, "OPEN", 64, 64, Vector2(0,0));
+	if(this->_local == "bathroom"){
+		this->addAnimation(1, 0, 64, "IDLE", 64, 64, Vector2(0,0));
+		this->addAnimation(4, 0, 64, "OPEN", 64, 64, Vector2(0,0));
+	}else{
+		this->addAnimation(1, 0, 0, "IDLE", 64, 64, Vector2(0,0));
+		this->addAnimation(4, 0, 0, "OPEN", 64, 64, Vector2(0,0));
+	}
 }
 
 std::string Portal::getObjectType(){
@@ -49,8 +55,12 @@ void Portal::animationDone(std::string currentAnimation){
 
 //aqui carrega o level associado ao portal, como por enquanto o unico level eh o randomicamente gerado sempre sera ele por enquanto
 void Portal::_loadAssociatedLevel(){
-
-	Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
-
+	if(this->_type == "pseudoRandomLevel"){
+		Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
+	}else if(this->_type == "room"){
+		Game::getInstance().setupRoomMap();
+	}else if(this->_type == "bathroom"){
+		Game::getInstance().setupBathroomMap();
+	}
 }
 

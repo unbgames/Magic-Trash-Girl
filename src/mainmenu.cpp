@@ -113,7 +113,7 @@ void MainMenu::setupButtons(){
 void MainMenu::activateButton(){
 
 	if(this->_buttonsVector[this->_activeButton].getName() == "startGame"){
-		Game::getInstance().createNewPseudoRandomBlocksVector(background_blocks_constants::NUMBER_SECTORS_LINE, background_blocks_constants::NUMBER_SECTORS_COLUMN);
+		Game::getInstance().setupRoomMap();
 		this->_requestPop = true;
 	}else if(this->_buttonsVector[this->_activeButton].getName() == "quitGame"){
 		Game::getInstance().requestQuit();
