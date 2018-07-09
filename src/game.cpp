@@ -1232,4 +1232,7 @@ void Game::CheckMenuIntro(){
 void Game::FadeOutMenuMusic(){
 	musics.FadeMusicTo(0, 1000, 0);
 	musics.FadeMusicTo(1, 1000, 0);
+	musics.SetMusicVolume(3, 0);
+	musics.Play(3, (int) 0);
+	musics.FadeMusicTo(3, 1000, 128);
 }
