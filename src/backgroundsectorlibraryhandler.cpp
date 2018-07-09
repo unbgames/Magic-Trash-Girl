@@ -106,7 +106,7 @@ BackgroundSectorLibraryHandler::BackgroundSectorLibraryHandler(){
 	for(int i = 0; i < background_blocks_constants::NUMBER_BLOCKS_LINE_SECTORS; i++){
 		for(int j = 0; j < background_blocks_constants::NUMBER_BLOCKS_COLUMN_SECTORS; j ++){
 			if((i%2 == 1) && (j%2 == 1)){
-				this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(PORTAL_TO_NEXT_RANDOM_LEVEL, Vector2(i*background_blocks_constants::BLOCK_HEIGTH, j*background_blocks_constants::BLOCK_WIDTH)));
+				this->_fillerSectorLibrary.back().objectsToBuildVector.push_back(MapObjectBlueprint(RAT, Vector2(i*background_blocks_constants::BLOCK_HEIGTH, j*background_blocks_constants::BLOCK_WIDTH)));
 			}
 		}
 	}

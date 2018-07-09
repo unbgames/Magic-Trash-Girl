@@ -329,6 +329,12 @@ void Game::gameLoop(){
 
 		this->draw(graphics);
 
+		//arrumar isso depois
+		if(this->_player.getHp() <= 0){
+			this->_player.setHp(4);
+			this->_menuStack.emplace(new MainMenu(graphics, this->_keyboardInput, this->_gamepadInputPlayer1));
+		}
+
 	}
 }
 
