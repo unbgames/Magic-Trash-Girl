@@ -9,7 +9,7 @@
 #include "game.h"
 
 Rat::Rat(Graphics &graphics, float posX, float posY):
-				Enemy(graphics, "assets/rat.png", enemy_constants::SPYDER_WIDTH, enemy_constants::SPYDER_HEIGHT, posX, posY, 300, enemy_constants::SPIDER_HP),
+				Enemy(graphics, "assets/rat.png", enemy_constants::RAT_WIDTH, enemy_constants::RAT_HEIGHT, posX, posY, 300, enemy_constants::RAT_HP),
 				_stuckInBubble(false),
 				_storedDxBubble(0),
 				_storedDyBubble(0),
